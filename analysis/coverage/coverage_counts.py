@@ -108,6 +108,11 @@ class Event:
         self.laps = laps.set_index(["DriverId", "LapNumber"]).sort_index()
         self.stops = stops
         self.stop_laps = stops.groupby("driver_ref")["stop_lap"].apply(lambda s: sorted(s)).to_dict()
+        hardness = ["HYPERSOFT", "ULTRASOFT", "SUPERSOFT", "SOFT", "MEDIUM", "HARD", "SUPERHARD"]
+        used = [c for c in hardness if c in set(stops["new_compound"]) | set(stops["old_compound"])]
+        names = {1: ["only"], 2: ["softer", "harder"], 3: ["softest", "middle", "hardest"]}
+        self.compound_role = dict(zip(used, names.get(len(used), used)))
+        self.median_pitlane = float(stops["pitlane_elapsed_sec"].median()) if len(stops) else np.nan
         self.time_by_lap = laps.pivot_table(index="LapNumber", columns="DriverId", values="Time_sec")
 
     def row(self, drv, lap):
@@ -127,9 +132,12 @@ class Event:
     def window_flags(self, drv, lo, hi):
         rows = [self.row(drv, k) for k in range(lo, hi + 1)]
         if any(r is None for r in rows):
-            return dict(complete=False, green=False, dry=False, timing_ok=False)
+            return dict(complete=False, green=False, dry=False, timing_ok=False, sc=False, vsc=False)
+        codes = "".join(str(r["TrackStatus"]) for r in rows)
         return dict(
             complete=True,
+            sc="4" in codes,
+            vsc="6" in codes or "7" in codes,
             green=all(r["green"] for r in rows),
             dry=all(r["dry"] for r in rows),
             timing_ok=all(r["lap_ok"] for r in rows),
@@ -220,6 +228,18 @@ def build_pairs(laps, stops, catalog):
                     chaser_tyre_age=rc["TyreLife"],
                     leader_tyre_age=rl["TyreLife"],
                     clean_window=bool(clean),
+                    # Extension flags: everything clean except the named condition.
+                    neutralised_window=bool(fc["complete"] and fl["complete"] and fc["dry"] and fl["dry"]
+                                            and fc["timing_ok"] and fl["timing_ok"] and compounds_dry
+                                            and (fc["sc"] or fl["sc"] or fc["vsc"] or fl["vsc"])),
+                    sc_in_window=bool(fc["sc"] or fl["sc"]),
+                    vsc_in_window=bool(fc["vsc"] or fl["vsc"]),
+                    wet_window=bool(fc["complete"] and fl["complete"] and fc["green"] and fl["green"]
+                                    and fc["timing_ok"] and fl["timing_ok"]
+                                    and not (fc["dry"] and fl["dry"] and compounds_dry)),
+                    chaser_new_compound_role=ev.compound_role.get(chaser["new_compound"], "non_dry"),
+                    first_stopper_pitlane_excess_sec=(chaser if d >= 0 else leader)["pitlane_elapsed_sec"]
+                    - ev.median_pitlane,
                     battle_id=f"{event_id}:{c}:{chaser['stop_lap']}:{l}:{leader['stop_lap']}",
                 )
                 # Outcomes and horizon availability.
@@ -324,6 +344,27 @@ def main():
          .describe().round(1).to_frame("pairs_per_circuit"))
 
     # Is the rival's delay related to tyre state? (decision-time fields only)
+    # Data behind candidate extensions (non-teammate, gap <= 6 s, |delay| <= 3).
+    base = pairs[~pairs["teammates"] & (pairs["gap_before_sec"] <= 6)]
+    neut = base[base["neutralised_window"]].assign(
+        condition=lambda x: np.where(x["sc_in_window"], "safety_car", "vsc_only"))
+    save("ext_neutralised_by_strategy", crosstab(neut, "condition", "strategy").reindex(columns=order + ["total"]))
+    save("ext_neutralised_races", neut.groupby("condition")["event_id"].nunique().to_frame("races"))
+    wet = base[base["wet_window"]]
+    save("ext_wet_by_strategy", pd.crosstab(wet["year"] >= 0, wet["strategy"]).reindex(columns=order))
+    core_all = base[base["clean_window"]]
+    save("ext_clean_by_strategy_split", crosstab(core_all.assign(
+        split=np.where(core_all["year"] <= 2023, "train", np.where(core_all["year"] == 2024, "tune",
+                       np.where(core_all["year"] == 2025, "test", "2026")))), "split", "strategy")
+         .reindex(columns=order + ["total"]))
+    core_u = core_all[core_all["delay"] > 0]
+    save("ext_core_new_compound_role", core_u["chaser_new_compound_role"].value_counts().to_frame("pairs"))
+    ex = core_u["first_stopper_pitlane_excess_sec"]
+    save("ext_core_execution", pd.Series({
+        "pairs": len(core_u), "excess_over_1s": int((ex > 1).sum()),
+        "excess_over_2s": int((ex > 2).sum()), "excess_over_5s": int((ex > 5).sum()),
+        "iqr_sec": round(float(ex.quantile(0.75) - ex.quantile(0.25)), 2)}).to_frame("value"))
+
     save("delay_vs_tyre_age", under[under["gap_before_sec"] <= 6].groupby("delay").agg(
         n=("battle_id", "size"),
         leader_tyre_age_median=("leader_tyre_age", "median"),

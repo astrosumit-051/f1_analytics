@@ -1,0 +1,6 @@
+split,leader_first_d3,leader_first_d2,leader_first_d1,same_lap,chaser_first_d1,chaser_first_d2,chaser_first_d3,total
+2026,7,10,11,8,36,17,10,99
+test,13,27,32,66,85,32,13,268
+train,93,115,144,171,319,153,92,1087
+tune,21,29,52,75,96,42,27,342
+total,134,181,239,320,536,244,142,1796

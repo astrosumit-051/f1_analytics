@@ -51,3 +51,16 @@ Outcome rates were computed only for the 2018 to 2023 training seasons.
 - "Rival made no stop within 3 laps" includes rivals on different strategies, not
   only rivals who chose to extend in response.
 - All rates are descriptive. Strategies were chosen, not assigned.
+
+## Data behind the planned extensions
+
+Same filters as the core cohort (different teams, gap up to 6 s, stops at most
+three laps apart). Tables start with `ext_`.
+
+| Extension | Data |
+| --- | --- |
+| Execution tolerance | 922 core pairs; first stopper's pit-lane time over the race median by more than 2 s in 98 |
+| Defender's view and comparison group | 1,796 clean pairs: 922 undercuts, 320 same-lap, 554 where the car ahead stopped first |
+| Tyre choice at the stop | core undercuts onto the hardest (507), middle (246) and softest (67) compound |
+| VSC and safety car | 178 VSC pairs (38 races) and 1,102 safety car pairs (61 races); only 71 and 193 stop on different laps |
+| Rain (left out of scope) | 332 wet or mixed pairs |
