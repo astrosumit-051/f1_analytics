@@ -1,0 +1,520 @@
+﻿table_family,field,meaning,intended_use,availability,units_or_representation,caution,aggregate_null_count,schema_variant_count
+all_laps_enriched.csv,index,Exporter row index,Retain for traceability only,Context or identifier,integer artifact,,0,1
+all_laps_enriched.csv,Time,Table-specific event or observation clock,Timing reconstruction or source stream alignment,Observation timestamp,duration string,"Interpret within table; lap Time is lap end, weather Time is sample time",6,1
+all_laps_enriched.csv,Driver,Three-letter driver code,Event-scoped display and identity mapping,Context or identifier,text,,0,1
+all_laps_enriched.csv,DriverNumber,Driver car-number representation,Event-scoped identity mapping,Context or identifier,identifier string,,0,1
+all_laps_enriched.csv,LapTime,Recorded lap duration in string or numeric representation,Normal pace target and timing reconciliation,Known after that lap completes,duration string or seconds,Choose one validated numeric owner; avoid duplicate predictors,497,1
+all_laps_enriched.csv,LapNumber,Recorded driver lap number,Order driver histories and shared lap boundaries,Known as race progresses,lap number,,0,1
+all_laps_enriched.csv,Stint,Recorded stint label,Group successive tyre runs,Known as race progresses,integer label,Not tyre age; verify continuity,795,1
+all_laps_enriched.csv,PitOutTime,Pit-exit timestamp attached to lap,Detect outlap and match stop exits,Postdecision event,duration string or session seconds,,206191,1
+all_laps_enriched.csv,PitInTime,Pit-entry timestamp attached to lap,Detect inlap and match stop entries,Postdecision event,duration string or session seconds,,206078,1
+all_laps_enriched.csv,Sector1Time,Sector 1 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,4722,1
+all_laps_enriched.csv,Sector2Time,Sector 2 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,559,1
+all_laps_enriched.csv,Sector3Time,Sector 3 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,767,1
+all_laps_enriched.csv,Sector1SessionTime,Sector 1 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,5211,1
+all_laps_enriched.csv,Sector2SessionTime,Sector 2 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,559,1
+all_laps_enriched.csv,Sector3SessionTime,Sector 3 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,767,1
+all_laps_enriched.csv,SpeedI1,Recorded speed at named timing point,Optional diagnostic or later extension,Known after the relevant timing point,kilometres per hour,Not required for the first pooled pace model,466,1
+all_laps_enriched.csv,SpeedI2,Recorded speed at named timing point,Optional diagnostic or later extension,Known after the relevant timing point,kilometres per hour,Not required for the first pooled pace model,1350,1
+all_laps_enriched.csv,SpeedFL,Recorded speed at named timing point,Optional diagnostic or later extension,Known after the relevant timing point,kilometres per hour,Not required for the first pooled pace model,7513,1
+all_laps_enriched.csv,SpeedST,Recorded speed at named timing point,Optional diagnostic or later extension,Known after the relevant timing point,kilometres per hour,Not required for the first pooled pace model,546,1
+all_laps_enriched.csv,IsPersonalBest,Recorded official personal-best indicator,Optional lap-quality diagnostic,Known after the lap,boolean,Not a required prediction input,0,1
+all_laps_enriched.csv,Compound,Recorded event tyre label,Pace modeling and tyre-state initialization,Known tyre state,category,Historical labels differ by era and underlying construction is absent,1338,1
+all_laps_enriched.csv,TyreLife,Recorded age of tyre set including prior use,Pace predictor and tyre-state evolution,Known tyre state,laps,Do not substitute stint number or assume replacement set starts unused,1816,1
+all_laps_enriched.csv,FreshTyre,New-set status at stint start,Distinguish used and new sets,Known tyre state,boolean,,0,1
+all_laps_enriched.csv,Team,Team display name,Display and contextual grouping,Context or identifier,text,,0,1
+all_laps_enriched.csv,LapStartTime,Lap start on session clock,Cutoff-safe joins and timing audit,Lap-start timestamp,duration string or session seconds,,6,1
+all_laps_enriched.csv,LapStartDate,Absolute timestamp at lap start,Cross-check clocks and display event time,Lap-start timestamp,timestamp,Validate timezone before joining absolute and elapsed clocks,1045,1
+all_laps_enriched.csv,TrackStatus,Codes for statuses observed during a lap,Whole-lap contamination and eligibility,Known after full lap for all statuses,code string,"Read as text; 12 and 671 are combinations, not scalar measurements",1443,1
+all_laps_enriched.csv,Position,Table-specific classification or end-lap position,Context and results audit,Known after lap in laps; postrace in results,rank,Use table-specific semantics and avoid future classification leakage,351,1
+all_laps_enriched.csv,Deleted,Lap deletion flag,Purpose-specific quality rules,Official ruling time may follow lap,boolean or unknown,,47,1
+all_laps_enriched.csv,DeletedReason,Lap-deletion explanation,Explain source quality choices,Official ruling time may follow lap,text,,211116,1
+all_laps_enriched.csv,FastF1Generated,Generated/interpolated lap flag,Exclude or review synthetic timing rows,Source quality metadata,boolean,Source exporter semantics require verification,0,1
+all_laps_enriched.csv,IsAccurate,Lap timing synchronization-quality flag,Purpose-specific source filtering,Source quality metadata,boolean,Not a universal timing guarantee; pit laps need separate rules,0,1
+all_laps_enriched.csv,archive_observed_WeatherTime,Weather timestamp in archive representation,Audit alignment against selected backward sample,Source observation time,duration string or session seconds,,0,1
+all_laps_enriched.csv,archive_observed_AirTemp,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,degrees C,Do not substitute for validated backward-aligned weather silently,0,1
+all_laps_enriched.csv,archive_observed_Humidity,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,percent,Do not substitute for validated backward-aligned weather silently,0,1
+all_laps_enriched.csv,archive_observed_Pressure,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,hPa,Do not substitute for validated backward-aligned weather silently,0,1
+all_laps_enriched.csv,archive_observed_Rainfall,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,boolean,Do not substitute for validated backward-aligned weather silently,0,1
+all_laps_enriched.csv,archive_observed_TrackTemp,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,degrees C,Do not substitute for validated backward-aligned weather silently,0,1
+all_laps_enriched.csv,archive_observed_WindDirection,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,degrees,Do not substitute for validated backward-aligned weather silently,0,1
+all_laps_enriched.csv,archive_observed_WindSpeed,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,metres per second,Do not substitute for validated backward-aligned weather silently,0,1
+all_laps_enriched.csv,LapTimeSeconds,Recorded lap duration in string or numeric representation,Normal pace target and timing reconciliation,Known after that lap completes,duration string or seconds,Choose one validated numeric owner; avoid duplicate predictors,497,1
+all_laps_enriched.csv,ms1,Undocumented exported field,Hold out of first-version modeling,Unverified,Unverified,Confirm units and source definition before any calculation,112343,1
+all_laps_enriched.csv,ms2,Undocumented exported field,Hold out of first-version modeling,Unverified,Unverified,Confirm units and source definition before any calculation,112356,1
+all_laps_enriched.csv,ms3,Undocumented exported field,Hold out of first-version modeling,Unverified,Unverified,Confirm units and source definition before any calculation,112397,1
+all_laps_enriched.csv,drv,Three-letter driver code,Event-scoped display and identity mapping,Context or identifier,text,,0,1
+all_laps_enriched.csv,team,Team display name,Display and contextual grouping,Context or identifier,text,,6,1
+all_laps_enriched.csv,Time_sec,Numeric session timestamp corresponding to Time,Canonical source-stream alignment,Observation timestamp,session seconds,,6,1
+all_laps_enriched.csv,LapTime_sec,Recorded lap duration in string or numeric representation,Normal pace target and timing reconciliation,Known after that lap completes,duration string or seconds,Choose one validated numeric owner; avoid duplicate predictors,497,1
+all_laps_enriched.csv,PitOutTime_sec,Pit-exit timestamp attached to lap,Detect outlap and match stop exits,Postdecision event,duration string or session seconds,,206191,1
+all_laps_enriched.csv,PitInTime_sec,Pit-entry timestamp attached to lap,Detect inlap and match stop entries,Postdecision event,duration string or session seconds,,206078,1
+all_laps_enriched.csv,Sector1Time_sec,Sector 1 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,4722,1
+all_laps_enriched.csv,Sector2Time_sec,Sector 2 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,559,1
+all_laps_enriched.csv,Sector3Time_sec,Sector 3 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,767,1
+all_laps_enriched.csv,Sector1SessionTime_sec,Sector 1 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,5211,1
+all_laps_enriched.csv,Sector2SessionTime_sec,Sector 2 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,559,1
+all_laps_enriched.csv,Sector3SessionTime_sec,Sector 3 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,767,1
+all_laps_enriched.csv,LapStartTime_sec,Lap start on session clock,Cutoff-safe joins and timing audit,Lap-start timestamp,duration string or session seconds,,6,1
+all_laps_enriched.csv,archive_observed_WeatherTime_sec,Weather timestamp in archive representation,Audit alignment against selected backward sample,Source observation time,duration string or session seconds,,0,1
+all_laps_enriched.csv,DriverId,Canonical driver reference,"Join event laps, stops, results, and battles",Context or identifier,identifier,,0,1
+all_laps_enriched.csv,data_source,Source provenance label,Trace archive and derived status inputs,Context or identifier,text,,0,1
+all_laps_enriched.csv,track_status_source,Source provenance label,Trace archive and derived status inputs,Context or identifier,text,,0,1
+all_laps_enriched.csv,year,Season label,Chronology and era adjustment,Context or identifier,year,,0,1
+all_laps_enriched.csv,round,Round within a season,Event identity and zero-padded key construction,Context or identifier,integer,,0,1
+all_laps_enriched.csv,WeatherTime_sec,Selected backward-aligned weather clock,Verify weather availability at lap start,Source observation time,session seconds,,1064,1
+all_laps_enriched.csv,TrackTemp,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,degrees C,Keep sampling time and missingness; no future-weather leakage,1064,1
+all_laps_enriched.csv,AirTemp,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,degrees C,Keep sampling time and missingness; no future-weather leakage,1064,1
+all_laps_enriched.csv,Humidity,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,percent,Keep sampling time and missingness; no future-weather leakage,1064,1
+all_laps_enriched.csv,Pressure,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,hPa,Keep sampling time and missingness; no future-weather leakage,1064,1
+all_laps_enriched.csv,Rainfall,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,boolean,Keep sampling time and missingness; no future-weather leakage,1064,1
+all_laps_enriched.csv,WindDirection,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,degrees,Keep sampling time and missingness; no future-weather leakage,1064,1
+all_laps_enriched.csv,WindSpeed,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,metres per second,Keep sampling time and missingness; no future-weather leakage,1064,1
+all_laps_enriched.csv,WeatherSampleAge_sec,Lap-start clock minus selected weather clock,Audit backward alignment tolerance,Predecision quality control,seconds,Manifest records backward match with 120-second tolerance,1064,1
+all_pit_stops.csv,event_id,Stable event code YYYY_RR,Event joins and grouped splits,Context or identifier,identifier,,0,1
+all_pit_stops.csv,year,Season label,Chronology and era adjustment,Context or identifier,year,,0,1
+all_pit_stops.csv,round,Round within a season,Event identity and zero-padded key construction,Context or identifier,integer,,0,1
+all_pit_stops.csv,driver_ref,Canonical driver reference,"Join event laps, stops, results, and battles",Context or identifier,identifier,,0,1
+all_pit_stops.csv,stop_lap,Observed pit-entry lap,Match stop to inlap,Observed schedule,lap number,,0,1
+all_pit_stops.csv,stop_status,Pit matching result,Select matched records and diagnose invalid ones,Context or identifier,category,,0,1
+all_pit_stops.csv,pit_entry_sec,Session clock at pit entry,Pair entry and exit and audit lane interval,Postdecision event,session seconds,,0,1
+all_pit_stops.csv,outlap_number,Lap containing pit exit,Attach outlap to stop cycle,Postdecision observation,lap number,,287,1
+all_pit_stops.csv,pit_exit_sec,Session clock at pit exit,Compute complete lane interval,Postdecision event,session seconds,,287,1
+all_pit_stops.csv,pitlane_elapsed_sec,Pit exit clock minus entry clock,Lane-duration diagnostics and joint cycle model,Postdecision observation,seconds,Not full racing-time loss or stationary service time,287,1
+all_pit_stops.csv,old_compound,Compound before observed stop,Verify factual initial state,Historical pre-stop state,category,,333,1
+all_pit_stops.csv,new_compound,Compound after observed stop,Fit factual transition and define planned alternatives,Postdecision observation,category,,310,1
+all_pit_stops.csv,new_tyre_fresh,Replacement set fresh flag,Validate observed transition,Postdecision observation,boolean,,287,1
+all_pit_stops.csv,stop_error,Explanation of invalid stop record,Retain reasons when excluding stops,Context or identifier,text or missing,,6767,1
+catalog_coverage.csv,year,Season label,Chronology and era adjustment,Context or identifier,year,,0,1
+catalog_coverage.csv,status,"Table-specific source load, stop, race, or track status",Coverage and source interpretation,Context or identifier,category or text,,0,1
+catalog_coverage.csv,completed_races,Number of completed events in seasonal catalog,Reconcile seasonal coverage,Context or identifier,count,,0,1
+completed_race_catalog.csv,event_id,Stable event code YYYY_RR,Event joins and grouped splits,Context or identifier,identifier,,0,1
+completed_race_catalog.csv,year,Season label,Chronology and era adjustment,Context or identifier,year,,0,1
+completed_race_catalog.csv,round,Round within a season,Event identity and zero-padded key construction,Context or identifier,integer,,0,1
+completed_race_catalog.csv,race_name,Event display label,Label scenarios after identity verification,Context or identifier,text,Names can vary across sources; use event_id for joins,0,1
+completed_race_catalog.csv,race_date,Catalog event date,Order events and display coverage,Context or identifier,date,,0,1
+completed_race_catalog.csv,race_start_utc,Recorded scheduled start,Event provenance and absolute time context,Context or identifier,UTC timestamp,Do not use as the session elapsed-clock origin without validation,0,1
+completed_race_catalog.csv,circuitRef,Catalog circuit identifier,Join and pool circuit context,Context or identifier,category,,0,1
+completed_race_catalog.csv,published_result,Flag for a catalogued published result,Catalog inclusion audit,Postrace catalog metadata,boolean,,0,1
+model_features.csv,source_row_id,Snapshot row pointer for a candidate battle,Trace export rows and validate feature-target joins,Context or identifier,integer identifier,Preserve with battle_id; not a transferable physical measurement,0,1
+model_features.csv,battle_id,Composite battle identifier,Stable observed-cycle lookup and audit,Context or identifier,identifier,,0,1
+model_features.csv,event_id,Stable event code YYYY_RR,Event joins and grouped splits,Context or identifier,identifier,,0,1
+model_features.csv,round,Round within a season,Event identity and zero-padded key construction,Context or identifier,integer,,0,1
+model_features.csv,year,Season label,Chronology and era adjustment,Context or identifier,year,,0,1
+model_features.csv,circuitRef,Catalog circuit identifier,Join and pool circuit context,Context or identifier,category,,0,1
+model_features.csv,gap_before_recomputed_sec,Recomputed initial focal-minus-rival gap,Prediction input and initial clock separation,Predecision after boundary verification,seconds,Positive means focal behind,0,1
+model_features.csv,under_old_compound_pre,Old compound for the named driver before the decision,Prediction input and scenario initialization,Predecision after cutoff verification,category,Preserve historical compound labels and era differences,0,1
+model_features.csv,over_old_compound_pre,Old compound for the named driver before the decision,Prediction input and scenario initialization,Predecision after cutoff verification,category,Preserve historical compound labels and era differences,0,1
+model_features.csv,under_tyre_age_pre_laps,Predecision tyre age for the named driver,Prediction input and initial tyre state,Predecision after cutoff verification,laps,Confirm both are measured at the same decision boundary,0,1
+model_features.csv,over_tyre_age_pre_laps,Predecision tyre age for the named driver,Prediction input and initial tyre state,Predecision after cutoff verification,laps,Confirm both are measured at the same decision boundary,0,1
+model_features.csv,tyre_age_diff_pre_laps,Difference between driver tyre ages,Optional relative-state predictor,Predecision after cutoff verification,laps,Verify subtraction order from exporter or rebuild explicitly,0,1
+model_features.csv,pace_delta_pre_recomputed_sec,Exported recent relative pace feature,Optional baseline predictor,Predecision only after definition audit,seconds per lap,Exact lookback and sign not supplied; 45 of 354 ready rows missing,45,1
+model_features.csv,over_deg_slope_pre_sec_per_lap,Exported later-stopper pace-versus-age slope,Optional degradation-state predictor,Predecision only after definition audit,seconds per additional tyre lap,Exact lookback not supplied; 37 of 354 ready rows missing,37,1
+model_features.csv,decision_TrackTemp,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,degrees C,,0,1
+model_features.csv,decision_AirTemp,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,degrees C,,0,1
+model_features.csv,decision_Humidity,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,percent,,0,1
+model_features.csv,decision_Pressure,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,hPa,,0,1
+model_features.csv,decision_WindSpeed,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,metres per second,,0,1
+model_targets.csv,source_row_id,Snapshot row pointer for a candidate battle,Trace export rows and validate feature-target joins,Context or identifier,integer identifier,Preserve with battle_id; not a transferable physical measurement,0,1
+model_targets.csv,battle_id,Composite battle identifier,Stable observed-cycle lookup and audit,Context or identifier,identifier,,0,1
+model_targets.csv,event_id,Stable event code YYYY_RR,Event joins and grouped splits,Context or identifier,identifier,,0,1
+model_targets.csv,round,Round within a season,Event identity and zero-padded key construction,Context or identifier,integer,,0,1
+model_targets.csv,net_gap_gain_recomputed_sec,Initial gap minus final gap,Observed gain target,Postdecision outcome,seconds,Positive gain can still leave focal behind,0,1
+model_targets.csv,gap_gain_excluding_pitlane_duration_diff_sec,Net gap gain minus lane-duration delta,Equal-duration sensitivity target,Postdecision outcome,seconds,Not an identified causal tyre effect or crew-adjusted outcome,0,1
+model_targets.csv,crew_adjusted_gap_gain_sec,Reserved crew-adjusted gain field,Keep unavailable until service measurements exist,Unavailable,seconds,All 851 candidates missing; never replace with zero,354,1
+model_targets.csv,pass_recomputed,Final signed gap below zero,Observed binary target,Postdecision outcome,boolean,Ahead at boundary does not imply an on-track overtake,0,1
+pit_battles_all.csv,source_row_id,Snapshot row pointer for a candidate battle,Trace export rows and validate feature-target joins,Context or identifier,integer identifier,Preserve with battle_id; not a transferable physical measurement,0,1
+pit_battles_all.csv,battle_id,Composite battle identifier,Stable observed-cycle lookup and audit,Context or identifier,identifier,,0,1
+pit_battles_all.csv,event_id,Stable event code YYYY_RR,Event joins and grouped splits,Context or identifier,identifier,,0,1
+pit_battles_all.csv,year,Season label,Chronology and era adjustment,Context or identifier,year,,0,1
+pit_battles_all.csv,round,Round within a season,Event identity and zero-padded key construction,Context or identifier,integer,,0,1
+pit_battles_all.csv,circuitRef,Catalog circuit identifier,Join and pool circuit context,Context or identifier,category,,0,1
+pit_battles_all.csv,race_name,Event display label,Label scenarios after identity verification,Context or identifier,text,Names can vary across sources; use event_id for joins,0,1
+pit_battles_all.csv,race_date,Catalog event date,Order events and display coverage,Context or identifier,date,,0,1
+pit_battles_all.csv,driver_undercut,Canonical earlier-stopper driver reference,Resolve historical focal identity,Context or identifier,identifier,Historical role must not change identity when strategy changes,0,1
+pit_battles_all.csv,driver_overcut,Canonical later-stopper driver reference,Resolve historical rival identity,Context or identifier,identifier,,0,1
+pit_battles_all.csv,pit_lap_under,Observed earlier stop lap,Reconstruct factual schedule,Observed schedule or explicitly fixed assumption,lap number,,0,1
+pit_battles_all.csv,pit_lap_over,Observed later stop lap,Reconstruct factual rival schedule,Observed schedule or explicitly fixed assumption,lap number,,0,1
+pit_battles_all.csv,lap_offset,Later stop lap minus earlier stop lap,Describe extraction scope,Observed schedule,laps,All 851 candidates have offset 1; no same-lap cover examples,0,1
+pit_battles_all.csv,gap_before_sec,Original candidate initial gap,Audit against recomputed initial gap,Predecision only after cutoff verification,seconds,Use validated recomputed owner rather than mixing versions,0,1
+pit_battles_all.csv,under_driver_ref,Canonical earlier-stopper driver reference,Resolve historical focal identity,Context or identifier,identifier,Historical role must not change identity when strategy changes,0,1
+pit_battles_all.csv,over_driver_ref,Canonical later-stopper driver reference,Resolve historical rival identity,Context or identifier,identifier,,0,1
+pit_battles_all.csv,enrichment_status,Pair enrichment result,Audit matched and failed pairs,Context or identifier,category,,0,1
+pit_battles_all.csv,model_ready,Initial exporter eligibility flag,Start sample review and reproduce initial sample,Retrospective eligibility,boolean,Not a guarantee of fully verified timing or complete predictors,0,1
+pit_battles_all.csv,enrichment_error,Pair enrichment failure description,Explain failed rows,Context or identifier,text or missing,,841,1
+pit_battles_all.csv,comparison_lap,Shared exported terminal lap,Reconstruct factual after gap,Postdecision endpoint definition,lap number,Equals later stop lap plus 1 in all 354 eligible rows,10,1
+pit_battles_all.csv,decision_elapsed_sec,Exported decision clock,Cut off source history after timing verification,Predecision reference clock,session seconds,Recover precise exporter boundary before relying on it,10,1
+pit_battles_all.csv,gap_before_recomputed_sec,Recomputed initial focal-minus-rival gap,Prediction input and initial clock separation,Predecision after boundary verification,seconds,Positive means focal behind,10,1
+pit_battles_all.csv,gap_after_recomputed_sec,Focal-minus-rival gap at comparison_lap,Observed target and validation,Postdecision outcome,seconds,Negative means focal ahead,10,1
+pit_battles_all.csv,net_gap_gain_recomputed_sec,Initial gap minus final gap,Observed gain target,Postdecision outcome,seconds,Positive gain can still leave focal behind,10,1
+pit_battles_all.csv,pass_recomputed,Final signed gap below zero,Observed binary target,Postdecision outcome,boolean,Ahead at boundary does not imply an on-track overtake,10,1
+pit_battles_all.csv,under_pitlane_elapsed_sec,Observed lane exit minus entry for the named driver,Audit and train execution-risk distributions,Postdecision observation,seconds,Includes lane driving and servicing; not stationary crew time,10,1
+pit_battles_all.csv,over_pitlane_elapsed_sec,Observed lane exit minus entry for the named driver,Audit and train execution-risk distributions,Postdecision observation,seconds,Includes lane driving and servicing; not stationary crew time,10,1
+pit_battles_all.csv,pitlane_duration_delta_over_minus_under_sec,Later stopper lane duration minus earlier stopper lane duration,Separate observed lane-duration contribution,Postdecision diagnostic,seconds,,10,1
+pit_battles_all.csv,gap_gain_excluding_pitlane_duration_diff_sec,Net gap gain minus lane-duration delta,Equal-duration sensitivity target,Postdecision outcome,seconds,Not an identified causal tyre effect or crew-adjusted outcome,10,1
+pit_battles_all.csv,green_window,Observed whole-window green eligibility,Retrospective sample filter,Postdecision eligibility,boolean,Unknown is not green; forecast green is a scenario condition,18,1
+pit_battles_all.csv,track_status_codes_in_window,Status codes observed during the cycle window,Explain contamination and exclusion,Postdecision diagnostic,code string,Read as text; multiple codes may occur,18,1
+pit_battles_all.csv,dry_window,Observed dry-window eligibility,Retrospective sample filter,Postdecision eligibility,boolean,Unknown weather must not be treated as dry,12,1
+pit_battles_all.csv,safety_car_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,18,1
+pit_battles_all.csv,virtual_safety_car_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,18,1
+pit_battles_all.csv,red_flag_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,18,1
+pit_battles_all.csv,yellow_flag_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,18,1
+pit_battles_all.csv,under_old_compound_pre,Old compound for the named driver before the decision,Prediction input and scenario initialization,Predecision after cutoff verification,category,Preserve historical compound labels and era differences,12,1
+pit_battles_all.csv,over_old_compound_pre,Old compound for the named driver before the decision,Prediction input and scenario initialization,Predecision after cutoff verification,category,Preserve historical compound labels and era differences,13,1
+pit_battles_all.csv,under_tyre_age_pre_laps,Predecision tyre age for the named driver,Prediction input and initial tyre state,Predecision after cutoff verification,laps,Confirm both are measured at the same decision boundary,13,1
+pit_battles_all.csv,over_tyre_age_pre_laps,Predecision tyre age for the named driver,Prediction input and initial tyre state,Predecision after cutoff verification,laps,Confirm both are measured at the same decision boundary,14,1
+pit_battles_all.csv,pace_delta_pre_recomputed_sec,Exported recent relative pace feature,Optional baseline predictor,Predecision only after definition audit,seconds per lap,Exact lookback and sign not supplied; 45 of 354 ready rows missing,405,1
+pit_battles_all.csv,over_deg_slope_pre_sec_per_lap,Exported later-stopper pace-versus-age slope,Optional degradation-state predictor,Predecision only after definition audit,seconds per additional tyre lap,Exact lookback not supplied; 37 of 354 ready rows missing,384,1
+pit_battles_all.csv,under_warmup_proxy_observed_sec,Exported observed early-stint pace proxy,Training diagnostic and warm-up exploration,Postdecision observation,seconds,Exact formula needs verification; not measured tyre temperature,445,1
+pit_battles_all.csv,over_warmup_proxy_observed_sec,Exported observed early-stint pace proxy,Training diagnostic and warm-up exploration,Postdecision observation,seconds,Exact formula needs verification; not measured tyre temperature,366,1
+pit_battles_all.csv,tyre_age_diff_pre_laps,Difference between driver tyre ages,Optional relative-state predictor,Predecision after cutoff verification,laps,Verify subtraction order from exporter or rebuild explicitly,14,1
+pit_battles_all.csv,under_new_compound_observed,Realized replacement compound,Reconstruct factual cycle and fit transitions,Postdecision observation,category,Planned compound must be a separately labelled scenario assumption,15,1
+pit_battles_all.csv,under_new_tyre_fresh_observed,New-set flag for realized replacement tyres,Reconstruct observed transition,Postdecision observation,boolean,,10,1
+pit_battles_all.csv,under_new_tyre_age_observed_laps,Recorded replacement tyre age,Verify tyre-age transition convention,Postdecision observation,laps,,19,1
+pit_battles_all.csv,under_inlap_tyre_age_observed_laps,Recorded tyre age on realized inlap,Validate age progression,Postdecision observation,laps,,12,1
+pit_battles_all.csv,under_outlap_number,Recorded outlap lap number,Pair stop entry with exit lap,Postdecision observation,lap number,,10,1
+pit_battles_all.csv,under_compound_transition_observed,Recorded old-to-new tyre label,Count supported transitions,Postdecision observation,category,,10,1
+pit_battles_all.csv,under_inlap_observed_sec,Observed inlap duration,Joint pit-cycle training and timing ledger,Postdecision observation,seconds,Avoid adding again if included in cycle excess,10,1
+pit_battles_all.csv,under_outlap_observed_sec,Observed outlap duration,Joint pit-cycle training and warm-up audit,Postdecision observation,seconds,Already includes realized lane and warm-up effects where timed,10,1
+pit_battles_all.csv,under_outlap_sector1_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,30,1
+pit_battles_all.csv,under_outlap_sector2_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,10,1
+pit_battles_all.csv,under_outlap_sector3_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,64,1
+pit_battles_all.csv,over_new_compound_observed,Realized replacement compound,Reconstruct factual cycle and fit transitions,Postdecision observation,category,Planned compound must be a separately labelled scenario assumption,15,1
+pit_battles_all.csv,over_new_tyre_fresh_observed,New-set flag for realized replacement tyres,Reconstruct observed transition,Postdecision observation,boolean,,10,1
+pit_battles_all.csv,over_new_tyre_age_observed_laps,Recorded replacement tyre age,Verify tyre-age transition convention,Postdecision observation,laps,,19,1
+pit_battles_all.csv,over_inlap_tyre_age_observed_laps,Recorded tyre age on realized inlap,Validate age progression,Postdecision observation,laps,,13,1
+pit_battles_all.csv,over_outlap_number,Recorded outlap lap number,Pair stop entry with exit lap,Postdecision observation,lap number,,10,1
+pit_battles_all.csv,over_compound_transition_observed,Recorded old-to-new tyre label,Count supported transitions,Postdecision observation,category,,10,1
+pit_battles_all.csv,over_inlap_observed_sec,Observed inlap duration,Joint pit-cycle training and timing ledger,Postdecision observation,seconds,Avoid adding again if included in cycle excess,10,1
+pit_battles_all.csv,over_outlap_observed_sec,Observed outlap duration,Joint pit-cycle training and warm-up audit,Postdecision observation,seconds,Already includes realized lane and warm-up effects where timed,10,1
+pit_battles_all.csv,over_outlap_sector1_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,35,1
+pit_battles_all.csv,over_outlap_sector2_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,10,1
+pit_battles_all.csv,over_outlap_sector3_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,32,1
+pit_battles_all.csv,input_gap_before_difference_sec,Export diagnostic comparing initial-gap versions,Audit recomputed versus input gap,Audit diagnostic,seconds,Check signed convention; no >0.05-second discrepancy among ready rows,10,1
+pit_battles_all.csv,input_net_gain_difference_sec,Reserved input-versus-recomputed gain diagnostic,Unavailable agreement diagnostic,Unavailable,seconds,All 851 missing; cannot certify target agreement,851,1
+pit_battles_all.csv,model_exclusion_reasons,Semicolon-separated initial exclusion labels,Sample flow and reason-level audit,Retrospective eligibility,text,Reasons overlap; count distinct excluded rows separately,354,1
+pit_battles_all.csv,decision_TrackTemp,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,degrees C,,12,1
+pit_battles_all.csv,decision_AirTemp,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,degrees C,,12,1
+pit_battles_all.csv,decision_Humidity,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,percent,,12,1
+pit_battles_all.csv,decision_Pressure,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,hPa,,12,1
+pit_battles_all.csv,decision_Rainfall,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,boolean,,12,1
+pit_battles_all.csv,decision_WindDirection,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,degrees,,12,1
+pit_battles_all.csv,decision_WindSpeed,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,metres per second,,12,1
+pit_battles_all.csv,decision_weather_age_sec,Decision clock minus weather observation clock,Reject stale decision weather,Predecision quality control,seconds,,12,1
+pit_battles_all.csv,crew_adjusted_gap_gain_sec,Reserved crew-adjusted gain field,Keep unavailable until service measurements exist,Unavailable,seconds,All 851 candidates missing; never replace with zero,851,1
+pit_battles_all.csv,under_stationary_sec,Reserved stationary service duration,Unavailable future service-time component,Unavailable,seconds,All 851 candidates missing; do not infer from full lane duration,851,1
+pit_battles_all.csv,over_stationary_sec,Reserved stationary service duration,Unavailable future service-time component,Unavailable,seconds,All 851 candidates missing; do not infer from full lane duration,851,1
+pit_battles_model_ready.csv,source_row_id,Snapshot row pointer for a candidate battle,Trace export rows and validate feature-target joins,Context or identifier,integer identifier,Preserve with battle_id; not a transferable physical measurement,0,1
+pit_battles_model_ready.csv,battle_id,Composite battle identifier,Stable observed-cycle lookup and audit,Context or identifier,identifier,,0,1
+pit_battles_model_ready.csv,event_id,Stable event code YYYY_RR,Event joins and grouped splits,Context or identifier,identifier,,0,1
+pit_battles_model_ready.csv,year,Season label,Chronology and era adjustment,Context or identifier,year,,0,1
+pit_battles_model_ready.csv,round,Round within a season,Event identity and zero-padded key construction,Context or identifier,integer,,0,1
+pit_battles_model_ready.csv,circuitRef,Catalog circuit identifier,Join and pool circuit context,Context or identifier,category,,0,1
+pit_battles_model_ready.csv,race_name,Event display label,Label scenarios after identity verification,Context or identifier,text,Names can vary across sources; use event_id for joins,0,1
+pit_battles_model_ready.csv,race_date,Catalog event date,Order events and display coverage,Context or identifier,date,,0,1
+pit_battles_model_ready.csv,driver_undercut,Canonical earlier-stopper driver reference,Resolve historical focal identity,Context or identifier,identifier,Historical role must not change identity when strategy changes,0,1
+pit_battles_model_ready.csv,driver_overcut,Canonical later-stopper driver reference,Resolve historical rival identity,Context or identifier,identifier,,0,1
+pit_battles_model_ready.csv,pit_lap_under,Observed earlier stop lap,Reconstruct factual schedule,Observed schedule or explicitly fixed assumption,lap number,,0,1
+pit_battles_model_ready.csv,pit_lap_over,Observed later stop lap,Reconstruct factual rival schedule,Observed schedule or explicitly fixed assumption,lap number,,0,1
+pit_battles_model_ready.csv,lap_offset,Later stop lap minus earlier stop lap,Describe extraction scope,Observed schedule,laps,All 851 candidates have offset 1; no same-lap cover examples,0,1
+pit_battles_model_ready.csv,gap_before_sec,Original candidate initial gap,Audit against recomputed initial gap,Predecision only after cutoff verification,seconds,Use validated recomputed owner rather than mixing versions,0,1
+pit_battles_model_ready.csv,under_driver_ref,Canonical earlier-stopper driver reference,Resolve historical focal identity,Context or identifier,identifier,Historical role must not change identity when strategy changes,0,1
+pit_battles_model_ready.csv,over_driver_ref,Canonical later-stopper driver reference,Resolve historical rival identity,Context or identifier,identifier,,0,1
+pit_battles_model_ready.csv,enrichment_status,Pair enrichment result,Audit matched and failed pairs,Context or identifier,category,,0,1
+pit_battles_model_ready.csv,model_ready,Initial exporter eligibility flag,Start sample review and reproduce initial sample,Retrospective eligibility,boolean,Not a guarantee of fully verified timing or complete predictors,0,1
+pit_battles_model_ready.csv,enrichment_error,Pair enrichment failure description,Explain failed rows,Context or identifier,text or missing,,354,1
+pit_battles_model_ready.csv,comparison_lap,Shared exported terminal lap,Reconstruct factual after gap,Postdecision endpoint definition,lap number,Equals later stop lap plus 1 in all 354 eligible rows,0,1
+pit_battles_model_ready.csv,decision_elapsed_sec,Exported decision clock,Cut off source history after timing verification,Predecision reference clock,session seconds,Recover precise exporter boundary before relying on it,0,1
+pit_battles_model_ready.csv,gap_before_recomputed_sec,Recomputed initial focal-minus-rival gap,Prediction input and initial clock separation,Predecision after boundary verification,seconds,Positive means focal behind,0,1
+pit_battles_model_ready.csv,gap_after_recomputed_sec,Focal-minus-rival gap at comparison_lap,Observed target and validation,Postdecision outcome,seconds,Negative means focal ahead,0,1
+pit_battles_model_ready.csv,net_gap_gain_recomputed_sec,Initial gap minus final gap,Observed gain target,Postdecision outcome,seconds,Positive gain can still leave focal behind,0,1
+pit_battles_model_ready.csv,pass_recomputed,Final signed gap below zero,Observed binary target,Postdecision outcome,boolean,Ahead at boundary does not imply an on-track overtake,0,1
+pit_battles_model_ready.csv,under_pitlane_elapsed_sec,Observed lane exit minus entry for the named driver,Audit and train execution-risk distributions,Postdecision observation,seconds,Includes lane driving and servicing; not stationary crew time,0,1
+pit_battles_model_ready.csv,over_pitlane_elapsed_sec,Observed lane exit minus entry for the named driver,Audit and train execution-risk distributions,Postdecision observation,seconds,Includes lane driving and servicing; not stationary crew time,0,1
+pit_battles_model_ready.csv,pitlane_duration_delta_over_minus_under_sec,Later stopper lane duration minus earlier stopper lane duration,Separate observed lane-duration contribution,Postdecision diagnostic,seconds,,0,1
+pit_battles_model_ready.csv,gap_gain_excluding_pitlane_duration_diff_sec,Net gap gain minus lane-duration delta,Equal-duration sensitivity target,Postdecision outcome,seconds,Not an identified causal tyre effect or crew-adjusted outcome,0,1
+pit_battles_model_ready.csv,green_window,Observed whole-window green eligibility,Retrospective sample filter,Postdecision eligibility,boolean,Unknown is not green; forecast green is a scenario condition,0,1
+pit_battles_model_ready.csv,track_status_codes_in_window,Status codes observed during the cycle window,Explain contamination and exclusion,Postdecision diagnostic,code string,Read as text; multiple codes may occur,0,1
+pit_battles_model_ready.csv,dry_window,Observed dry-window eligibility,Retrospective sample filter,Postdecision eligibility,boolean,Unknown weather must not be treated as dry,0,1
+pit_battles_model_ready.csv,safety_car_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,0,1
+pit_battles_model_ready.csv,virtual_safety_car_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,0,1
+pit_battles_model_ready.csv,red_flag_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,0,1
+pit_battles_model_ready.csv,yellow_flag_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,0,1
+pit_battles_model_ready.csv,under_old_compound_pre,Old compound for the named driver before the decision,Prediction input and scenario initialization,Predecision after cutoff verification,category,Preserve historical compound labels and era differences,0,1
+pit_battles_model_ready.csv,over_old_compound_pre,Old compound for the named driver before the decision,Prediction input and scenario initialization,Predecision after cutoff verification,category,Preserve historical compound labels and era differences,0,1
+pit_battles_model_ready.csv,under_tyre_age_pre_laps,Predecision tyre age for the named driver,Prediction input and initial tyre state,Predecision after cutoff verification,laps,Confirm both are measured at the same decision boundary,0,1
+pit_battles_model_ready.csv,over_tyre_age_pre_laps,Predecision tyre age for the named driver,Prediction input and initial tyre state,Predecision after cutoff verification,laps,Confirm both are measured at the same decision boundary,0,1
+pit_battles_model_ready.csv,pace_delta_pre_recomputed_sec,Exported recent relative pace feature,Optional baseline predictor,Predecision only after definition audit,seconds per lap,Exact lookback and sign not supplied; 45 of 354 ready rows missing,45,1
+pit_battles_model_ready.csv,over_deg_slope_pre_sec_per_lap,Exported later-stopper pace-versus-age slope,Optional degradation-state predictor,Predecision only after definition audit,seconds per additional tyre lap,Exact lookback not supplied; 37 of 354 ready rows missing,37,1
+pit_battles_model_ready.csv,under_warmup_proxy_observed_sec,Exported observed early-stint pace proxy,Training diagnostic and warm-up exploration,Postdecision observation,seconds,Exact formula needs verification; not measured tyre temperature,47,1
+pit_battles_model_ready.csv,over_warmup_proxy_observed_sec,Exported observed early-stint pace proxy,Training diagnostic and warm-up exploration,Postdecision observation,seconds,Exact formula needs verification; not measured tyre temperature,59,1
+pit_battles_model_ready.csv,tyre_age_diff_pre_laps,Difference between driver tyre ages,Optional relative-state predictor,Predecision after cutoff verification,laps,Verify subtraction order from exporter or rebuild explicitly,0,1
+pit_battles_model_ready.csv,under_new_compound_observed,Realized replacement compound,Reconstruct factual cycle and fit transitions,Postdecision observation,category,Planned compound must be a separately labelled scenario assumption,0,1
+pit_battles_model_ready.csv,under_new_tyre_fresh_observed,New-set flag for realized replacement tyres,Reconstruct observed transition,Postdecision observation,boolean,,0,1
+pit_battles_model_ready.csv,under_new_tyre_age_observed_laps,Recorded replacement tyre age,Verify tyre-age transition convention,Postdecision observation,laps,,1,1
+pit_battles_model_ready.csv,under_inlap_tyre_age_observed_laps,Recorded tyre age on realized inlap,Validate age progression,Postdecision observation,laps,,0,1
+pit_battles_model_ready.csv,under_outlap_number,Recorded outlap lap number,Pair stop entry with exit lap,Postdecision observation,lap number,,0,1
+pit_battles_model_ready.csv,under_compound_transition_observed,Recorded old-to-new tyre label,Count supported transitions,Postdecision observation,category,,0,1
+pit_battles_model_ready.csv,under_inlap_observed_sec,Observed inlap duration,Joint pit-cycle training and timing ledger,Postdecision observation,seconds,Avoid adding again if included in cycle excess,0,1
+pit_battles_model_ready.csv,under_outlap_observed_sec,Observed outlap duration,Joint pit-cycle training and warm-up audit,Postdecision observation,seconds,Already includes realized lane and warm-up effects where timed,0,1
+pit_battles_model_ready.csv,under_outlap_sector1_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,0,1
+pit_battles_model_ready.csv,under_outlap_sector2_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,0,1
+pit_battles_model_ready.csv,under_outlap_sector3_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,0,1
+pit_battles_model_ready.csv,over_new_compound_observed,Realized replacement compound,Reconstruct factual cycle and fit transitions,Postdecision observation,category,Planned compound must be a separately labelled scenario assumption,0,1
+pit_battles_model_ready.csv,over_new_tyre_fresh_observed,New-set flag for realized replacement tyres,Reconstruct observed transition,Postdecision observation,boolean,,0,1
+pit_battles_model_ready.csv,over_new_tyre_age_observed_laps,Recorded replacement tyre age,Verify tyre-age transition convention,Postdecision observation,laps,,1,1
+pit_battles_model_ready.csv,over_inlap_tyre_age_observed_laps,Recorded tyre age on realized inlap,Validate age progression,Postdecision observation,laps,,0,1
+pit_battles_model_ready.csv,over_outlap_number,Recorded outlap lap number,Pair stop entry with exit lap,Postdecision observation,lap number,,0,1
+pit_battles_model_ready.csv,over_compound_transition_observed,Recorded old-to-new tyre label,Count supported transitions,Postdecision observation,category,,0,1
+pit_battles_model_ready.csv,over_inlap_observed_sec,Observed inlap duration,Joint pit-cycle training and timing ledger,Postdecision observation,seconds,Avoid adding again if included in cycle excess,0,1
+pit_battles_model_ready.csv,over_outlap_observed_sec,Observed outlap duration,Joint pit-cycle training and warm-up audit,Postdecision observation,seconds,Already includes realized lane and warm-up effects where timed,0,1
+pit_battles_model_ready.csv,over_outlap_sector1_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,0,1
+pit_battles_model_ready.csv,over_outlap_sector2_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,0,1
+pit_battles_model_ready.csv,over_outlap_sector3_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,0,1
+pit_battles_model_ready.csv,input_gap_before_difference_sec,Export diagnostic comparing initial-gap versions,Audit recomputed versus input gap,Audit diagnostic,seconds,Check signed convention; no >0.05-second discrepancy among ready rows,0,1
+pit_battles_model_ready.csv,input_net_gain_difference_sec,Reserved input-versus-recomputed gain diagnostic,Unavailable agreement diagnostic,Unavailable,seconds,All 851 missing; cannot certify target agreement,354,1
+pit_battles_model_ready.csv,model_exclusion_reasons,Semicolon-separated initial exclusion labels,Sample flow and reason-level audit,Retrospective eligibility,text,Reasons overlap; count distinct excluded rows separately,354,1
+pit_battles_model_ready.csv,decision_TrackTemp,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,degrees C,,0,1
+pit_battles_model_ready.csv,decision_AirTemp,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,degrees C,,0,1
+pit_battles_model_ready.csv,decision_Humidity,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,percent,,0,1
+pit_battles_model_ready.csv,decision_Pressure,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,hPa,,0,1
+pit_battles_model_ready.csv,decision_Rainfall,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,boolean,,0,1
+pit_battles_model_ready.csv,decision_WindDirection,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,degrees,,0,1
+pit_battles_model_ready.csv,decision_WindSpeed,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,metres per second,,0,1
+pit_battles_model_ready.csv,decision_weather_age_sec,Decision clock minus weather observation clock,Reject stale decision weather,Predecision quality control,seconds,,0,1
+pit_battles_model_ready.csv,crew_adjusted_gap_gain_sec,Reserved crew-adjusted gain field,Keep unavailable until service measurements exist,Unavailable,seconds,All 851 candidates missing; never replace with zero,354,1
+pit_battles_model_ready.csv,under_stationary_sec,Reserved stationary service duration,Unavailable future service-time component,Unavailable,seconds,All 851 candidates missing; do not infer from full lane duration,354,1
+pit_battles_model_ready.csv,over_stationary_sec,Reserved stationary service duration,Unavailable future service-time component,Unavailable,seconds,All 851 candidates missing; do not infer from full lane duration,354,1
+race_coverage.csv,event_id,Stable event code YYYY_RR,Event joins and grouped splits,Context or identifier,identifier,,0,1
+race_coverage.csv,year,Season label,Chronology and era adjustment,Context or identifier,year,,0,1
+race_coverage.csv,round,Round within a season,Event identity and zero-padded key construction,Context or identifier,integer,,0,1
+race_coverage.csv,race_name,Event display label,Label scenarios after identity verification,Context or identifier,text,Names can vary across sources; use event_id for joins,0,1
+race_coverage.csv,race_date,Catalog event date,Order events and display coverage,Context or identifier,date,,0,1
+race_coverage.csv,status,"Table-specific source load, stop, race, or track status",Coverage and source interpretation,Context or identifier,category or text,,0,1
+race_coverage.csv,lap_rows,Named per-event coverage count,Reconcile source and model sample totals,Context or identifier,count,,0,1
+race_coverage.csv,pit_stops,Named per-event coverage count,Reconcile source and model sample totals,Context or identifier,count,,0,1
+race_coverage.csv,matched_stops,Named per-event coverage count,Reconcile source and model sample totals,Context or identifier,count,,0,1
+race_coverage.csv,battle_rows,Named per-event coverage count,Reconcile source and model sample totals,Context or identifier,count,,0,1
+race_coverage.csv,model_ready_rows,Named per-event coverage count,Reconcile source and model sample totals,Context or identifier,count,,0,1
+race_coverage.csv,weather_rows,Named per-event coverage count,Reconcile source and model sample totals,Context or identifier,count,,0,1
+race_coverage.csv,track_status_rows,Named per-event coverage count,Reconcile source and model sample totals,Context or identifier,count,,0,1
+race_coverage.csv,unmapped_driver_laps,Named per-event coverage count,Reconcile source and model sample totals,Context or identifier,count,,0,1
+sessions/laps.csv,index,Exporter row index,Retain for traceability only,Context or identifier,integer artifact,,,2
+sessions/laps.csv,Time,Table-specific event or observation clock,Timing reconstruction or source stream alignment,Observation timestamp,duration string,"Interpret within table; lap Time is lap end, weather Time is sample time",,2
+sessions/laps.csv,Driver,Three-letter driver code,Event-scoped display and identity mapping,Context or identifier,text,,,2
+sessions/laps.csv,DriverNumber,Driver car-number representation,Event-scoped identity mapping,Context or identifier,identifier string,,,2
+sessions/laps.csv,LapTime,Recorded lap duration in string or numeric representation,Normal pace target and timing reconciliation,Known after that lap completes,duration string or seconds,Choose one validated numeric owner; avoid duplicate predictors,,2
+sessions/laps.csv,LapNumber,Recorded driver lap number,Order driver histories and shared lap boundaries,Known as race progresses,lap number,,,2
+sessions/laps.csv,Stint,Recorded stint label,Group successive tyre runs,Known as race progresses,integer label,Not tyre age; verify continuity,,2
+sessions/laps.csv,PitOutTime,Pit-exit timestamp attached to lap,Detect outlap and match stop exits,Postdecision event,duration string or session seconds,,,2
+sessions/laps.csv,PitInTime,Pit-entry timestamp attached to lap,Detect inlap and match stop entries,Postdecision event,duration string or session seconds,,,2
+sessions/laps.csv,Sector1Time,Sector 1 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,,2
+sessions/laps.csv,Sector2Time,Sector 2 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,,2
+sessions/laps.csv,Sector3Time,Sector 3 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,,2
+sessions/laps.csv,Sector1SessionTime,Sector 1 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,,2
+sessions/laps.csv,Sector2SessionTime,Sector 2 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,,2
+sessions/laps.csv,Sector3SessionTime,Sector 3 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,,2
+sessions/laps.csv,SpeedI1,Recorded speed at named timing point,Optional diagnostic or later extension,Known after the relevant timing point,kilometres per hour,Not required for the first pooled pace model,,2
+sessions/laps.csv,SpeedI2,Recorded speed at named timing point,Optional diagnostic or later extension,Known after the relevant timing point,kilometres per hour,Not required for the first pooled pace model,,2
+sessions/laps.csv,SpeedFL,Recorded speed at named timing point,Optional diagnostic or later extension,Known after the relevant timing point,kilometres per hour,Not required for the first pooled pace model,,2
+sessions/laps.csv,SpeedST,Recorded speed at named timing point,Optional diagnostic or later extension,Known after the relevant timing point,kilometres per hour,Not required for the first pooled pace model,,2
+sessions/laps.csv,IsPersonalBest,Recorded official personal-best indicator,Optional lap-quality diagnostic,Known after the lap,boolean,Not a required prediction input,,2
+sessions/laps.csv,Compound,Recorded event tyre label,Pace modeling and tyre-state initialization,Known tyre state,category,Historical labels differ by era and underlying construction is absent,,2
+sessions/laps.csv,TyreLife,Recorded age of tyre set including prior use,Pace predictor and tyre-state evolution,Known tyre state,laps,Do not substitute stint number or assume replacement set starts unused,,2
+sessions/laps.csv,FreshTyre,New-set status at stint start,Distinguish used and new sets,Known tyre state,boolean,,,2
+sessions/laps.csv,Team,Team display name,Display and contextual grouping,Context or identifier,text,,,2
+sessions/laps.csv,LapStartTime,Lap start on session clock,Cutoff-safe joins and timing audit,Lap-start timestamp,duration string or session seconds,,,2
+sessions/laps.csv,LapStartDate,Absolute timestamp at lap start,Cross-check clocks and display event time,Lap-start timestamp,timestamp,Validate timezone before joining absolute and elapsed clocks,,2
+sessions/laps.csv,TrackStatus,Codes for statuses observed during a lap,Whole-lap contamination and eligibility,Known after full lap for all statuses,code string,"Read as text; 12 and 671 are combinations, not scalar measurements",,2
+sessions/laps.csv,Position,Table-specific classification or end-lap position,Context and results audit,Known after lap in laps; postrace in results,rank,Use table-specific semantics and avoid future classification leakage,,2
+sessions/laps.csv,Deleted,Lap deletion flag,Purpose-specific quality rules,Official ruling time may follow lap,boolean or unknown,,,2
+sessions/laps.csv,DeletedReason,Lap-deletion explanation,Explain source quality choices,Official ruling time may follow lap,text,,,2
+sessions/laps.csv,FastF1Generated,Generated/interpolated lap flag,Exclude or review synthetic timing rows,Source quality metadata,boolean,Source exporter semantics require verification,,2
+sessions/laps.csv,IsAccurate,Lap timing synchronization-quality flag,Purpose-specific source filtering,Source quality metadata,boolean,Not a universal timing guarantee; pit laps need separate rules,,2
+sessions/laps.csv,archive_observed_WeatherTime,Weather timestamp in archive representation,Audit alignment against selected backward sample,Source observation time,duration string or session seconds,,,2
+sessions/laps.csv,archive_observed_AirTemp,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,degrees C,Do not substitute for validated backward-aligned weather silently,,2
+sessions/laps.csv,archive_observed_Humidity,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,percent,Do not substitute for validated backward-aligned weather silently,,2
+sessions/laps.csv,archive_observed_Pressure,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,hPa,Do not substitute for validated backward-aligned weather silently,,2
+sessions/laps.csv,archive_observed_Rainfall,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,boolean,Do not substitute for validated backward-aligned weather silently,,2
+sessions/laps.csv,archive_observed_TrackTemp,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,degrees C,Do not substitute for validated backward-aligned weather silently,,2
+sessions/laps.csv,archive_observed_WindDirection,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,degrees,Do not substitute for validated backward-aligned weather silently,,2
+sessions/laps.csv,archive_observed_WindSpeed,Weather value attached in original archive representation,Alignment comparison and provenance,Availability requires timestamp audit,metres per second,Do not substitute for validated backward-aligned weather silently,,2
+sessions/laps.csv,LapTimeSeconds,Recorded lap duration in string or numeric representation,Normal pace target and timing reconciliation,Known after that lap completes,duration string or seconds,Choose one validated numeric owner; avoid duplicate predictors,,2
+sessions/laps.csv,ms1,Undocumented exported field,Hold out of first-version modeling,Unverified,Unverified,Confirm units and source definition before any calculation,,2
+sessions/laps.csv,ms2,Undocumented exported field,Hold out of first-version modeling,Unverified,Unverified,Confirm units and source definition before any calculation,,2
+sessions/laps.csv,ms3,Undocumented exported field,Hold out of first-version modeling,Unverified,Unverified,Confirm units and source definition before any calculation,,2
+sessions/laps.csv,drv,Three-letter driver code,Event-scoped display and identity mapping,Context or identifier,text,,,2
+sessions/laps.csv,team,Team display name,Display and contextual grouping,Context or identifier,text,,,2
+sessions/laps.csv,Time_sec,Numeric session timestamp corresponding to Time,Canonical source-stream alignment,Observation timestamp,session seconds,,,2
+sessions/laps.csv,LapTime_sec,Recorded lap duration in string or numeric representation,Normal pace target and timing reconciliation,Known after that lap completes,duration string or seconds,Choose one validated numeric owner; avoid duplicate predictors,,2
+sessions/laps.csv,PitOutTime_sec,Pit-exit timestamp attached to lap,Detect outlap and match stop exits,Postdecision event,duration string or session seconds,,,2
+sessions/laps.csv,PitInTime_sec,Pit-entry timestamp attached to lap,Detect inlap and match stop entries,Postdecision event,duration string or session seconds,,,2
+sessions/laps.csv,Sector1Time_sec,Sector 1 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,,2
+sessions/laps.csv,Sector2Time_sec,Sector 2 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,,2
+sessions/laps.csv,Sector3Time_sec,Sector 3 duration,Audit lap sums and pit-cycle timing,Known after sector completes,duration string or seconds,,,2
+sessions/laps.csv,Sector1SessionTime_sec,Sector 1 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,,2
+sessions/laps.csv,Sector2SessionTime_sec,Sector 2 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,,2
+sessions/laps.csv,Sector3SessionTime_sec,Sector 3 end clock,Audit crossing timestamps,Known after sector completes,duration string or session seconds,,,2
+sessions/laps.csv,LapStartTime_sec,Lap start on session clock,Cutoff-safe joins and timing audit,Lap-start timestamp,duration string or session seconds,,,2
+sessions/laps.csv,archive_observed_WeatherTime_sec,Weather timestamp in archive representation,Audit alignment against selected backward sample,Source observation time,duration string or session seconds,,,2
+sessions/laps.csv,DriverId,Canonical driver reference,"Join event laps, stops, results, and battles",Context or identifier,identifier,,,2
+sessions/laps.csv,data_source,Source provenance label,Trace archive and derived status inputs,Context or identifier,text,,,2
+sessions/laps.csv,track_status_source,Source provenance label,Trace archive and derived status inputs,Context or identifier,text,,,2
+sessions/laps.csv,year,Season label,Chronology and era adjustment,Context or identifier,year,,,2
+sessions/laps.csv,round,Round within a season,Event identity and zero-padded key construction,Context or identifier,integer,,,2
+sessions/laps.csv,WeatherTime_sec,Selected backward-aligned weather clock,Verify weather availability at lap start,Source observation time,session seconds,,,2
+sessions/laps.csv,TrackTemp,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,degrees C,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/laps.csv,AirTemp,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,degrees C,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/laps.csv,Humidity,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,percent,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/laps.csv,Pressure,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,hPa,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/laps.csv,Rainfall,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,boolean,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/laps.csv,WindDirection,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,degrees,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/laps.csv,WindSpeed,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,metres per second,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/laps.csv,WeatherSampleAge_sec,Lap-start clock minus selected weather clock,Audit backward alignment tolerance,Predecision quality control,seconds,Manifest records backward match with 120-second tolerance,,2
+sessions/pit_battles.csv,battle_id,Composite battle identifier,Stable observed-cycle lookup and audit,Context or identifier,identifier,,,4
+sessions/pit_battles.csv,event_id,Stable event code YYYY_RR,Event joins and grouped splits,Context or identifier,identifier,,,4
+sessions/pit_battles.csv,year,Season label,Chronology and era adjustment,Context or identifier,year,,,4
+sessions/pit_battles.csv,round,Round within a season,Event identity and zero-padded key construction,Context or identifier,integer,,,4
+sessions/pit_battles.csv,circuitRef,Catalog circuit identifier,Join and pool circuit context,Context or identifier,category,,,4
+sessions/pit_battles.csv,race_name,Event display label,Label scenarios after identity verification,Context or identifier,text,Names can vary across sources; use event_id for joins,,4
+sessions/pit_battles.csv,race_date,Catalog event date,Order events and display coverage,Context or identifier,date,,,4
+sessions/pit_battles.csv,driver_undercut,Canonical earlier-stopper driver reference,Resolve historical focal identity,Context or identifier,identifier,Historical role must not change identity when strategy changes,,4
+sessions/pit_battles.csv,driver_overcut,Canonical later-stopper driver reference,Resolve historical rival identity,Context or identifier,identifier,,,4
+sessions/pit_battles.csv,pit_lap_under,Observed earlier stop lap,Reconstruct factual schedule,Observed schedule or explicitly fixed assumption,lap number,,,4
+sessions/pit_battles.csv,pit_lap_over,Observed later stop lap,Reconstruct factual rival schedule,Observed schedule or explicitly fixed assumption,lap number,,,4
+sessions/pit_battles.csv,lap_offset,Later stop lap minus earlier stop lap,Describe extraction scope,Observed schedule,laps,All 851 candidates have offset 1; no same-lap cover examples,,4
+sessions/pit_battles.csv,gap_before_sec,Original candidate initial gap,Audit against recomputed initial gap,Predecision only after cutoff verification,seconds,Use validated recomputed owner rather than mixing versions,,4
+sessions/pit_battles.csv,source_row_id,Snapshot row pointer for a candidate battle,Trace export rows and validate feature-target joins,Context or identifier,integer identifier,Preserve with battle_id; not a transferable physical measurement,,4
+sessions/pit_battles.csv,under_driver_ref,Canonical earlier-stopper driver reference,Resolve historical focal identity,Context or identifier,identifier,Historical role must not change identity when strategy changes,,4
+sessions/pit_battles.csv,over_driver_ref,Canonical later-stopper driver reference,Resolve historical rival identity,Context or identifier,identifier,,,4
+sessions/pit_battles.csv,enrichment_status,Pair enrichment result,Audit matched and failed pairs,Context or identifier,category,,,4
+sessions/pit_battles.csv,model_ready,Initial exporter eligibility flag,Start sample review and reproduce initial sample,Retrospective eligibility,boolean,Not a guarantee of fully verified timing or complete predictors,,4
+sessions/pit_battles.csv,enrichment_error,Pair enrichment failure description,Explain failed rows,Context or identifier,text or missing,,,4
+sessions/pit_battles.csv,comparison_lap,Shared exported terminal lap,Reconstruct factual after gap,Postdecision endpoint definition,lap number,Equals later stop lap plus 1 in all 354 eligible rows,,4
+sessions/pit_battles.csv,decision_elapsed_sec,Exported decision clock,Cut off source history after timing verification,Predecision reference clock,session seconds,Recover precise exporter boundary before relying on it,,4
+sessions/pit_battles.csv,gap_before_recomputed_sec,Recomputed initial focal-minus-rival gap,Prediction input and initial clock separation,Predecision after boundary verification,seconds,Positive means focal behind,,4
+sessions/pit_battles.csv,gap_after_recomputed_sec,Focal-minus-rival gap at comparison_lap,Observed target and validation,Postdecision outcome,seconds,Negative means focal ahead,,4
+sessions/pit_battles.csv,net_gap_gain_recomputed_sec,Initial gap minus final gap,Observed gain target,Postdecision outcome,seconds,Positive gain can still leave focal behind,,4
+sessions/pit_battles.csv,pass_recomputed,Final signed gap below zero,Observed binary target,Postdecision outcome,boolean,Ahead at boundary does not imply an on-track overtake,,4
+sessions/pit_battles.csv,under_pitlane_elapsed_sec,Observed lane exit minus entry for the named driver,Audit and train execution-risk distributions,Postdecision observation,seconds,Includes lane driving and servicing; not stationary crew time,,4
+sessions/pit_battles.csv,over_pitlane_elapsed_sec,Observed lane exit minus entry for the named driver,Audit and train execution-risk distributions,Postdecision observation,seconds,Includes lane driving and servicing; not stationary crew time,,4
+sessions/pit_battles.csv,pitlane_duration_delta_over_minus_under_sec,Later stopper lane duration minus earlier stopper lane duration,Separate observed lane-duration contribution,Postdecision diagnostic,seconds,,,4
+sessions/pit_battles.csv,gap_gain_excluding_pitlane_duration_diff_sec,Net gap gain minus lane-duration delta,Equal-duration sensitivity target,Postdecision outcome,seconds,Not an identified causal tyre effect or crew-adjusted outcome,,4
+sessions/pit_battles.csv,green_window,Observed whole-window green eligibility,Retrospective sample filter,Postdecision eligibility,boolean,Unknown is not green; forecast green is a scenario condition,,4
+sessions/pit_battles.csv,track_status_codes_in_window,Status codes observed during the cycle window,Explain contamination and exclusion,Postdecision diagnostic,code string,Read as text; multiple codes may occur,,4
+sessions/pit_battles.csv,dry_window,Observed dry-window eligibility,Retrospective sample filter,Postdecision eligibility,boolean,Unknown weather must not be treated as dry,,4
+sessions/pit_battles.csv,safety_car_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,,4
+sessions/pit_battles.csv,virtual_safety_car_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,,4
+sessions/pit_battles.csv,red_flag_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,,4
+sessions/pit_battles.csv,yellow_flag_in_window,Observed named track condition inside cycle window,Exclude or explain contaminated comparisons,Postdecision diagnostic,boolean,,,4
+sessions/pit_battles.csv,under_old_compound_pre,Old compound for the named driver before the decision,Prediction input and scenario initialization,Predecision after cutoff verification,category,Preserve historical compound labels and era differences,,4
+sessions/pit_battles.csv,over_old_compound_pre,Old compound for the named driver before the decision,Prediction input and scenario initialization,Predecision after cutoff verification,category,Preserve historical compound labels and era differences,,4
+sessions/pit_battles.csv,under_tyre_age_pre_laps,Predecision tyre age for the named driver,Prediction input and initial tyre state,Predecision after cutoff verification,laps,Confirm both are measured at the same decision boundary,,4
+sessions/pit_battles.csv,over_tyre_age_pre_laps,Predecision tyre age for the named driver,Prediction input and initial tyre state,Predecision after cutoff verification,laps,Confirm both are measured at the same decision boundary,,4
+sessions/pit_battles.csv,pace_delta_pre_recomputed_sec,Exported recent relative pace feature,Optional baseline predictor,Predecision only after definition audit,seconds per lap,Exact lookback and sign not supplied; 45 of 354 ready rows missing,,4
+sessions/pit_battles.csv,over_deg_slope_pre_sec_per_lap,Exported later-stopper pace-versus-age slope,Optional degradation-state predictor,Predecision only after definition audit,seconds per additional tyre lap,Exact lookback not supplied; 37 of 354 ready rows missing,,4
+sessions/pit_battles.csv,under_warmup_proxy_observed_sec,Exported observed early-stint pace proxy,Training diagnostic and warm-up exploration,Postdecision observation,seconds,Exact formula needs verification; not measured tyre temperature,,4
+sessions/pit_battles.csv,over_warmup_proxy_observed_sec,Exported observed early-stint pace proxy,Training diagnostic and warm-up exploration,Postdecision observation,seconds,Exact formula needs verification; not measured tyre temperature,,4
+sessions/pit_battles.csv,tyre_age_diff_pre_laps,Difference between driver tyre ages,Optional relative-state predictor,Predecision after cutoff verification,laps,Verify subtraction order from exporter or rebuild explicitly,,4
+sessions/pit_battles.csv,under_new_compound_observed,Realized replacement compound,Reconstruct factual cycle and fit transitions,Postdecision observation,category,Planned compound must be a separately labelled scenario assumption,,4
+sessions/pit_battles.csv,under_new_tyre_fresh_observed,New-set flag for realized replacement tyres,Reconstruct observed transition,Postdecision observation,boolean,,,4
+sessions/pit_battles.csv,under_new_tyre_age_observed_laps,Recorded replacement tyre age,Verify tyre-age transition convention,Postdecision observation,laps,,,4
+sessions/pit_battles.csv,under_inlap_tyre_age_observed_laps,Recorded tyre age on realized inlap,Validate age progression,Postdecision observation,laps,,,4
+sessions/pit_battles.csv,under_outlap_number,Recorded outlap lap number,Pair stop entry with exit lap,Postdecision observation,lap number,,,4
+sessions/pit_battles.csv,under_compound_transition_observed,Recorded old-to-new tyre label,Count supported transitions,Postdecision observation,category,,,4
+sessions/pit_battles.csv,under_inlap_observed_sec,Observed inlap duration,Joint pit-cycle training and timing ledger,Postdecision observation,seconds,Avoid adding again if included in cycle excess,,4
+sessions/pit_battles.csv,under_outlap_observed_sec,Observed outlap duration,Joint pit-cycle training and warm-up audit,Postdecision observation,seconds,Already includes realized lane and warm-up effects where timed,,4
+sessions/pit_battles.csv,under_outlap_sector1_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,,4
+sessions/pit_battles.csv,under_outlap_sector2_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,,4
+sessions/pit_battles.csv,under_outlap_sector3_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,,4
+sessions/pit_battles.csv,over_new_compound_observed,Realized replacement compound,Reconstruct factual cycle and fit transitions,Postdecision observation,category,Planned compound must be a separately labelled scenario assumption,,4
+sessions/pit_battles.csv,over_new_tyre_fresh_observed,New-set flag for realized replacement tyres,Reconstruct observed transition,Postdecision observation,boolean,,,4
+sessions/pit_battles.csv,over_new_tyre_age_observed_laps,Recorded replacement tyre age,Verify tyre-age transition convention,Postdecision observation,laps,,,4
+sessions/pit_battles.csv,over_inlap_tyre_age_observed_laps,Recorded tyre age on realized inlap,Validate age progression,Postdecision observation,laps,,,4
+sessions/pit_battles.csv,over_outlap_number,Recorded outlap lap number,Pair stop entry with exit lap,Postdecision observation,lap number,,,4
+sessions/pit_battles.csv,over_compound_transition_observed,Recorded old-to-new tyre label,Count supported transitions,Postdecision observation,category,,,4
+sessions/pit_battles.csv,over_inlap_observed_sec,Observed inlap duration,Joint pit-cycle training and timing ledger,Postdecision observation,seconds,Avoid adding again if included in cycle excess,,4
+sessions/pit_battles.csv,over_outlap_observed_sec,Observed outlap duration,Joint pit-cycle training and warm-up audit,Postdecision observation,seconds,Already includes realized lane and warm-up effects where timed,,4
+sessions/pit_battles.csv,over_outlap_sector1_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,,4
+sessions/pit_battles.csv,over_outlap_sector2_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,,4
+sessions/pit_battles.csv,over_outlap_sector3_observed_sec,Observed outlap sector duration,Localize timing issues and audit overlap,Postdecision observation,seconds,,,4
+sessions/pit_battles.csv,input_gap_before_difference_sec,Export diagnostic comparing initial-gap versions,Audit recomputed versus input gap,Audit diagnostic,seconds,Check signed convention; no >0.05-second discrepancy among ready rows,,4
+sessions/pit_battles.csv,input_net_gain_difference_sec,Reserved input-versus-recomputed gain diagnostic,Unavailable agreement diagnostic,Unavailable,seconds,All 851 missing; cannot certify target agreement,,4
+sessions/pit_battles.csv,model_exclusion_reasons,Semicolon-separated initial exclusion labels,Sample flow and reason-level audit,Retrospective eligibility,text,Reasons overlap; count distinct excluded rows separately,,4
+sessions/pit_battles.csv,decision_TrackTemp,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,degrees C,,,4
+sessions/pit_battles.csv,decision_AirTemp,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,degrees C,,,4
+sessions/pit_battles.csv,decision_Humidity,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,percent,,,4
+sessions/pit_battles.csv,decision_Pressure,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,hPa,,,4
+sessions/pit_battles.csv,decision_Rainfall,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,boolean,,,4
+sessions/pit_battles.csv,decision_WindDirection,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,degrees,,,4
+sessions/pit_battles.csv,decision_WindSpeed,Backward-aligned weather at exported decision,Battle predictor or weather filter after cutoff audit,Predecision after alignment verification,metres per second,,,4
+sessions/pit_battles.csv,decision_weather_age_sec,Decision clock minus weather observation clock,Reject stale decision weather,Predecision quality control,seconds,,,4
+sessions/pit_stops.csv,event_id,Stable event code YYYY_RR,Event joins and grouped splits,Context or identifier,identifier,,,1
+sessions/pit_stops.csv,year,Season label,Chronology and era adjustment,Context or identifier,year,,,1
+sessions/pit_stops.csv,round,Round within a season,Event identity and zero-padded key construction,Context or identifier,integer,,,1
+sessions/pit_stops.csv,driver_ref,Canonical driver reference,"Join event laps, stops, results, and battles",Context or identifier,identifier,,,1
+sessions/pit_stops.csv,stop_lap,Observed pit-entry lap,Match stop to inlap,Observed schedule,lap number,,,1
+sessions/pit_stops.csv,stop_status,Pit matching result,Select matched records and diagnose invalid ones,Context or identifier,category,,,1
+sessions/pit_stops.csv,pit_entry_sec,Session clock at pit entry,Pair entry and exit and audit lane interval,Postdecision event,session seconds,,,1
+sessions/pit_stops.csv,outlap_number,Lap containing pit exit,Attach outlap to stop cycle,Postdecision observation,lap number,,,1
+sessions/pit_stops.csv,pit_exit_sec,Session clock at pit exit,Compute complete lane interval,Postdecision event,session seconds,,,1
+sessions/pit_stops.csv,pitlane_elapsed_sec,Pit exit clock minus entry clock,Lane-duration diagnostics and joint cycle model,Postdecision observation,seconds,Not full racing-time loss or stationary service time,,1
+sessions/pit_stops.csv,old_compound,Compound before observed stop,Verify factual initial state,Historical pre-stop state,category,,,1
+sessions/pit_stops.csv,new_compound,Compound after observed stop,Fit factual transition and define planned alternatives,Postdecision observation,category,,,1
+sessions/pit_stops.csv,new_tyre_fresh,Replacement set fresh flag,Validate observed transition,Postdecision observation,boolean,,,1
+sessions/pit_stops.csv,stop_error,Explanation of invalid stop record,Retain reasons when excluding stops,Context or identifier,text or missing,,,1
+sessions/race_control_messages.csv,Time,Table-specific event or observation clock,Timing reconstruction or source stream alignment,Observation timestamp,duration string,"Interpret within table; lap Time is lap end, weather Time is sample time",,2
+sessions/race_control_messages.csv,Category,Race-control message classification,Interpret source incident messages,Known when message published,category,,,2
+sessions/race_control_messages.csv,Message,Race-control or status message text,Explain incidents and status changes,Known when message published,text,,,2
+sessions/race_control_messages.csv,Status,"Table-specific source load, stop, race, or track status",Coverage and source interpretation,Context or identifier,category or text,,,2
+sessions/race_control_messages.csv,Flag,Race-control message classification,Interpret source incident messages,Known when message published,category,,,2
+sessions/race_control_messages.csv,Scope,Race-control message classification,Interpret source incident messages,Known when message published,category,,,2
+sessions/race_control_messages.csv,Sector,Sector attached to message where applicable,Localize incident context,Known when message published,sector label,,,2
+sessions/race_control_messages.csv,RacingNumber,Driver car-number representation,Event-scoped identity mapping,Context or identifier,identifier string,,,2
+sessions/race_control_messages.csv,Lap,Lap attached to message where applicable,Locate source event in timeline,Known when message published,lap number,,,2
+sessions/results.csv,DriverNumber,Driver car-number representation,Event-scoped identity mapping,Context or identifier,identifier string,,,1
+sessions/results.csv,BroadcastName,Driver display-name component,Readable scenario labels,Context or identifier,text,,,1
+sessions/results.csv,Abbreviation,Three-letter driver code,Event-scoped display and identity mapping,Context or identifier,text,,,1
+sessions/results.csv,DriverId,Canonical driver reference,"Join event laps, stops, results, and battles",Context or identifier,identifier,,,1
+sessions/results.csv,TeamName,Team display name,Display and contextual grouping,Context or identifier,text,,,1
+sessions/results.csv,TeamColor,Team display color,Optional interface styling,Context or identifier,hex color text,,,1
+sessions/results.csv,TeamId,Team identifier,Event identity mapping,Context or identifier,identifier,,,1
+sessions/results.csv,FirstName,Driver display-name component,Readable scenario labels,Context or identifier,text,,,1
+sessions/results.csv,LastName,Driver display-name component,Readable scenario labels,Context or identifier,text,,,1
+sessions/results.csv,FullName,Driver display-name component,Readable scenario labels,Context or identifier,text,,,1
+sessions/results.csv,HeadshotUrl,Source reference or image URL,Optional attribution and source lookup,Context or identifier,URL,,,1
+sessions/results.csv,CountryCode,Nationality or country label,Optional descriptive metadata,Context or identifier,text,,,1
+sessions/results.csv,Position,Table-specific classification or end-lap position,Context and results audit,Postrace classification,rank,Use table-specific semantics and avoid future classification leakage,,1
+sessions/results.csv,ClassifiedPosition,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,Field-specific result representation,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,GridPosition,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,Field-specific result representation,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,Q1,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,Field-specific result representation,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,Q2,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,Field-specific result representation,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,Q3,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,Field-specific result representation,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,Time,Result-time representation,Postrace audit,Postrace,duration or result representation,Not a lap or source-stream clock,,1
+sessions/results.csv,Status,"Table-specific source load, stop, race, or track status",Coverage and source interpretation,Context or identifier,category or text,,,1
+sessions/results.csv,Points,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,Field-specific result representation,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,Laps,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,completed lap count,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,TimeGap,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,Field-specific result representation,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,FastestLapRank,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,Field-specific result representation,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,FastestLapNumber,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,Field-specific result representation,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,FastestLapTime,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,Field-specific result representation,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,FastestLapAvgSpeed,Named result or qualifying summary,Identity-context audit or optional historical display,Postrace or pre-race qualifying context,Field-specific result representation,Exclude from the initial pace and strategy predictor set; TimeGap is not the pit-battle gap,,1
+sessions/results.csv,PermanentNumber,Driver car-number representation,Event-scoped identity mapping,Context or identifier,identifier string,,,1
+sessions/results.csv,DriverNationality,Nationality or country label,Optional descriptive metadata,Context or identifier,text,,,1
+sessions/results.csv,TeamNationality,Nationality or country label,Optional descriptive metadata,Context or identifier,text,,,1
+sessions/results.csv,DateOfBirth,Driver birth date,Unused descriptive metadata,Context or identifier,date,,,1
+sessions/results.csv,DriverUrl,Source reference or image URL,Optional attribution and source lookup,Context or identifier,URL,,,1
+sessions/results.csv,TeamUrl,Source reference or image URL,Optional attribution and source lookup,Context or identifier,URL,,,1
+sessions/track_status.csv,Time,Table-specific event or observation clock,Timing reconstruction or source stream alignment,Observation timestamp,duration string,"Interpret within table; lap Time is lap end, weather Time is sample time",,1
+sessions/track_status.csv,Status,Track status code at change time,Build known status intervals,Known at source timestamp,code string,Validate code meanings and retain unknown states,,1
+sessions/track_status.csv,Message,Race-control or status message text,Explain incidents and status changes,Known when message published,text,,,1
+sessions/track_status.csv,Time_sec,Numeric session timestamp corresponding to Time,Canonical source-stream alignment,Observation timestamp,session seconds,,,1
+sessions/weather.csv,Time_sec,Numeric session timestamp corresponding to Time,Canonical source-stream alignment,Observation timestamp,session seconds,,,2
+sessions/weather.csv,TrackTemp,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,degrees C,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/weather.csv,AirTemp,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,degrees C,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/weather.csv,Rainfall,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,boolean,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/weather.csv,Time,Table-specific event or observation clock,Timing reconstruction or source stream alignment,Observation timestamp,duration string,"Interpret within table; lap Time is lap end, weather Time is sample time",,2
+sessions/weather.csv,Humidity,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,percent,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/weather.csv,Pressure,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,hPa,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/weather.csv,WindDirection,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,degrees,Keep sampling time and missingness; no future-weather leakage,,2
+sessions/weather.csv,WindSpeed,Named weather measurement,Dry filtering and contextual pace inputs,Predecision only via backward timestamp join,metres per second,Keep sampling time and missingness; no future-weather leakage,,2
