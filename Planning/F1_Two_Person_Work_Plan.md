@@ -1,5 +1,12 @@
 # F1 Pit Wall Two Person Coding Work Plan
 
+The separately requested calculation task is the [small companion prototype](IMPLEMENTATION_STATUS.md).
+The revised undercut-window proposal remains the core research plan.
+Use `CALCULATION_NOTES.md` at the repository root for implemented behavior and
+verification. Existing owners stay the same. The module list and classroom demo
+work below describe the longer-term roadmap; animation, replay, heatmaps,
+deployment and presentation features are deferred beyond this prototype.
+
 Aiden owns the data and statistical modeling pipeline. Sumit owns the strategy simulator and Shiny application. Each person has three substantial GitHub issues covering major coding areas. The detailed 22-step procedure is a reference for execution within these areas, rather than a list of 22 separately assigned tasks.
 
 ## Responsibilities
@@ -10,8 +17,8 @@ Aiden owns the data and statistical modeling pipeline. Sumit owns the strategy s
 | Aiden (@aidenh144) | Build pace and pit-cycle models with execution uncertainty | [#2](https://github.com/astrosumit-051/f1_analytics/issues/2) |
 | Aiden (@aidenh144) | Own analytical validation and historical evidence | [#3](https://github.com/astrosumit-051/f1_analytics/issues/3) |
 | Sumit (@astrosumit-051) | Build the strategy simulation engine and robustness analysis | [#4](https://github.com/astrosumit-051/f1_analytics/issues/4) |
-| Sumit (@astrosumit-051) | Build the Shiny pit wall interface and classroom replay | [#5](https://github.com/astrosumit-051/f1_analytics/issues/5) |
-| Sumit (@astrosumit-051) | Own reproducible builds, integration testing, and demo packaging | [#6](https://github.com/astrosumit-051/f1_analytics/issues/6) |
+| Sumit (@astrosumit-051) | Build and review the minimal local Shiny tester | [#5](https://github.com/astrosumit-051/f1_analytics/issues/5) |
+| Sumit (@astrosumit-051) | Own reproducible runs, integration checks, and data placement | [#6](https://github.com/astrosumit-051/f1_analytics/issues/6) |
 
 ## Starting together
 
@@ -27,6 +34,11 @@ Sumit can build the deterministic clock engine and Shiny layout using clearly la
 4. **Demo handoff:** Sumit connects the reviewed outputs to Shiny, benchmarks the workflow, and assembles the package and classroom presentation. Aiden checks every analytical claim; both rehearse the demo.
 
 ## Code ownership
+
+For the compact prototype, Aiden reviews `R/data_and_models.R` and historical
+evaluation in `scripts/run_analysis.R`; Sumit reviews `R/strategy.R`, `app.R`,
+`config.R`, integrated checks and the run script. The original module paths below
+are future refactoring suggestions, not additional files that must be created.
 
 - Aiden: import, source validation, battle reconstruction, sample definitions, features, pace fitting, pit-cycle fitting, and analytical evaluation. Primary modules: R/01_import.R through R/06_fit_pit_cycle.R and R/08_evaluate.R.
 - Sumit: simulation, robustness analysis, scenario/build assembly, shared configuration, Shiny modules, replay, integrated tests, and packaging. Primary modules: R/07_simulate.R, R/09_scenarios.R, app.R, R/shiny_modules.R, config/, and scripts/.

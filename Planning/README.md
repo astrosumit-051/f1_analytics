@@ -1,5 +1,14 @@
 # F1 Pit Wall Planning Documents
 
+See the [companion implementation status](IMPLEMENTATION_STATUS.md) and the
+root `CALCULATION_NOTES.md` for the separately requested calculation prototype.
+The revised undercut-window proposal remains the core research plan. The reference,
+procedure and their Word copies below preserve the original broader roadmap.
+The current scope uses a plain local tester and defers classroom replay,
+heatmaps, deployment and presentation work.
+
+See [the two-person coding work plan](F1_Two_Person_Work_Plan.md) for major coding ownership, assigned GitHub issues, and handoffs. Aiden owns data preparation, models, and analytical validation. Sumit owns simulation, Shiny, and integrated builds. The six issues group substantial coding responsibilities rather than assigning the 22 procedure stages individually.
+
 Use the data reference before changing code, then follow the coding procedure in order. The procedure is written for R and Shiny and contains 22 stages with numbered substeps, expected outputs, and completion criteria.
 
 - [Data and code reference](F1_Data_and_Code_Reference.md) explains the source folders, file roles, metric definitions, data relationships, open quality questions, and planned code ownership.
@@ -9,11 +18,6 @@ Use the data reference before changing code, then follow the coding procedure in
 - [Field dictionary](F1_Field_Dictionary.csv) documents 519 field entries across the 16 CSV table families, including decision-time availability and metric cautions.
 - [Session index](F1_Session_Index.csv) covers all 193 race folders and their row counts and provenance.
 
-The source exports and original proposal were preserved. Planned R modules are not implemented by this documentation task. The `_audit` directory retains inspection scripts, profiling evidence, and document verification intermediates; it is not part of the future application runtime.
-
-
-## Coding ownership
-
-See [the two-person coding work plan](F1_Two_Person_Work_Plan.md) for the six major ownership areas, assigned GitHub issues, and handoffs. Aiden owns data preparation, models, and analytical validation. Sumit owns the simulator, Shiny, and integrated builds.
-
-The `_audit` evidence and render intermediates remain in the local workspace; the published planning files include the source inventory, field dictionary, and session index.
+The source exports and original proposal are preserved. The compact prototype's
+actual files are listed in the implementation status. The `_audit` directory
+retains the original inspection evidence and is not part of the application runtime.
