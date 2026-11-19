@@ -26,3 +26,13 @@ See [the two-person work split](Planning/F1_Two_Person_Work_Plan.md) for ownersh
 - [Sumit's assigned issues](https://github.com/astrosumit-051/f1_analytics/issues?q=is%3Aissue%20is%3Aopen%20assignee%3Aastrosumit-051)
 
 Raw race data remains in the shared project data folder and is not included in this documentation commit. The planning inventory records its paths and hashes. Analysis and application code will be added through the assigned implementation issues.
+
+## Companion R calculation prototype
+
+The separately requested [calculation prototype](PROTOTYPE_README.md) provides R
+functions, a reproducible run script and a plain local Shiny tester, and generates
+saved example results locally. Its 10,000-trial calculations are an experimental companion and do not
+replace the revised proposal or make Monte Carlo simulation a core project
+requirement. See [calculation notes](CALCULATION_NOTES.md) for measured validation,
+unsupported tyre rankings and remaining limitations. Raw inputs remain unchanged
+and are distributed separately.

@@ -1,0 +1,14 @@
+# Large immutable raw snapshot is shared separately (combined laps exceed 100 MiB).
+F1_Pit_Wall_2018_2026/
+.Rhistory
+.RData
+.Rproj.user/
+Planning/_audit/
+models/
+outputs/
+*.log
+outputs/decision_inputs.csv
+outputs/pace_predictions.csv
+outputs/*_trials.csv
+outputs/source_hashes.csv
+outputs/missing_inputs.txt
