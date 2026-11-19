@@ -1,0 +1,68 @@
+table,column,type,unit,allowed,role,description
+pairs,battle_id,str,,"{event_id}:{chaser}:{chaser_stop_lap}:{leader}:{leader_stop_lap}",id,Unique key for one pit-cycle pair. Same format as the coverage audit and the 354-row export.
+pairs,event_id,str,,YYYY_RR,id,Race key. Year and zero-padded round.
+pairs,year,int,,2018-2026,id,Season.
+pairs,round,int,,1-24,id,Round within the season.
+pairs,circuitRef,str,,,id,Circuit key from completed_race_catalog.csv.
+pairs,split,enum,,train|tune|test|transfer,id,Season split: train 2018-2023; tune 2024; test 2025 (locked); transfer 2026.
+pairs,chaser,str,,,id,Driver ref of the car behind at the end of ref_lap.
+pairs,leader,str,,,id,Driver ref of the car ahead at the end of ref_lap (the rival).
+pairs,chaser_stop_lap,int,lap,,cycle,Lap on which the chaser entered the pits.
+pairs,leader_stop_lap,int,lap,,cycle,Lap on which the leader entered the pits.
+pairs,delay,int,lap,-3..3,cycle,leader_stop_lap minus chaser_stop_lap. Positive: chaser stopped first (undercut; this is the rival's delay). 0: same lap. Negative: leader stopped first.
+pairs,strategy,enum,,chaser_first_d1|chaser_first_d2|chaser_first_d3|same_lap|leader_first_d1|leader_first_d2|leader_first_d3,cycle,Label for delay. Same labels as the coverage audit.
+pairs,delay_group,enum,,d1|d23|same_lap|leader_first,cycle,Grouping used by the model and the locked test. d23 pools delays 2 and 3.
+pairs,ref_lap,int,lap,,cycle,Lap before the first of the two stops. All decision-time features are measured at the end of this lap.
+pairs,comparison_lap,int,lap,,cycle,The later of the two out-laps. Immediate success is judged at the end of this lap.
+pairs,common_lap,int,lap,,cycle,chaser_stop_lap + 4: the out-lap after the latest possible rival stop (delay 3). Used whenever different delays are compared.
+pairs,teammates,bool01,,0|1,cohort,1 if both drivers are on the same team. Excluded from the core cohort; kept for the sensitivity check.
+pairs,clean_window,bool01,,0|1,cohort,"1 if every lap ref_lap..comparison_lap is green, dry, fully timed, on dry compounds, with no extra stop by either driver."
+pairs,exclusion_reason,enum,,none|non_green|wet|timing|non_dry_compound|incomplete,cohort,First reason the window is not clean. none when clean_window = 1.
+pairs,sc_in_window,bool01,,0|1,cohort,Safety car at any point ref_lap..comparison_lap (extension 4).
+pairs,vsc_in_window,bool01,,0|1,cohort,Virtual safety car at any point ref_lap..comparison_lap (extension 4).
+pairs,in_core,bool01,,0|1,cohort,"1 if clean_window = 1, teammates = 0, delay in 1..3 and 0 < gap_before_sec <= 6. The primary model is fitted only on these rows."
+pairs,gap_before_sec,float,s,0-10,feature,Chaser crossing time minus leader crossing time at the end of ref_lap. Always positive (the chaser is behind).
+pairs,chaser_tyre_age,int,lap,,feature,Chaser tyre age at ref_lap (TyreLife).
+pairs,leader_tyre_age,int,lap,,feature,Leader tyre age at ref_lap.
+pairs,tyre_age_diff,int,lap,,feature,chaser_tyre_age minus leader_tyre_age. Positive: the chaser's tyres are older.
+pairs,cars_between_at_ref,int,cars,0-19,feature,Cars crossing the line between the two drivers at the end of ref_lap.
+pairs,circuit_pitlane_median_sec,float,s,10-60,feature,"Median matched pit-lane time at the circuit, from training seasons only. A circuit first raced after 2023 uses the median of its first race."
+pairs,rejoin_traffic_cars,int,cars,0-19,feature,Cars crossing the line within 2.0 s ahead of the first stopper at the end of the first stopper's out-lap (any lap count). See DECISIONS D-005.
+pairs,overtaking_difficulty,float,passes per car-lap,0-1,feature,"Green-flag on-track position changes per car-lap at the circuit, excluding pit in and out laps, from training seasons only."
+pairs,overtaking_imputed,bool01,,0|1,feature,1 if the circuit has no training-season races and overtaking_difficulty is the training-season median over all circuits.
+pairs,era,enum,,pre2022|post2022,feature,Car regulation era. post2022 covers 2022 onwards.
+pairs,first_stopper_pitlane_sec,float,s,10-60,extension,Pit-lane time of whichever driver stopped first (extension 1). Measured after the decision.
+pairs,first_stopper_pitlane_excess_sec,float,s,,extension,first_stopper_pitlane_sec minus the race median pit-lane time (extension 1).
+pairs,chaser_new_compound_role,enum,,softest|middle|hardest|softer|harder|only|non_dry,extension,Compound fitted by the chaser relative to the compounds used at that event (extension 3).
+pairs,leader_new_compound_role,enum,,softest|middle|hardest|softer|harder|only|non_dry,extension,Same for the leader (extension 2).
+pairs,signed_gap_comparison_sec,float,s,,outcome,Chaser crossing time minus leader crossing time at the end of comparison_lap. Negative means the chaser is ahead.
+pairs,horizon3_status,enum,,ok|stop|neutralised|wet|retired|missing_timing,outcome,"Why the 3-lap follow-up is or is not available. Anything other than ok makes success_h3 missing, never 0."
+pairs,success_h0,bool01,,0|1|NA,outcome,Chaser ahead at the end of comparison_lap.
+pairs,success_h3,bool01,,0|1|NA,outcome,PRIMARY OUTCOME. Chaser ahead at every lap boundary comparison_lap..comparison_lap+3. NA when horizon3_status is not ok.
+pairs,success_h5,bool01,,0|1|NA,outcome,Same over 5 laps. Secondary.
+pairs,success_common_h0,bool01,,0|1|NA,outcome,Chaser ahead at the end of common_lap. Use this when comparing delays.
+pairs,success_common_h3,bool01,,0|1|NA,outcome,Chaser ahead at every lap boundary common_lap..common_lap+3.
+no_response,event_id,str,,YYYY_RR,id,Race key.
+no_response,year,int,,2018-2026,id,Season.
+no_response,split,enum,,train|tune|test|transfer,id,Season split as in pairs.
+no_response,chaser,str,,,id,Driver who stopped.
+no_response,leader,str,,,id,Rival up to 10 s ahead at the end of the lap before the stop.
+no_response,chaser_stop_lap,int,lap,,cycle,Chaser's stop lap.
+no_response,gap_before_sec,float,s,0-10,feature,Gap at the end of chaser_stop_lap - 1.
+no_response,teammates,bool01,,0|1,cohort,Same team.
+no_response,clean_window,bool01,,0|1,cohort,Clean from chaser_stop_lap - 1 to the chaser's out-lap.
+no_response,leader_next_stop,int,lap,,outcome,The leader's next stop after chaser_stop_lap + 3. NA if none.
+no_response,leader_no_further_stop,bool01,,0|1,outcome,1 if the leader never stopped again.
+predictions,battle_id,str,,,id,Key into pairs.
+predictions,model_id,str,,,id,"Model name and version, for example baseline_gap_v1 or primary_v1."
+predictions,outcome,enum,,success_h3|success_h0|success_h5|success_common_h3,id,Which outcome the probability is for.
+predictions,fitted_on,enum,,train|train+tune|train+tune+test,id,Which splits the model was fitted on.
+predictions,split,enum,,train|tune|test|transfer,id,Split of the predicted row.
+predictions,p_success,float,probability,0-1,prediction,Predicted probability of success.
+window_grid,model_id,str,,,id,Model name and version.
+window_grid,outcome,enum,,success_h3|success_h0|success_h5|success_common_h3,id,Outcome.
+window_grid,delay_group,enum,,d1|d23,id,Rival delay group.
+window_grid,gap_sec,float,s,0-6,id,"Starting gap, in steps of 0.1 s from 0.1 to 6.0. Other features are held at their training-season medians."
+window_grid,p_success,float,probability,0-1,prediction,Point estimate.
+window_grid,p_lo,float,probability,0-1,prediction,Lower 95% race-bootstrap bound. NA until evaluation fills it.
+window_grid,p_hi,float,probability,0-1,prediction,Upper 95% race-bootstrap bound. NA until evaluation fills it.
