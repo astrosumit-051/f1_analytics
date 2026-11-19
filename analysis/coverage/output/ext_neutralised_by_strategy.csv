@@ -1,0 +1,4 @@
+condition,leader_first_d3,leader_first_d2,leader_first_d1,same_lap,chaser_first_d1,chaser_first_d2,chaser_first_d3,total
+safety_car,17,35,52,909,46,22,21,1102
+vsc_only,9,12,12,107,22,11,5,178
+total,26,47,64,1016,68,33,26,1280
