@@ -69,6 +69,7 @@ tested; independent teammate acceptance remains open.
 The [planning index](Planning/README.md), [reference](Planning/F1_Data_and_Code_Reference.md),
 [procedure](Planning/F1_Step_by_Step_Coding_Procedure.md), and
 [two-person assignments](Planning/F1_Two_Person_Work_Plan.md) retain project context.
-Issues #1–#3 remain Aiden's analytical ownership; #4–#6 remain Sumit's engine,
-minimal tester and integration ownership. The prototype is the shared starting
-point; no independent teammate review is implied.
+The revised core project uses the current assignments #8–#24. Companion review
+is tracked in [issue #27](https://github.com/astrosumit-051/f1_analytics/issues/27): Sumit reviews data/model/engine calculations and Aiden
+reviews factual evaluation and the local tester. The archived issues #1–#6 are
+not reopened, and no independent teammate approval is implied.

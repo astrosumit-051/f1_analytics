@@ -4,8 +4,8 @@
 
 The implementation request narrows the original roadmap to R calculations and
 one local Shiny test page. Keep two calculation files rather than creating every
-planned module. Aiden retains analytical ownership and Sumit retains engine,
-tester and integration ownership. The original proposal and Word planning copies
+planned module. Companion review is assigned to both partners separately from
+the current core-project assignments. The original proposal and Word planning copies
 are retained as historical design documents; current implementation status is in
 `Planning/IMPLEMENTATION_STATUS.md` and `CALCULATION_NOTES.md`.
 

@@ -20,8 +20,9 @@ surrounding-car rejoin assumption support sensitivity checks. Race-to-finish tea
 points, wet strategies, animations, replay, heatmaps, deployment and presentation
 work are outside the current request.
 
-For this companion, ownership remains Aiden for data, fitting and analytical validation
-(issues #1–#3), and Sumit for engine, local tester and integration (issues #4–#6).
-The implementation provides a starting point for both people. Neither a commit
+The current core project assignments #8–#24 supersede archived issues #1–#6.
+Companion review is tracked in issue #27: Sumit reviews data/model/engine calculations and
+Aiden reviews factual evaluation and the local tester. The implementation
+provides a starting point for both people. Neither a commit
 nor automated checks imply their independent review or approval. Unidentified
 timing cases remain unresolved and numerical historical results are provisional.
