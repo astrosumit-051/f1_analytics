@@ -1,9 +1,9 @@
 ,pairs_per_circuit
 count,30.0
-mean,30.8
-std,22.2
+mean,30.7
+std,22.3
 min,4.0
 25%,12.0
-50%,29.5
+50%,29.0
 75%,39.5
 max,91.0

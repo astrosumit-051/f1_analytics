@@ -135,6 +135,10 @@ class Event:
             timing_ok=all(r["lap_ok"] for r in rows),
         )
 
+    def dry_compounds(self, drv, lo, hi):
+        rows = [self.row(drv, k) for k in range(lo, hi + 1)]
+        return all(r is not None and r["dry_compound"] for r in rows)
+
     def other_stop(self, drv, lo, hi, own):
         return any(lo <= s <= hi and s != own for s in self.stop_laps.get(drv, []))
 
@@ -142,12 +146,13 @@ class Event:
         """Cars crossing the line up to TRAFFIC_WINDOW_SEC before drv at the end of lap."""
         if lap not in self.time_by_lap.index:
             return np.nan
-        row = self.time_by_lap.loc[lap]
-        mine = row.get(drv, np.nan)
+        mine = self.time_by_lap.loc[lap].get(drv, np.nan)
         if not np.isfinite(mine):
             return np.nan
-        others = row.drop(labels=[drv, exclude], errors="ignore").dropna()
-        return int(((others < mine) & (others >= mine - TRAFFIC_WINDOW_SEC)).sum())
+        # Any other car crossing the line in the window, whatever lap it is on.
+        others = self.time_by_lap.drop(columns=[drv, exclude], errors="ignore")
+        hits = ((others < mine) & (others >= mine - TRAFFIC_WINDOW_SEC)).any(axis=0)
+        return int(hits.sum())
 
     def cars_between(self, a, b, lap):
         row = self.time_by_lap.loc[lap] if lap in self.time_by_lap.index else None
@@ -190,10 +195,9 @@ def build_pairs(laps, stops, catalog):
                     continue
                 c, l = chaser["driver_ref"], leader["driver_ref"]
                 d = int(leader["stop_lap"] - chaser["stop_lap"])
-                if ev.other_stop(c, r, max(a["stop_lap"], b["stop_lap"]), chaser["stop_lap"]) or \
-                        ev.other_stop(l, r, max(a["stop_lap"], b["stop_lap"]), leader["stop_lap"]):
-                    continue
                 e = int(max(chaser["outlap_number"], leader["outlap_number"]))
+                if ev.other_stop(c, r, e, chaser["stop_lap"]) or ev.other_stop(l, r, e, leader["stop_lap"]):
+                    continue
                 fc, fl = ev.window_flags(c, r, e), ev.window_flags(l, r, e)
                 compounds_dry = all(x in DRY for x in [chaser["old_compound"], chaser["new_compound"],
                                                        leader["old_compound"], leader["new_compound"]])
@@ -232,6 +236,7 @@ def build_pairs(laps, stops, catalog):
                     if ok and h > 0:
                         hc, hl = ev.window_flags(c, e + 1, last), ev.window_flags(l, e + 1, last)
                         ok = (hc["green"] and hl["green"] and hc["dry"] and hl["dry"]
+                              and hc["timing_ok"] and hl["timing_ok"]
                               and not ev.other_stop(c, e + 1, last, -1)
                               and not ev.other_stop(l, e + 1, last, -1))
                     rec[f"horizon{h}_available"] = bool(ok)
@@ -265,7 +270,9 @@ def build_pairs(laps, stops, catalog):
                     leader_no_further_stop=not later,
                     teammates=bool(ev.row(c, r)["Team"] == ev.row(l, r)["Team"]),
                     clean_window=bool(fc["complete"] and fl["complete"] and fc["green"] and fl["green"]
-                                      and fc["dry"] and fl["dry"] and fc["timing_ok"] and fl["timing_ok"]),
+                                      and fc["dry"] and fl["dry"] and fc["timing_ok"] and fl["timing_ok"]
+                                      and a["old_compound"] in DRY and a["new_compound"] in DRY
+                                      and ev.dry_compounds(l, r, int(a["outlap_number"]))),
                 ))
     return pd.DataFrame(pairs), pd.DataFrame(censored)
 
