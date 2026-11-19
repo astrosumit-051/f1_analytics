@@ -1,5 +1,7 @@
 # F1 Pit Wall Two Person Coding Work Plan
 
+> **Superseded on November 19, 2026.** This was written for the earlier simulator and Shiny scope. Ownership, issues and workflow now live in [CONTRIBUTING.md](../CONTRIBUTING.md); scope lives in the revised proposal. Issues #1 to #6 are closed.
+
 Aiden owns the data and statistical modeling pipeline. Sumit owns the strategy simulator and Shiny application. Each person has three substantial GitHub issues covering major coding areas. The detailed 22-step procedure is a reference for execution within these areas, rather than a list of 22 separately assigned tasks.
 
 ## Responsibilities

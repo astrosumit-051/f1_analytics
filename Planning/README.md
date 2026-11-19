@@ -1,5 +1,7 @@
 # F1 Pit Wall Planning Documents
 
+> **Superseded on November 19, 2026.** This was written for the earlier simulator and Shiny scope. Ownership, issues and workflow now live in [CONTRIBUTING.md](../CONTRIBUTING.md); scope lives in the revised proposal. Issues #1 to #6 are closed.
+
 Use the data reference before changing code, then follow the coding procedure in order. The procedure is written for R and Shiny and contains 22 stages with numbered substeps, expected outputs, and completion criteria.
 
 - [Data and code reference](F1_Data_and_Code_Reference.md) explains the source folders, file roles, metric definitions, data relationships, open quality questions, and planned code ownership.

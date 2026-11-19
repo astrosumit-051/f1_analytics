@@ -15,14 +15,16 @@ Scope decisions made on November 19, 2026:
 
 The planning documents below were written for the earlier pit wall simulator scope (undercut, cover and overcut in R and Shiny). Where they disagree with the revised proposal, the proposal wins.
 
-## Planning
+## Working on this project
 
-Start with [the planning index](Planning/README.md), [the data and code reference](Planning/F1_Data_and_Code_Reference.md), and [the detailed coding procedure](Planning/F1_Step_by_Step_Coding_Procedure.md).
+- [CONTRIBUTING.md](CONTRIBUTING.md): who owns what, the week-by-week plan, branch and PR rules, and how we check in.
+- [CLAUDE.md](CLAUDE.md): rules for the coding agents both partners use.
+- [contracts/](contracts/README.md): the handoff tables, units and definitions, with a fake sample to build against.
+- [DECISIONS.md](DECISIONS.md): the log of scope and definition decisions.
+- [My open issues](https://github.com/astrosumit-051/f1_analytics/issues?q=is%3Aissue+is%3Aopen+assignee%3A%40me), and the milestones [Week 1](https://github.com/astrosumit-051/f1_analytics/milestone/1), [Week 2](https://github.com/astrosumit-051/f1_analytics/milestone/2) and [Final](https://github.com/astrosumit-051/f1_analytics/milestone/3).
 
-See [the two-person work split](Planning/F1_Two_Person_Work_Plan.md) for ownership and handoffs. The coding work is grouped into six major ownership issues, three assigned to each person. The detailed 22-stage procedure remains a supporting reference.
+## Earlier planning documents
 
-- [My assigned open issues](https://github.com/issues?q=is%3Aissue%20is%3Aopen%20repo%3Aastrosumit-051%2Ff1_analytics%20assignee%3A%40me)
-- [Aiden's assigned issues](https://github.com/astrosumit-051/f1_analytics/issues?q=is%3Aissue%20is%3Aopen%20assignee%3Aaidenh144)
-- [Sumit's assigned issues](https://github.com/astrosumit-051/f1_analytics/issues?q=is%3Aissue%20is%3Aopen%20assignee%3Aastrosumit-051)
+[Planning/](Planning/README.md) was written for the earlier pit wall simulator scope (R and Shiny). Its data reference, field dictionary and session index are still useful; its work split and issues #1 to #6 are superseded by CONTRIBUTING.md and issues #8 to #24.
 
-Raw race data remains in the shared project data folder and is not included in this documentation commit. The planning inventory records its paths and hashes. Analysis and application code will be added through the assigned implementation issues.
+Raw race data remains in the shared project data folder and is not included in the repository.

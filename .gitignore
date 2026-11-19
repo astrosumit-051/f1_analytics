@@ -1,0 +1,5 @@
+# Raw race data stays outside the repository.
+F1_Pit_Wall_2018_2026/
+__pycache__/
+.Rhistory
+.DS_Store
