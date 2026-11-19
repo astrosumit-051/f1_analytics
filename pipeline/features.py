@@ -2,7 +2,6 @@
 
 Usage:
     python pipeline/features.py <path to F1_Pit_Wall_2018_2026> [--pairs data/derived/pairs.csv]
-                                [--rejoin projected|observed]
 
 Run pipeline/build_pairs.py first. This script reads its pairs.csv, adds the
 columns below and writes the file back in contract order.
@@ -18,7 +17,8 @@ Features (known at the end of ref_lap):
   retirement); lap 1 is excluded. Gains are summed over cars, so one pass is one gain.
   Circuits with no training race get the median over training circuits
   (overtaking_imputed = 1).
-- rejoin_traffic_cars, measured as DECISIONS D-006 says:
+- rejoin_traffic_cars uses the projected measure (DECISIONS D-006). The observed
+  measure is computed only for the printed comparison and is never written:
   observed  = cars (any lap count) crossing the line up to 2.0 s ahead of the first
               stopper at the end of the first stopper's out-lap, rival excluded (the
               coverage audit's measure; known only after the stop).
@@ -182,7 +182,7 @@ class Event:
         return int(((behind_by >= pit_sec - TRAFFIC_WINDOW_SEC) & (behind_by < pit_sec)).sum())
 
 
-def add_features(pairs, laps, stops, circuits, rejoin: str) -> pd.DataFrame:
+def add_features(pairs, laps, stops, circuits) -> pd.DataFrame:
     pairs = pairs.copy()
     pairs = pairs.drop(columns=list(circuits.columns), errors="ignore") \
         .merge(circuits, left_on="circuitRef", right_index=True, how="left")
@@ -210,7 +210,7 @@ def add_features(pairs, laps, stops, circuits, rejoin: str) -> pd.DataFrame:
             cols["cars_between_at_ref"].append(ev.cars_between(c, l, r))
             cols["rejoin_observed"].append(obs)
             cols["rejoin_projected"].append(proj)
-            cols["rejoin_traffic_cars"].append(proj if rejoin == "projected" else obs)
+            cols["rejoin_traffic_cars"].append(proj)
             cols["first_stopper_pitlane_sec"].append(pitlane)
             cols["first_stopper_pitlane_excess_sec"].append(pitlane - ev.race_median_pitlane)
             idx.append(i)
@@ -248,8 +248,6 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("raw", type=Path)
     ap.add_argument("--pairs", type=Path, default=ROOT / "data" / "derived" / "pairs.csv")
-    ap.add_argument("--rejoin", choices=["projected", "observed"], required=True,
-                    help="rejoin traffic measure; see DECISIONS D-006")
     ap.add_argument("--no-check", action="store_true", help="skip the training-only leak check")
     args = ap.parse_args()
     laps, stops, catalog = load(args.raw)
@@ -257,7 +255,7 @@ def main() -> None:
     if not args.no_check:
         check_training_only(laps, stops, catalog, circuits)
     pairs = pd.read_csv(args.pairs, keep_default_na=True, na_values=["NA"])
-    pairs = add_features(pairs, laps, stops, circuits, args.rejoin)
+    pairs = add_features(pairs, laps, stops, circuits)
     summarise(pairs)
     to_contract(pairs, "pairs").to_csv(args.pairs, index=False, na_rep="NA")
 
