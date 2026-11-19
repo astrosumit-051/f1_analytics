@@ -67,6 +67,10 @@ for the people.
 ## Git and pull requests
 
 - Never push to `main`. Work on a branch and open a pull request.
+- Start from the latest `main`: fetch and merge it into your branch before new work.
+- Commit whenever a step works, and push the branch at least once a day.
+- Open a small PR every day or two for each finished piece, rather than one large PR
+  at the end. The other partner reviews before it merges.
 - One issue per PR. Use the PR template. Put `Closes #N` (or `Part of #N`) in the
   description.
 - Request review from the other partner. Never merge, approve or close the other

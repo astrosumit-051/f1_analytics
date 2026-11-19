@@ -59,6 +59,13 @@ disagrees with the proposal.
 Anything that changes `contracts/` or a shared definition needs a `DECISIONS.md`
 entry in the same PR.
 
+### Commit rhythm
+
+- **Commit whenever something works**, even a small step. Commits are free and give you points to roll back to.
+- **Push your branch at least once a day**, so the other partner can see progress and your work is backed up.
+- **Open small PRs every day or two**, one per finished piece of an issue. The other partner reviews before anything merges into `main`; avoid one huge PR at the end.
+- **Pull `main` before starting new work each day** (`git checkout main && git pull`, then branch or merge `main` into your branch), so you build on the latest shared version.
+
 ### One-time setup (Sumit, as the repository owner)
 
 - **Protect `main`:** Settings, Branches, *Add branch ruleset* for `main`: require a
