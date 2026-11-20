@@ -6,7 +6,7 @@ calibration data and a calibration figure. If given a window grid, it also
 saves the 50% and 25% downward crossings within the observed gap range for each
 delay group. A missing or ambiguous crossing is recorded as unavailable.
 
-Install the Python dependencies with `python -m pip install numpy pandas matplotlib`.
+Install with `python -m pip install -r evaluation/requirements.txt`.
 Run from the repository root:
 
 ```sh
@@ -19,10 +19,26 @@ synthetic fixture. To evaluate the shared training output, use the real
 differs from `baseline_gap_v1`. Missing outcomes and missing model rows are
 counted separately. The evaluator does not change any input files.
 
-The default split is `train`. Use `tune` only for the model-selection issue.
-The test split requires a model-freeze section in `DECISIONS.md` with
-`Status: accepted`, `model_id:` or `model_ids:`, and a full `Commit hash:`.
-The names in that accepted record must cover every evaluated test model. This
-field format is provisional pending confirmation in the shared freeze issue.
-Run the locked test only during the agreed test pass.
+The default split is `train`. Tuning requires `--split tune --holdout-issue 14`
+and must be used only within the labelled model-selection issue. Test and transfer
+are refused before input access; use the separately reviewed #19/#20 procedures.
+No freeze or authorized locked run exists on the assessed main commit.
+
+`metrics.csv` includes mean predicted/observed probability, calibration bias
+(predicted minus observed) and five equal-width-bin ECE. These descriptive
+statistics depend on sample/bin size. Training scores are explicitly in-sample.
+Log loss clips only for numerical stability at 1e-15; Brier uses original values.
+`cohort_counts.csv` counts producer exclusions; missing follow-up and predictions
+are separately counted per outcome in metrics. All compared models use the same
+complete cases. Pair counts are not independent race counts.
+
+`run.json` records input SHA-256 hashes, versions, baseline and split. Outputs
+under `evaluation/results/` are ignored. Inputs are never overwritten. Curves
+describe median-feature profiles, while observed bands average actual profiles;
+they need not coincide even for a calibrated model. Crossing interpolation is
+inside the observed gap range only; ambiguous/flat/absent crossings remain NA.
+
+Run the independent regression checks with
+`python -m pytest evaluation/test_evaluate.py -q`. They include hand-calculated
+scores, paired exclusions, invalid input rejection and protected-row sentinels.
 
