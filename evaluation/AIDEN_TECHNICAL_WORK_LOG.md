@@ -141,3 +141,18 @@ reproduced exit -1073741569. This indicates a local R/package teardown problem,
 not proof of a clean test process. A clean exit on the submission environment is
 still required. Pure calculations and the live server worked; no final production
 integration or browser acceptance on real frozen outputs is claimed.
+
+## Local workspace organization and launch clarification
+
+The user requested clear runtime/development/archive bins after trying an app.R
+entry point. Found both the old companion app.R at the workspace root and the new
+window app under demo/. Created a self-contained 01_APP bundle, with calculation
+helpers unchanged, training data copied byte-for-byte and a SHA-256 manifest. It
+opens on observed comparisons and supports double-click startup or Run App from
+its Rproj. Standalone startup validated all 564 core training pairs with exit 0.
+Packaged Shiny server assertions passed for both response groups, observed tables,
+examples and no-response messages. Model predictions remain unavailable; no
+synthetic replacement or protected evaluation was run. The original raw dataset
+stays at its original workspace path. Workspace move records will live in
+03_ARCHIVE/organization_manifest.json; the Git checkout and tests remain together
+under 02_DEVELOPMENT/aiden_work and older snapshots under 03_ARCHIVE/previous_workspace.

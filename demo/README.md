@@ -79,3 +79,17 @@ real model handoffs and their provenance are supplied.
 Verification: launch.R --check validated 564 core training rows. Windows Script
 Host requires normal desktop access (sandbox settings access was denied); the
 normal desktop launch succeeded and the HTTP endpoint was independently checked.
+
+## Self-contained local app and workspace bins
+
+For local use, demo/build_local_bundle.py --out <new folder> copies only the
+runtime app, pure helpers, startup/configuration files, training-only handoffs and
+provenance. It rejects non-training input rows and verifies copied input hashes.
+No raw data, test code, simulator, fitting code or generated test results are
+needed in the runtime bundle. The app opens on observed response comparisons;
+model outputs remain pending. The runtime root is independent of the source
+checkout, so moving/organizing development files does not break its data paths.
+
+The bundle supports double-click startup and RStudio's Run App after opening its
+Rproj. A running Shiny session does not finish like a batch script: use Stop local
+app to close its server. Full statistical/model completion is still outstanding.
