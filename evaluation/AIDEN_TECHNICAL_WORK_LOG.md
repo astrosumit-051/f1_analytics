@@ -94,3 +94,15 @@ Provenance records source SHA-256 and selection. All 4,796 training pairs and 4,
 training no-response records are available locally. Fake and unmerged real
 training figures generated; the real chart has no supplied common-lap model
 curve and explicitly labels it pending. Production integration remains unapproved.
+
+## #18 verified milestone
+
+Implemented analysis/extensions/defender/analyze.py and README with exact delays,
+common-lap outcomes, whole-race intervals and exact overlap on gap band, tyre-age
+difference and season. Every result is descriptive with counts and missingness.
+The defender point-in-time event complements common_h0 only. Sustained defence
+cannot be inferred by complementing common_h3; unsupported cases stay unavailable.
+
+Executed defender tests: 2 passed. Ran the same workflow on unmerged PR #32's
+training handoff successfully. Held-out extension evaluation and final producer
+review are pending. This does not demonstrate causal strategy superiority.
