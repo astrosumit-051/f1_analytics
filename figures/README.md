@@ -27,3 +27,18 @@ The no-response panel shows stop–rival records by gap band. The shared handoff
 has the numerator. Its denominator is pending a decision on which
 opportunities to count with the same cohort rules. Both the denominator and
 rate are left blank in the output CSV until that definition is agreed.
+
+Reproduction checks (November 19): fake common-lap stand-in and unmerged PR #32
+training-only handoffs both generated PNG/SVG and source tables. The real input
+source was ad2b6f1ca201e3c04c31325036ad5d582ba4f3e7; it remains unapproved. No
+historical model curve is supplied. Outcome comparisons are common-lap descriptive
+rates with race-bootstrap bands, not causal strategy recommendations. Run metadata
+records file hashes, seed and resample count. No held-out outcomes are parsed.
+
+Figures are technical application assets, not final report materials. Output names
+are undercut_window.png/.svg. Run python -m pytest figures/test_figures.py -q.
+
+Real model curves also require --grid-run pointing to the training-refit run.json,
+with matching model IDs and the generated grid fingerprint. Unknown/mismatched
+provenance is rejected rather than assuming a grid was fitted on the right split.
+Observed-only figures remain available without a model curve.

@@ -1,8 +1,14 @@
-"""Build the training-only common-lap figures for the undercut report."""
+"""Build reproducible training-only common-lap application figures."""
 from __future__ import annotations
 
 import argparse
+import json
+import hashlib
+import sys
 from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from evaluation.evaluate import read_split, validate_schema, validate_geometry, manifest
+from figures.stats import rate_summary
 
 import matplotlib
 matplotlib.use("Agg")
@@ -23,8 +29,17 @@ GROUPS = {
 }
 
 
+def validate_grid_provenance(path,grid_path,model):
+    if path is None:raise ValueError("Real model curves require --grid-run from the training refit; provenance unavailable.")
+    info=json.loads(Path(path).read_text(encoding="utf-8-sig"))
+    digest=hashlib.md5(Path(grid_path).read_bytes()).hexdigest()
+    if (info.get("split")!="train" or model not in info.get("models",[])
+        or info.get("window_grid_md5")!=digest or "synthetic" in info.get("evidence","").lower()):
+        raise ValueError("Grid provenance does not match a real training-only refit.")
+
+
 def read_csv(path, columns, label):
-    frame = pd.read_csv(path, dtype=str)
+    frame = pd.read_csv(path, dtype=str) if label=="Window grid" else read_split(path,"train")
     missing = set(columns) - set(frame)
     if missing:
         raise ValueError(f"{label} is missing: {', '.join(sorted(missing))}")
@@ -53,7 +68,7 @@ def gap_bands(gaps):
     return pd.cut(gaps, GAP_EDGES, labels=GAP_LABELS, right=True)
 
 
-def summarize_pairs(pairs):
+def summarize_pairs(pairs, resamples=400, seed=355):
     rows = pairs.copy()
     if rows["battle_id"].isna().any() or rows["battle_id"].duplicated().any():
         raise ValueError("Expected a unique battle_id for every eligible training pair.")
@@ -83,7 +98,12 @@ def summarize_pairs(pairs):
     summary["missing_outcome"] = summary["pairs"] - summary["completed"]
     # Interrupted cycles have no binary result. Their counts stay visible.
     summary["observed_rate"] = summary["successes"].div(summary["completed"].replace(0, np.nan))
-    return summary.reset_index(), rows
+    summary=summary.reset_index()
+    bands=rate_summary(rows,["delay_group","gap_band"],OUTCOME,resamples,seed)
+    if not bands.empty:
+        summary=summary.merge(bands[["delay_group","gap_band","p_lo","p_hi","interval_status",
+            "bootstrap_draws","draws_without_observations","seed","status"]],on=["delay_group","gap_band"],validate="one_to_one")
+    return summary, rows
 
 
 def prepare_window(grid, eligible, model):
@@ -149,6 +169,8 @@ def draw_figure(window, summary, no_response, evidence, out):
         if counts:
             comparison.scatter(values["mean_completed_gap_sec"], values["observed_rate"],
                                color=color, marker=marker, s=35, label=f"{label} (n={counts})")
+            for row in values.dropna(subset=["p_lo","p_hi"]).itertuples():
+                comparison.vlines(row.mean_completed_gap_sec,row.p_lo,row.p_hi,color=color,alpha=.5)
         if group not in ("d1", "d23"):
             continue
         grid = window.loc[window["delay_group"].eq(group)]
@@ -182,7 +204,7 @@ def draw_figure(window, summary, no_response, evidence, out):
                   va="top", ha="center", transform=response.transAxes, fontsize=8)
     fig.suptitle(f"F1 undercut window | {evidence}", fontsize=14)
     for kind in ("png", "svg"):
-        fig.savefig(out/f"undercut_report.{kind}", dpi=180)
+        fig.savefig(out/f"undercut_window.{kind}", dpi=180)
     plt.close(fig)
 
 
@@ -192,6 +214,9 @@ def main():
     parser.add_argument("--no-response", type=Path, required=True)
     parser.add_argument("--window-grid", type=Path, required=True, help="Grid from a training-only fit")
     parser.add_argument("--model", help="Model ID to chart if several are available")
+    parser.add_argument("--resamples",type=int,default=400)
+    parser.add_argument("--seed",type=int,default=355)
+    parser.add_argument("--grid-run",type=Path,help="Training-refit run.json for real model curves")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
     try:
@@ -201,7 +226,9 @@ def main():
                                "No response")
         grid_columns = ["outcome", "model_id", "delay_group", "gap_sec", "p_success", "p_lo", "p_hi"]
         grid = read_csv(args.window_grid, grid_columns, "Window grid")
-        observations, eligible = summarize_pairs(eligible_training(pairs))
+        validate_schema(pairs,"pairs"); validate_geometry(pairs)
+        validate_schema(no_response,"no_response")
+        observations, eligible = summarize_pairs(eligible_training(pairs),args.resamples,args.seed)
         if eligible.empty:
             raise ValueError("No eligible training pairs for the report figure.")
         window, model = prepare_window(grid, eligible, args.model)
@@ -220,12 +247,17 @@ def main():
             evidence = "2018–2023 training races · draft fit"
         else:
             evidence = "2018–2023 training races"
+        if not fixture_pairs and not window.empty:
+            validate_grid_provenance(args.grid_run,args.window_grid,model)
         args.out.mkdir(parents=True, exist_ok=True)
         observations.assign(evidence=evidence).to_csv(args.out/"observed_by_gap.csv", index=False)
         counts.assign(evidence=evidence).to_csv(args.out/"no_response_counts.csv", index=False)
         window.assign(evidence=evidence).to_csv(args.out/"displayed_grid.csv", index=False)
         draw_figure(window, observations, counts, evidence, args.out)
-        print(f"Wrote report panels from {len(eligible)} training pairs to {args.out}.")
+        (args.out/"run.json").write_text(json.dumps(manifest([args.pairs,args.no_response,args.window_grid],
+            split="train",evidence=evidence,model=model,seed=args.seed,resamples=args.resamples,
+            outcome=OUTCOME,no_response_status="pending_denominator"),indent=2)+"\n",encoding="utf-8")
+        print(f"Wrote technical panels from {len(eligible)} training pairs to {args.out}.")
     except (ValueError, OSError) as error:
         parser.exit(2, f"{error}\n")
 
