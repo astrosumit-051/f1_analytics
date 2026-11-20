@@ -80,3 +80,17 @@ Executed test_bootstrap.py: 5 passed. Executed 100 synthetic race refits with se
 355: all 100 succeeded; interval files and failure ledger written. These counts
 are software diagnostics, not historical findings. The approved real model and
 common-lap prediction interface remain missing; real-model validation is blocked.
+
+## #17 integration milestone
+
+Extended existing plot_windows.py; added reusable figures/stats.py whole-race
+rate intervals and numerical tests. Outputs include source tables and run hashes.
+Changed the old figure name to undercut_window to keep technical assets distinct
+from excluded report work. No-response rates stay NA pending shared approval.
+
+Training-only handoffs were selected as strings from PR #32 commit
+ad2b6f1ca201e3c04c31325036ad5d582ba4f3e7 into ignored evaluation/local_inputs.
+Provenance records source SHA-256 and selection. All 4,796 training pairs and 4,129
+training no-response records are available locally. Fake and unmerged real
+training figures generated; the real chart has no supplied common-lap model
+curve and explicitly labels it pending. Production integration remains unapproved.
