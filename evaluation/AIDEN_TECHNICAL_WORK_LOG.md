@@ -106,3 +106,16 @@ cannot be inferred by complementing common_h3; unsupported cases stay unavailabl
 Executed defender tests: 2 passed. Ran the same workflow on unmerged PR #32's
 training handoff successfully. Held-out extension evaluation and final producer
 review are pending. This does not demonstrate causal strategy superiority.
+
+## #20 development milestone
+
+Added neutralisation/analyze.py with SC-only, VSC-only, both, clean-control and
+other-unclean categories, exact-delay timing gains, missingness and whole-race
+intervals. The first-failure exclusion flag cannot certify dry neutralised rows;
+outputs explicitly state dry status unverified rather than silently discarding
+possibly inconvenient observations. Comparison-lap gain is not a common-lap or
+causal strategy effect. Common follow-up is reported separately.
+
+Executed neutralisation tests: 2 passed. Training-only PR #32 workflow generated
+its CSVs and figure. The 2026 procedure is specified but remains locked pending
+#19, the frozen model, explicit transfer authorization and both partners' review.
