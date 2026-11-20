@@ -119,3 +119,25 @@ causal strategy effect. Common follow-up is reported separately.
 Executed neutralisation tests: 2 passed. Training-only PR #32 workflow generated
 its CSVs and figure. The 2026 procedure is specified but remains locked pending
 #19, the frozen model, explicit transfer authorization and both partners' review.
+
+## #21 application milestone
+
+Separated pure CSV/statistical logic into demo/data.R; app.R calls these tested
+functions. Added gap/model/outcome/delay controls, common-lap response overlay,
+interpolated supported probabilities and available intervals, explicit missing
+model messages, crossing status, source fingerprints, deterministic observed
+success/failure examples and CSV export. Synthetic and real evidence cannot mix.
+The app loads selected training strings before parsing outcomes, and never fits.
+
+Executed demo/test_app.R: all assertion groups and Shiny server controls passed.
+Independent Python checks matched R observed counts/rates for all four groups.
+Chrome visually rendered model, delay and examples; selecting another model and
+response changed the probability and table. Detected and fixed locale-corrupted
+Unicode labels. Live app served normally in Chrome.
+
+Process caveat: tests write ALL SHINY CHECKS PASSED but R exits abnormally after
+loading shiny. A minimal base-R q(status=0) exits 0; minimal library(shiny) plus q
+reproduced exit -1073741569. This indicates a local R/package teardown problem,
+not proof of a clean test process. A clean exit on the submission environment is
+still required. Pure calculations and the live server worked; no final production
+integration or browser acceptance on real frozen outputs is claimed.
