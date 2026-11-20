@@ -220,3 +220,28 @@ The CLI push waited on Windows credential manager and was cancelled. Publishing
 uses the already connected GitHub app instead, preserving existing PR heads as
 commit parents and keeping each issue separate. No main push or self-merge is
 performed. Local native commit milestones are retained for rollback.
+
+## Published review handoff
+
+All PRs are drafts; review was requested from astrosumit-051. No issue was closed,
+no work was self-approved or merged, and main was not pushed. Changes are stacked
+for small issue diffs; review/merge dependencies from the bottom upward. Rebase or
+retarget after collaborator merges, without overwriting their work.
+
+| Issue | Pull request | Status |
+| --- | --- | --- |
+| #8 | https://github.com/astrosumit-051/f1_analytics/pull/34 | Conditional shared review; decisions pending |
+| #12 | https://github.com/astrosumit-051/f1_analytics/pull/30 | Harness implemented and fake-tested; review pending |
+| #13 | https://github.com/astrosumit-051/f1_analytics/pull/31 | Stand-in/adapter tested; real model integration pending |
+| #17 | https://github.com/astrosumit-051/f1_analytics/pull/33 | Figures implemented; model and denominator pending |
+| #18 | https://github.com/astrosumit-051/f1_analytics/pull/35 | Training descriptive analysis; held-out approval pending |
+| #20 | https://github.com/astrosumit-051/f1_analytics/pull/36 | SC/VSC development; transfer remains locked |
+| #21 | https://github.com/astrosumit-051/f1_analytics/pull/29 | App controls verified; final model/clean R exit pending |
+| #27 | https://github.com/astrosumit-051/f1_analytics/pull/37 | Synthetic review done; scientific/historical review pending |
+| #19 | https://github.com/astrosumit-051/f1_analytics/pull/38 | Procedure prepared; no real locked run authorized |
+
+The connector-published trees matched the tested local tree hashes. Local branches
+were synchronized after fetch; pre-publication native milestones are retained
+under refs/aiden-native/. The integration checkout is b/19-locked-test-procedure.
+The separate b/8-contract-review branch contains the shared D-008 proposal; it is
+not silently applied to the integration branch or main. No raw data was committed.
