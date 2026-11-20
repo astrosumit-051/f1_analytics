@@ -159,3 +159,89 @@ cross-driver shock dependence, schematic queue/traffic and selected-pace/cycle
 compatibility. None of the simulator is integrated into the primary application.
 Sumit's independent scientific review and both partners' integration decision
 remain pending. Existing published historical numbers were not revalidated.
+
+## #8 and #19 final development milestones
+
+#8 has its own branch with contracts/AIDEN_REVIEW.md and proposed D-008. It
+records Aiden's conditional engineering signoff without accepting decisions on
+Sumit's behalf. No schema/fake data or accepted definitions changed; all four
+contract checks still pass. Traffic projection, common-lap command/grid, median
+profiles, no-response denominator, technology and protected-run governance need
+shared review. Branch protection was not changed or verified.
+
+#19 now has locked_run.py, a disabled authorization example and LOCKED_TEST.md.
+It requires merged origin/main decisions and authorization, both partner names,
+exact model/source/input hashes, an explicit issue number and fixed seed. Execute
+must fetch main. A persistent atomic receipt is written before outcome parsing;
+failed or completed runs cannot be silently repeated. Transfer additionally
+requires the completed committed 2025 receipt and separate #20 authorization.
+There is no model training in this runner and no actual protected run occurred.
+Twelve synthetic governance/single-use tests passed. Actual main preflight refused
+because no accepted freeze exists, before opening any outcome input.
+
+## Integrated verification and remaining acceptance work
+
+Executed python -m pytest evaluation figures analysis/extensions -q: 46 passed.
+R app assertion groups and server tests passed again; process shutdown remains
+abnormal only after loading shiny. A pure-R real-training-handoff check exited 0:
+564 core pairs, 98 races, loading 0.86 s and mean scenario calculation 0.093 s over
+100 refreshes on this machine. No missing model was replaced by a fabricated
+number. Python and R independently matched the four synthetic observed groups.
+
+TRAINING_INTEGRATION.json records unmerged PR #32's primary sample: 473 complete,
+91 missing, 108 successes; common-lap: 449 complete, 115 missing, 103 successes.
+These reproduce the proposal's primary training-success count and demonstrate
+contract compatibility only. They are descriptive observations, not a predictive
+accuracy or causal superiority result. No final model calibration is available.
+
+Reproduce synthetic checks using python evaluation/run_checks.py, optionally
+--rscript /path/to/Rscript. The JSON report distinguishes assertions from process
+exit and returns failure on a crashing R process. Source requirements and app
+launch instructions are in evaluation/README.md and demo/README.md.
+
+Remaining: Sumit must review/merge pair/features, implement #11 and select #14;
+both resolve #8 and the common-lap/bootstrap interface. Then integrate/retest the
+approved model, finalize frozen training-refit bands and crossing intervals,
+authorize #19 and score 2025 once, sign off results, authorize descriptive #20
+transfer and test clean startup/exit on the submission computer. #17's rate is
+blocked by the agreed denominator; #18/#20 final held-out evaluation is pending.
+The code is reviewable development, not a submission-ready or approved model.
+Issues #22/#23, report text, presentation and rehearsal materials were excluded.
+
+Final rerun after provenance guards: all 47 Python tests and all four contract
+checks passed. demo/test_app.R passed its assertions including grid fingerprint
+and protected-split rejection checks, then the Shiny-loaded process returned
+3221225727 (Windows 0xC00000FF). run_checks.py correctly returned failure and saved
+the distinction between assertions and process status. No failure is suppressed.
+The primary curves now require matching training-refit provenance; unknown
+provenance withholds predictions. Mixed no-response/model evidence is rejected.
+
+The CLI push waited on Windows credential manager and was cancelled. Publishing
+uses the already connected GitHub app instead, preserving existing PR heads as
+commit parents and keeping each issue separate. No main push or self-merge is
+performed. Local native commit milestones are retained for rollback.
+
+## Published review handoff
+
+All PRs are drafts; review was requested from astrosumit-051. No issue was closed,
+no work was self-approved or merged, and main was not pushed. Changes are stacked
+for small issue diffs; review/merge dependencies from the bottom upward. Rebase or
+retarget after collaborator merges, without overwriting their work.
+
+| Issue | Pull request | Status |
+| --- | --- | --- |
+| #8 | https://github.com/astrosumit-051/f1_analytics/pull/34 | Conditional shared review; decisions pending |
+| #12 | https://github.com/astrosumit-051/f1_analytics/pull/30 | Harness implemented and fake-tested; review pending |
+| #13 | https://github.com/astrosumit-051/f1_analytics/pull/31 | Stand-in/adapter tested; real model integration pending |
+| #17 | https://github.com/astrosumit-051/f1_analytics/pull/33 | Figures implemented; model and denominator pending |
+| #18 | https://github.com/astrosumit-051/f1_analytics/pull/35 | Training descriptive analysis; held-out approval pending |
+| #20 | https://github.com/astrosumit-051/f1_analytics/pull/36 | SC/VSC development; transfer remains locked |
+| #21 | https://github.com/astrosumit-051/f1_analytics/pull/29 | App controls verified; final model/clean R exit pending |
+| #27 | https://github.com/astrosumit-051/f1_analytics/pull/37 | Synthetic review done; scientific/historical review pending |
+| #19 | https://github.com/astrosumit-051/f1_analytics/pull/38 | Procedure prepared; no real locked run authorized |
+
+The connector-published trees matched the tested local tree hashes. Local branches
+were synchronized after fetch; pre-publication native milestones are retained
+under refs/aiden-native/. The integration checkout is b/19-locked-test-procedure.
+The separate b/8-contract-review branch contains the shared D-008 proposal; it is
+not silently applied to the integration branch or main. No raw data was committed.
