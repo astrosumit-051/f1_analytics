@@ -4,6 +4,10 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import re
+import csv
+import hashlib
+import json
+import platform
 
 import matplotlib
 matplotlib.use("Agg")
@@ -17,6 +21,46 @@ FITTED_ON = {"train": "train", "tune": "train", "test": "train+tune", "transfer"
 YEARS = {"train": range(2018, 2024), "tune": (2024,), "test": (2025,), "transfer": (2026,)}
 
 
+def validate_schema(frame, table):
+    """Validate the selected split only, using the shared schema without editing it."""
+    schema = pd.read_csv(Path(__file__).resolve().parents[1]/"contracts/schema.csv").fillna("")
+    spec = schema.loc[schema.table.eq(table)]
+    require_columns(frame, spec.column, table)
+    if set(frame)-set(spec.column):
+        raise ValueError(f"{table} contains columns outside the shared contract.")
+    for row in spec.itertuples():
+        values = frame[row.column]
+        present = values.dropna()
+        if row.type in ("int","float"):
+            nums = pd.to_numeric(present, errors="raise")
+            if not np.isfinite(nums).all() or (row.type=="int" and (nums%1 != 0).any()):
+                raise ValueError(f"{row.column} needs finite {row.type} values.")
+            match = re.fullmatch(r"(-?\d+(?:\.\d+)?)(?:-|\.\.)(-?\d+(?:\.\d+)?)",row.allowed)
+            if match and not nums.between(float(match[1]),float(match[2])).all():
+                raise ValueError(f"{row.column} outside {row.allowed}.")
+        elif row.type in ("enum","bool01"):
+            if not present.astype(str).isin(row.allowed.split("|")).all():
+                raise ValueError(f"Invalid {row.column} category.")
+        if row.role=="id" and values.isna().any():
+            raise ValueError(f"Missing {row.column} identifier.")
+
+
+def validate_geometry(pairs):
+    """Check agreed clocks/signs without recomputing any outcomes."""
+    for field in ("delay","chaser_stop_lap","leader_stop_lap","ref_lap","comparison_lap","common_lap"):
+        require_columns(pairs,[field],"Pairs")
+    c,l,d = (pd.to_numeric(pairs[x],errors="raise") for x in ("chaser_stop_lap","leader_stop_lap","delay"))
+    if (not d.eq(l-c).all() or not pd.to_numeric(pairs.ref_lap).eq(np.minimum(c,l)-1).all()
+        or not pd.to_numeric(pairs.comparison_lap).eq(np.maximum(c,l)+1).all()
+        or not pd.to_numeric(pairs.common_lap).eq(c+4).all()):
+        raise ValueError("Stop delays or reference/comparison/common laps contradict the contract.")
+    if "success_h0" in pairs and "signed_gap_comparison_sec" in pairs:
+        known = pairs.success_h0.notna() & pairs.signed_gap_comparison_sec.notna()
+        if not pd.to_numeric(pairs.loc[known,"success_h0"]).eq(
+            pd.to_numeric(pairs.loc[known,"signed_gap_comparison_sec"]).lt(0).astype(int)).all():
+            raise ValueError("Immediate success disagrees with signed chaser-minus-leader gap.")
+
+
 def require_columns(frame, required, label):
     missing = set(required) - set(frame.columns)
     if missing:
@@ -24,9 +68,25 @@ def require_columns(frame, required, label):
 
 
 def read_split(path, split):
-    # Parse outcome values only for the requested split.
-    chunks = pd.read_csv(path, dtype=str, chunksize=10000)
-    return pd.concat([chunk.loc[chunk["split"].eq(split)] for chunk in chunks], ignore_index=True)
+    """Select rows as strings before interpreting outcomes. Never parse other splits."""
+    if split not in YEARS:
+        raise ValueError(f"Unsupported split: {split}")
+    with Path(path).open(encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        names = reader.fieldnames or []
+        if "split" not in names or len(names) != len(set(names)):
+            raise ValueError("CSV needs unique headers including split.")
+        rows = []
+        for row in reader:
+            if None in row or None in row.values():
+                raise ValueError("Malformed CSV row length.")
+            if row["split"] not in YEARS:
+                raise ValueError("CSV has an unknown split.")
+            if "year" in row and row["year"] not in {str(y) for y in YEARS[row["split"]]}:
+                raise ValueError("CSV year and split disagree.")
+            if row["split"] == split:
+                rows.append(row)
+    return pd.DataFrame(rows, columns=names).replace({"":np.nan, "NA":np.nan})
 
 
 def frozen_model_ids(path):
@@ -46,6 +106,11 @@ def frozen_model_ids(path):
 
 
 def score(y, probability):
+    y, probability = np.asarray(y, dtype=float), np.asarray(probability, dtype=float)
+    if (y.ndim != 1 or y.shape != probability.shape or not len(y)
+        or not np.isin(y, [0,1]).all() or not np.isfinite(probability).all()
+        or np.any((probability < 0) | (probability > 1))):
+        raise ValueError("Scoring requires equal nonempty binary outcomes and probabilities in [0,1].")
     # Clipping is only for log loss, which would otherwise be infinite at 0 or 1.
     p = np.clip(probability, 1e-15, 1-1e-15)
     return np.mean((probability-y)**2), -np.mean(y*np.log(p)+(1-y)*np.log1p(-p))
@@ -53,9 +118,17 @@ def score(y, probability):
 
 def crossing(gaps, probabilities, threshold):
     """Return a supported downward crossing or explain why it is unavailable."""
+    gaps, probabilities = np.asarray(gaps, dtype=float), np.asarray(probabilities, dtype=float)
+    if (gaps.shape != probabilities.shape or gaps.ndim != 1
+        or not np.isfinite(gaps).all() or not np.isfinite(probabilities).all()
+        or np.any(np.diff(gaps) <= 0) or not 0 < threshold < 1
+        or np.any((probabilities<0) | (probabilities>1))):
+        raise ValueError("Crossings need ordered unique gaps and finite probabilities.")
     if len(gaps) < 2:
         return np.nan, "insufficient_grid"
     hits = []
+    if np.all(probabilities == threshold):
+        return np.nan, "flat_at_threshold"
     for index in range(len(gaps)-1):
         left, right = probabilities[index:index+2]
         if left >= threshold > right:
@@ -70,9 +143,12 @@ def crossing(gaps, probabilities, threshold):
 
 
 def prepare_scores(pairs, predictions, baseline_id, split):
-    require_columns(pairs, ["battle_id", "event_id", "year", "in_core"], "Pairs")
+    require_columns(pairs, ["battle_id", "event_id", "year", "split", "in_core", "gap_before_sec"], "Pairs")
     require_columns(predictions, ["battle_id", "model_id", "fitted_on", "outcome", "p_success"],
                     "Predictions")
+    require_columns(predictions, ["split"], "Predictions")
+    if not pairs["split"].eq(split).all() or not predictions["split"].eq(split).all():
+        raise ValueError("Filter to one requested split before scoring.")
     if pairs.empty or predictions.empty:
         raise ValueError(f"No pairs or predictions for split {split}.")
     if pairs["battle_id"].isna().any() or pairs["battle_id"].duplicated().any():
@@ -96,6 +172,12 @@ def prepare_scores(pairs, predictions, baseline_id, split):
     if not predictions["battle_id"].isin(pairs["battle_id"]).all():
         raise ValueError("Some predictions refer to battles outside the requested pairs split.")
     core = pairs.loc[pairs["in_core"].eq("1")]
+    gaps = pd.to_numeric(core["gap_before_sec"], errors="raise")
+    if not ((gaps > 0) & (gaps <= 6)).all():
+        raise ValueError("Core starting gaps must be positive and at most six seconds.")
+    for column, value in (("clean_window","1"),("teammates","0")):
+        if column in core and not core[column].eq(value).all():
+            raise ValueError(f"Core cohort contradicts {column}.")
     for outcome, rows in predictions.groupby("outcome", sort=True):
         require_columns(core, [outcome], "Pairs")
         if baseline_id not in set(rows["model_id"]):
@@ -131,11 +213,26 @@ def evaluate(pairs, predictions, baseline_id, split):
                             "log_loss_minus_baseline": log_loss-reference[1]})
             check = pd.DataFrame({"p": p, "y": y, "race": scored["event_id"].to_numpy()})
             check["bin"] = pd.cut(p, np.linspace(0, 1, 6), include_lowest=True, labels=False) + 1
+            bins = check.groupby("bin").agg(n=("y","size"), p=("p","mean"), y=("y","mean"))
+            metrics[-1].update(mean_prediction=float(p.mean()), observed_rate=float(y.mean()),
+                               calibration_bias=float(p.mean()-y.mean()),
+                               ece_5_bins=float((bins.n * abs(bins.p-bins.y)).sum()/len(check)),
+                               evaluation_status="in_sample" if split=="train" else "held_out")
             for bin_id, rows in check.groupby("bin"):
                 calibration.append({"outcome": outcome, "model_id": model, "bin": bin_id,
                                     "n": len(rows), "races": rows["race"].nunique(),
                                     "mean_prediction": rows.p.mean(), "observed_rate": rows.y.mean()})
     return pd.DataFrame(metrics), pd.DataFrame(calibration)
+
+
+def fingerprint(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def manifest(paths, **metadata):
+    return {"inputs_sha256":{str(p):fingerprint(p) for p in paths if p is not None},
+            "python":platform.python_version(), "numpy":np.__version__,
+            "pandas":pd.__version__, **metadata}
 
 
 def supported_grid(grid, pairs):
@@ -189,6 +286,7 @@ def parser():
     cli.add_argument("--window-grid", type=Path)
     cli.add_argument("--baseline", default="baseline_gap_v1")
     cli.add_argument("--split", choices=FITTED_ON, default="train")
+    cli.add_argument("--holdout-issue", type=int, help="14 authorizes tuning in the labelled model-selection issue")
     cli.add_argument("--decisions", type=Path, default=root/"DECISIONS.md")
     cli.add_argument("--out", type=Path, required=True)
     return cli
@@ -198,11 +296,18 @@ def main():
     cli = parser()
     args = cli.parse_args()
     try:
+        if args.split in ("test", "transfer"):
+            raise ValueError("Protected split: use the separately authorized locked-test/transfer runner; no input opened.")
+        if args.split == "tune" and args.holdout_issue != 14:
+            raise ValueError("Tuning outcomes require --holdout-issue 14; no input opened.")
         frozen = frozen_model_ids(args.decisions) if args.split == "test" else None
         pred = read_split(args.predictions, args.split)
         if frozen is not None and not set(pred["model_id"]).issubset(frozen):
             raise ValueError("A test prediction model_id is absent from the accepted freeze.")
         pairs = read_split(args.pairs, args.split)
+        validate_schema(pairs,"pairs")
+        validate_geometry(pairs)
+        validate_schema(pred,"predictions")
         metrics, calibration = evaluate(pairs, pred, args.baseline, args.split)
         evidence = "synthetic contract fixture" if (
             pairs["battle_id"].str.contains("fake_", case=False).any()
@@ -220,9 +325,16 @@ def main():
         args.out.mkdir(parents=True, exist_ok=True)
         metrics.assign(evidence=evidence).to_csv(args.out/"metrics.csv", index=False)
         calibration.assign(evidence=evidence).to_csv(args.out/"calibration.csv", index=False)
+        if "exclusion_reason" in pairs:
+            pairs.groupby(["in_core","exclusion_reason"],dropna=False).size().rename("pairs").reset_index().to_csv(
+                args.out/"cohort_counts.csv",index=False)
         write_calibration(calibration, args.out/"calibration.png", evidence)
         if args.window_grid:
             pd.DataFrame(crossings).assign(evidence=evidence).to_csv(args.out/"crossings.csv", index=False)
+        (args.out/"run.json").write_text(json.dumps(manifest(
+            [args.pairs,args.predictions,args.window_grid], split=args.split,
+            evidence=evidence, baseline=args.baseline, holdout_issue=args.holdout_issue,
+            log_loss_clip=1e-15, calibration_bins=5), indent=2)+"\n", encoding="utf-8")
     except (ValueError, KeyError, OSError) as error:
         cli.exit(2, f"{error}\n")
 
