@@ -141,3 +141,21 @@ reproduced exit -1073741569. This indicates a local R/package teardown problem,
 not proof of a clean test process. A clean exit on the submission environment is
 still required. Pure calculations and the live server worked; no final production
 integration or browser acceptance on real frozen outputs is claimed.
+
+## #27 review milestone
+
+Reviewed PR #26 at 76929e3c1720d337dcf54fa148a5d0ebbcf75a93 in a separate ignored
+code-only checkout. Reproduced scripts/run_analysis.R --synthetic: 12 supplied
+check groups passed, process exit 0. evaluation/review_companion.R added five
+independent invariant groups: all 17 total groups passed, process exit 0.
+The optional --shiny review built a NEW labelled synthetic bundle in that ignored
+checkout and verified exact offline/Shiny table equality and Compare gating.
+Assertions and saved marker pass; Shiny-loaded process again exits abnormally.
+
+Did not run the unrestricted historical build or tests/check_integration.R because
+they read 2025+ outcomes/bundles. Documented in COMPANION_REVIEW.md: realized-set
+conditional factual evaluation, narrow cohort, provisional calibration, missing
+cross-driver shock dependence, schematic queue/traffic and selected-pace/cycle
+compatibility. None of the simulator is integrated into the primary application.
+Sumit's independent scientific review and both partners' integration decision
+remain pending. Existing published historical numbers were not revalidated.
