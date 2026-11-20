@@ -32,7 +32,8 @@ make_ui <- function(data) {
     sliderInput("gap","Starting gap (seconds)",min=.1,max=6,value=2,step=.1),
     checkboxInput("compare_delays","Overlay both response groups",TRUE),
     p(class="note","The curve is conditional on the rival stopping within three laps. Other model features are held at the supplied training profile. No user input changes the model or outcome definition."),
-    downloadButton("download","Download displayed grid")),
+    downloadButton("download","Download displayed grid"),
+    if(Sys.getenv("F1_LOCAL_LAUNCH")=="1") actionButton("stop_local","Stop local app")),
   mainPanel(width=9,
     div(class="panelview",h3("Model probability"),div(class="probability",textOutput("probability")),
       textOutput("uncertainty"),p(class="note",textOutput("calculation_status"))),
@@ -56,6 +57,7 @@ make_ui <- function(data) {
 }
 
 make_server <- function(data) function(input,output,session) {
+  if(Sys.getenv("F1_LOCAL_LAUNCH")=="1") observeEvent(input$stop_local, { stopApp() },ignoreInit=TRUE)
   if(!is.null(data$error)) return(invisible(NULL))
   snapshot <- reactive({req(input$model,input$outcome,input$delay,input$gap)
     scenario_snapshot(data,input$model,input$outcome,input$delay,input$gap)})
