@@ -1,0 +1,143 @@
+# Aiden technical work log
+
+Internal engineering record, started November 19, 2026. No report or presentation
+work is included. Scientific conclusions may contradict the hypothesis.
+
+## Repository assessment
+
+Base: main `4980df7a56666951d1c9fd7fa2dfc7ceb77bccdf`. The original local folder is
+not a Git checkout. Work takes place in the separate `aiden_work/` clone; existing
+files, raw data and another contributor's branches are preserved.
+
+Read: README, CONTRIBUTING, CLAUDE, DECISIONS, contracts README/schema/checker/fake
+generator, revised proposal revision 3, coverage audit, issues #8–#24/#27 and
+PR #26. Open drafts #29/#30/#31/#33 already implement parts of #21/#12/#13/#17;
+extend these rather than duplicate them. PR #28/#32 hold unmerged real pairs and
+features. Main has no production model or handoff files.
+
+The accepted split is train 2018–2023, tune 2024, locked test 2025, descriptive
+transfer 2026. No freeze or #19 execution authorization is recorded. Do not run
+the companion's historical build: its default procedure evaluates 2025 onward.
+Protected outcome values will not be inspected or used to debug.
+
+## Initial assumptions and unresolved decisions
+
+- D-004/005/006/007 are proposed on main. Build on the current CSV contract without
+  declaring it accepted. R Shiny remains a provisional implementation choice until
+  shared technology approval; no alternative modelling pipeline will be built.
+- Rejoin traffic in main is observed after the decision despite its feature role.
+  PR #32 proposes a decision-time projection. Aiden must review, not silently adopt
+  a different scientific definition. Sumit retains ownership of features/models.
+- No-response lacks an agreed eligible-opportunity denominator; show counts and an
+  unavailable rate until the shared definition is approved. Missing outcomes are
+  never converted to losses, defender successes, or no-response failures.
+- Whole-race uncertainty preserves repeated stops/pairs. Synthetic software checks
+  do not establish historical accuracy, calibration, or submission readiness.
+
+## Work in progress
+
+- #12: harden the existing evaluator, add independent numerical/schema/holdout
+  regression tests and reproducibility metadata.
+- #13/#17/#18/#20/#21/#27/#19: assessment complete; implement eligible work in
+  separate issue branches. Real model integration, frozen evaluation and approvals
+  remain pending. No issue is declared complete merely because code exists.
+
+## Reproduction environment
+
+Python 3.13.5 from the existing Anaconda install has numpy, pandas, scipy,
+matplotlib and pytest. Use `python -m pip install -r evaluation/requirements.txt`
+in a clean Python environment. R 4.6.1 is installed under Program Files (x86);
+the user library contains shiny and data.table but requires R_LIBS_USER in this
+sandbox. Commands and results will be recorded as they are actually executed.
+
+## #12 verified milestone
+
+Extended `evaluation/evaluate.py` instead of replacing it. Added selected-split
+schema and geometry checks, finite probability checks, explicit holdout guards,
+calibration bias/ECE, cohort counts and SHA-256 run metadata. Added pinned major
+dependency ranges, README and `test_evaluate.py`.
+
+Executed `python contracts/check_contract.py --fake`: all four tables pass.
+Executed `python -m pytest evaluation/test_evaluate.py -q`: 22 passed.
+Executed the fake CLI command in README: metrics, calibration PNG/CSV, crossings,
+cohort counts and run metadata generated successfully. `git diff --check` passes.
+These are synthetic checks only. Real final-model scoring is pending #11/#14.
+
+The old CLI could repeatedly score test after a permissively parsed freeze note.
+Selected solution: block direct test/transfer invocation before file access and
+prepare separate reviewed runners in #19/#20. Tuning is explicit in #14 only.
+This is stricter execution control, not a change to the accepted season split.
+
+## #13 verified milestone
+
+Extended bootstrap.py with a subprocess adapter for the published four-argument
+entry point, independent race-copy IDs, fitting-failure records and paired fixed-
+prediction metric intervals. Stand-ins now refuse unlabelled historical data.
+The default common-lap outcome remains separate from pair-specific success_h3.
+BOOTSTRAP.md explains conditional crossings, pointwise bands and OOB variability.
+
+Executed test_bootstrap.py: 5 passed. Executed 100 synthetic race refits with seed
+355: all 100 succeeded; interval files and failure ledger written. These counts
+are software diagnostics, not historical findings. The approved real model and
+common-lap prediction interface remain missing; real-model validation is blocked.
+
+## #17 integration milestone
+
+Extended existing plot_windows.py; added reusable figures/stats.py whole-race
+rate intervals and numerical tests. Outputs include source tables and run hashes.
+Changed the old figure name to undercut_window to keep technical assets distinct
+from excluded report work. No-response rates stay NA pending shared approval.
+
+Training-only handoffs were selected as strings from PR #32 commit
+ad2b6f1ca201e3c04c31325036ad5d582ba4f3e7 into ignored evaluation/local_inputs.
+Provenance records source SHA-256 and selection. All 4,796 training pairs and 4,129
+training no-response records are available locally. Fake and unmerged real
+training figures generated; the real chart has no supplied common-lap model
+curve and explicitly labels it pending. Production integration remains unapproved.
+
+## #18 verified milestone
+
+Implemented analysis/extensions/defender/analyze.py and README with exact delays,
+common-lap outcomes, whole-race intervals and exact overlap on gap band, tyre-age
+difference and season. Every result is descriptive with counts and missingness.
+The defender point-in-time event complements common_h0 only. Sustained defence
+cannot be inferred by complementing common_h3; unsupported cases stay unavailable.
+
+Executed defender tests: 2 passed. Ran the same workflow on unmerged PR #32's
+training handoff successfully. Held-out extension evaluation and final producer
+review are pending. This does not demonstrate causal strategy superiority.
+
+## #20 development milestone
+
+Added neutralisation/analyze.py with SC-only, VSC-only, both, clean-control and
+other-unclean categories, exact-delay timing gains, missingness and whole-race
+intervals. The first-failure exclusion flag cannot certify dry neutralised rows;
+outputs explicitly state dry status unverified rather than silently discarding
+possibly inconvenient observations. Comparison-lap gain is not a common-lap or
+causal strategy effect. Common follow-up is reported separately.
+
+Executed neutralisation tests: 2 passed. Training-only PR #32 workflow generated
+its CSVs and figure. The 2026 procedure is specified but remains locked pending
+#19, the frozen model, explicit transfer authorization and both partners' review.
+
+## #21 application milestone
+
+Separated pure CSV/statistical logic into demo/data.R; app.R calls these tested
+functions. Added gap/model/outcome/delay controls, common-lap response overlay,
+interpolated supported probabilities and available intervals, explicit missing
+model messages, crossing status, source fingerprints, deterministic observed
+success/failure examples and CSV export. Synthetic and real evidence cannot mix.
+The app loads selected training strings before parsing outcomes, and never fits.
+
+Executed demo/test_app.R: all assertion groups and Shiny server controls passed.
+Independent Python checks matched R observed counts/rates for all four groups.
+Chrome visually rendered model, delay and examples; selecting another model and
+response changed the probability and table. Detected and fixed locale-corrupted
+Unicode labels. Live app served normally in Chrome.
+
+Process caveat: tests write ALL SHINY CHECKS PASSED but R exits abnormally after
+loading shiny. A minimal base-R q(status=0) exits 0; minimal library(shiny) plus q
+reproduced exit -1073741569. This indicates a local R/package teardown problem,
+not proof of a clean test process. A clean exit on the submission environment is
+still required. Pure calculations and the live server worked; no final production
+integration or browser acceptance on real frozen outputs is claimed.
