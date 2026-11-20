@@ -87,19 +87,22 @@ add a new one that says which entry it supersedes, and change the old one's stat
   the raw snapshot.
 - Affects: `data/derived/`, `.gitignore`.
 
-## D-006  How rejoin traffic is measured (open)
+## D-006  How rejoin traffic is measured
 - Date: 2026-11-19
-- Status: proposed
-- Decided by: to decide in the contracts issue
-- Issue or PR: contracts issue
-- Decision: v1 measures `rejoin_traffic_cars` as cars within 2 s ahead of the first
-  stopper at the end of their out-lap, as the coverage audit did. That is observed
-  after the stop, so it is a proxy. The alternative is a decision-time projection:
-  cars that would be within 2 s ahead after subtracting the circuit's pit-lane median
-  from the first stopper's time at `ref_lap`.
+- Status: accepted
+- Decided by: Sumit, Aiden
+- Issue or PR: #8, #10
+- Decision: `rejoin_traffic_cars` is projected at decision time: the cars, rival
+  excluded, whose next line crossing after the first stopper's crossing at the end of
+  `ref_lap` (their last crossing plus their last lap time) falls between P - 2 s and
+  P s later, where P is `circuit_pitlane_median_sec`. Those are the cars that would be
+  up to 2 s ahead after the stop. The audit's measure (cars within 2 s ahead at the
+  end of the out-lap) is observed after the stop and is no longer used as a feature.
 - Why: a feature that is only known after the stop can make the window look better
-  than a pit wall could use.
-- Affects: `pairs.rejoin_traffic_cars`, issue A2.
+  than a pit wall could use. On the 922 core pairs the two measures agree in 61% of
+  rows (correlation 0.15), so the choice matters.
+- Affects: `contracts/schema.csv` (`pairs.rejoin_traffic_cars` description),
+  `pipeline/features.py`, issue A2 (#10).
 
 ## D-007  Language for models and demo (open)
 - Date: 2026-11-19

@@ -89,8 +89,8 @@ Counting rows by split is fine.
 The model may only use columns with role `feature` in `schema.csv`. Columns with role
 `extension` (pit-lane time actually taken, compound fitted) happen after the decision
 and are used only in extensions 1 to 3. Circuit-level features (pit-lane median and
-overtaking difficulty) are computed from training seasons only. See `DECISIONS.md`
-D-006 on how rejoin traffic is measured.
+overtaking difficulty) are computed from training seasons only. Rejoin traffic is projected
+at `ref_lap` from the circuit's pit-lane median (`DECISIONS.md` D-006).
 
 ## Fit and predict entry point
 
