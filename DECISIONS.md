@@ -113,3 +113,21 @@ add a new one that says which entry it supersedes, and change the old one's stat
 - Why: the handoff contracts are plain CSV plus one command, so either language works,
   but each partner's code should use one.
 - Affects: `models/`, `demo/`, `requirements.txt` or `renv.lock`.
+
+## D-008  Aiden implementation review and remaining contract decisions
+- Date: 2026-11-19
+- Status: proposed
+- Decided by: Aiden implementation review; Sumit's shared approval pending
+- Issue or PR: #8
+- Decision: Keep v1 unchanged during development. Aiden has verified that the four
+  tables support primary evaluation, observed common-lap comparisons and the local
+  application. This is conditional engineering signoff, not acceptance by both
+  partners of D-004 through D-007. Resolve the items in contracts/AIDEN_REVIEW.md
+  before production integration or declaring the contracts frozen.
+- Why: Independent implementation found that the public command promises only
+  success_h3 while response curves need success_common_h3, no-response rates lack
+  an agreed denominator, and observed rejoin traffic cannot be a live feature.
+- Affects: #8, #11, #13, #17, #19, #20, #21. Proposed implementation choices are
+  Python evaluation/figures with an R Shiny CSV-only app; a model-owned common-lap
+  prediction/grid interface; merged model/input hashes and both signoffs before
+  one locked evaluation. None is silently marked accepted by this entry.
