@@ -1,0 +1,12 @@
+{
+  "rule": "see models/tune.py docstring",
+  "qualifying_terms": [
+    "recent_pace_diff_sec",
+    "track_temp_c"
+  ],
+  "chosen_primary": "primary_combined_v1",
+  "final_model": "primary_combined_v1",
+  "outcome": "success_h3",
+  "tune_pairs": 139,
+  "tune_races": 18
+}

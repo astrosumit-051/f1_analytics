@@ -35,3 +35,10 @@ fitted on, so the race bootstrap can refit on any resample.
 `build_outputs.py` writes both `success_h3` (primary) and `success_common_h3`
 (common-lap curves), for train and tune rows. It never predicts test or transfer
 rows and never prints a score; scoring tune rows belongs to A4 (#14).
+
+## Model selection on 2024 (A4, #14)
+
+`python models/tune.py` (holdout issue only) fits every candidate on train, scores the
+2024 core rows and applies the rule in its docstring. Outputs: `output/tuning/`. The
+choice is `final_v1` (D-010): `primary_v1` plus `recent_pace_diff_sec` and
+`track_temp_c`. `pipeline/candidates.py <data> --write-pairs` builds both columns.

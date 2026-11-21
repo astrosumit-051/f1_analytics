@@ -31,6 +31,8 @@ pairs,rejoin_traffic_cars,int,cars,0-19,feature,"Cars (rival excluded) projected
 pairs,overtaking_difficulty,float,passes per car-lap,0-1,feature,"Green-flag on-track position changes per car-lap at the circuit, excluding pit in and out laps, from training seasons only."
 pairs,overtaking_imputed,bool01,,0|1,feature,1 if the circuit has no training-season races and overtaking_difficulty is the training-season median over all circuits.
 pairs,era,enum,,pre2022|post2022,feature,Car regulation era. post2022 covers 2022 onwards.
+pairs,recent_pace_diff_sec,float,s,-20-20,feature,"Chaser minus leader median lap time over laps ref_lap-2..ref_lap, green accurate undeleted non-pit laps only; NA unless both have 2 such laps. Positive: the chaser has been slower. See DECISIONS D-010."
+pairs,track_temp_c,float,deg C,0-70,feature,Track temperature on the chaser's ref_lap (TrackTemp; the archived observation when missing). See DECISIONS D-010.
 pairs,first_stopper_pitlane_sec,float,s,10-60,extension,Pit-lane time of whichever driver stopped first (extension 1). Measured after the decision.
 pairs,first_stopper_pitlane_excess_sec,float,s,,extension,first_stopper_pitlane_sec minus the race median pit-lane time (extension 1).
 pairs,chaser_new_compound_role,enum,,softest|middle|hardest|softer|harder|only|non_dry,extension,Compound fitted by the chaser relative to the compounds used at that event (extension 3).

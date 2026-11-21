@@ -33,7 +33,7 @@ def grid_profile(train_core: pd.DataFrame, gaps: np.ndarray, delay_group: str) -
     """Gap grid with every other feature at its training-season median (core rows)."""
     prof = pd.DataFrame({"gap_before_sec": gaps, "delay_group": delay_group})
     for col in ("tyre_age_diff", "circuit_pitlane_median_sec", "rejoin_traffic_cars",
-                "cars_between_at_ref", "overtaking_difficulty"):
+                "cars_between_at_ref", "overtaking_difficulty", "recent_pace_diff_sec", "track_temp_c"):
         prof[col] = pd.to_numeric(train_core[col], errors="coerce").median()
     prof["era"] = train_core["era"].mode().iloc[0]
     return prof
@@ -43,7 +43,7 @@ def main(argv=None):
     cli = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     cli.add_argument("--pairs", type=Path, default=ROOT / "data/derived/pairs.csv")
     cli.add_argument("--out", type=Path, default=ROOT / "data/derived")
-    cli.add_argument("--models", nargs="+", default=["baseline_gap_v1", "primary_v1"])
+    cli.add_argument("--models", nargs="+", default=["baseline_gap_v1", "primary_v1", "final_v1"])
     cli.add_argument("--fit-splits", nargs="+", default=["train"], choices=["train", "tune"])
     cli.add_argument("--predict-splits", nargs="+", default=["train", "tune"], choices=["train", "tune"])
     cli.add_argument("--diag", type=Path, default=HERE / "output")

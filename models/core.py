@@ -97,6 +97,36 @@ SPECS: dict[str, Spec] = {
     ),
 }
 
+# A4 (#14) candidates: one extra term each on top of primary_v1. Pace and temperature
+# come from data/derived/tuning_candidates.csv (pipeline/candidates.py), merged in by
+# models/tune.py; they are not in the pairs contract unless selected.
+CANDIDATES = {
+    "primary_era_v1": ("era", None),
+    "primary_pace_v1": ("numeric", "recent_pace_diff_sec"),
+    "primary_temp_v1": ("numeric", "track_temp_c"),
+}
+for _mid, (_kind, _col) in CANDIDATES.items():
+    _base = SPECS["primary_v1"]
+    SPECS[_mid] = Spec(
+        _mid,
+        numeric=_base.numeric + ((_col,) if _col else ()),
+        delay_terms=True,
+        era=_kind == "era",
+        random_intercept=True,
+        description=f"primary_v1 plus {_col or 'a post-2022 era indicator'} (A4 candidate).",
+    )
+
+# A4 (#14) choice, DECISIONS D-010: primary_v1 plus recent pace difference and track
+# temperature (the same terms as primary_combined_v1 in models/output/tuning).
+SPECS["final_v1"] = Spec(
+    "final_v1",
+    numeric=PRIMARY_FEATURES + ("recent_pace_diff_sec", "track_temp_c"),
+    delay_terms=True,
+    random_intercept=True,
+    description="primary_v1 plus recent pace difference and track temperature (A4 choice, D-010). "
+                "13 fixed effects + race SD.",
+)
+
 
 # --------------------------------------------------------------------------- design
 @dataclass
