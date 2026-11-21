@@ -1,0 +1,11 @@
+delay_group,excess_band,pairs,successes,rate,status
+d1,<=0 s,145,32.0,0.2207,"descriptive, training seasons 2018-2023"
+d1,0-1 s,89,13.0,0.1461,"descriptive, training seasons 2018-2023"
+d1,1-2 s,13,3.0,0.2308,"descriptive, training seasons 2018-2023"
+d1,2-5 s,17,1.0,0.0588,"descriptive, training seasons 2018-2023"
+d1,>5 s,5,0.0,0.0,"descriptive, training seasons 2018-2023"
+d23,<=0 s,98,38.0,0.3878,"descriptive, training seasons 2018-2023"
+d23,0-1 s,65,19.0,0.2923,"descriptive, training seasons 2018-2023"
+d23,1-2 s,13,2.0,0.1538,"descriptive, training seasons 2018-2023"
+d23,2-5 s,14,0.0,0.0,"descriptive, training seasons 2018-2023"
+d23,>5 s,14,0.0,0.0,"descriptive, training seasons 2018-2023"
