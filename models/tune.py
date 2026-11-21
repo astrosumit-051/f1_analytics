@@ -44,6 +44,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 from core import CANDIDATES, SPECS, fit  # noqa: E402
+from data import load_pairs  # noqa: E402
 
 OUTCOME = "success_h3"
 ORDER = ["baseline_gap_v1", "primary_v1", *CANDIDATES]
@@ -77,9 +78,7 @@ def main(argv=None):
     cli.add_argument("--out", type=Path, default=HERE / "output/tuning")
     a = cli.parse_args(argv)
 
-    pairs = pd.read_csv(a.pairs, dtype={"battle_id": str, "event_id": str})
-    pairs = pairs[pairs.split.isin(["train", "tune"])]            # test/transfer never loaded further
-    pairs = pairs.merge(pd.read_csv(a.candidates, dtype={"battle_id": str}), on="battle_id", how="left")
+    pairs = load_pairs(a.pairs, splits=("train", "tune"), candidates=a.candidates)  # never test/transfer
     core = pairs[pairs.in_core.eq(1)]
     train, tune = core[core.split.eq("train")], core[core.split.eq("tune")]
     scored = tune.dropna(subset=[OUTCOME]).copy()

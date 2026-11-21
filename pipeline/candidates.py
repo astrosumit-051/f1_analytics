@@ -14,9 +14,9 @@ proposal says enter the model only if they improve the 2024 tuning results:
 - track_temp_c: track temperature on the chaser's ref_lap (TrackTemp; the archived
   observation when TrackTemp is missing).
 
-Both are known at the end of ref_lap. This file is an internal Partner A table for
-model selection, not a handoff contract: if a candidate is selected, it moves into
-`pairs` through a DECISIONS entry. Reads no outcome column.
+Both are known at the end of ref_lap. Both were selected on 2024 (A4, #14), so
+--write-pairs also writes them into `pairs` (contract columns since DECISIONS D-010).
+Reads no outcome column.
 """
 from __future__ import annotations
 
@@ -38,6 +38,8 @@ def main(argv=None):
     cli.add_argument("data", type=Path)
     cli.add_argument("--pairs", type=Path, default=ROOT / "data/derived/pairs.csv")
     cli.add_argument("--out", type=Path, default=ROOT / "data/derived/tuning_candidates.csv")
+    cli.add_argument("--write-pairs", action="store_true",
+                     help="also write both columns into pairs.csv in contract order (D-010)")
     a = cli.parse_args(argv)
 
     laps = pd.read_csv(a.data / "all_laps_enriched.csv", usecols=COLS, dtype={"TrackStatus": str, "DriverId": str},
@@ -68,6 +70,14 @@ def main(argv=None):
     out = pd.DataFrame(rows, columns=["battle_id", "recent_pace_diff_sec", "track_temp_c"])
     out.to_csv(a.out, index=False, na_rep="NA")
     print(f"wrote {len(out)} rows to {a.out}")
+    if a.write_pairs:
+        import sys
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from build_pairs import to_contract
+        full = pd.read_csv(a.pairs, dtype={"battle_id": str}, keep_default_na=True)
+        full = full.drop(columns=[c for c in out.columns[1:] if c in full.columns]).merge(out, on="battle_id", how="left")
+        to_contract(full, "pairs").to_csv(a.pairs, index=False, na_rep="NA")
+        print(f"wrote recent_pace_diff_sec and track_temp_c into {a.pairs}")
     print("missing share:", out[["recent_pace_diff_sec", "track_temp_c"]].isna().mean().round(3).to_dict())
 
 

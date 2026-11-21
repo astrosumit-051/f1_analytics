@@ -110,6 +110,11 @@ def main() -> None:
                         leader_no_further_stop=int(nostop),
                     ))
     pairs = pd.DataFrame(rows)
+    # D-010 columns, from a separate stream so the rest of the sample is unchanged.
+    extra = np.random.default_rng(SEED + 10)
+    pairs["recent_pace_diff_sec"] = np.round(extra.normal(0.2, 0.5, len(pairs)), 3)
+    pairs.loc[extra.random(len(pairs)) < 0.03, "recent_pace_diff_sec"] = np.nan
+    pairs["track_temp_c"] = np.round(extra.uniform(16, 55, len(pairs)), 1)
 
     preds = []
     core = pairs[pairs["in_core"].eq(1)]
@@ -133,7 +138,8 @@ def main() -> None:
                                  p_success=round(p, 4), p_lo="NA", p_hi="NA"))
 
     OUT.mkdir(exist_ok=True)
-    pairs.to_csv(OUT / "pairs_fake.csv", index=False)
+    order = pd.read_csv(Path(__file__).resolve().parent / "schema.csv").query("table == 'pairs'")["column"]
+    pairs[list(order)].to_csv(OUT / "pairs_fake.csv", index=False)
     pd.DataFrame(nr).to_csv(OUT / "no_response_fake.csv", index=False)
     preds.to_csv(OUT / "predictions_fake.csv", index=False)
     pd.DataFrame(grid).to_csv(OUT / "window_grid_fake.csv", index=False)

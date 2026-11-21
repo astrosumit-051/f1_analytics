@@ -136,3 +136,26 @@ add a new one that says which entry it supersedes, and change the old one's stat
   108 sustained successes in training support about 10 parameters.
 - Affects: `models/fit_predict.py`, `contracts/README.md` (entry point section),
   `evaluation/bootstrap.py` command adapter (Aiden: it can now pass `--outcome`).
+
+## D-010  Final model chosen on 2024; pace and temperature join the pairs contract
+- Date: 2026-11-21
+- Status: proposed (Sumit chose the model; Aiden to review the contract change)
+- Decided by: Sumit; Aiden to review
+- Issue or PR: #14
+- Decision: The final model is `final_v1`: `primary_v1` plus recent pace difference
+  and track temperature, 13 fixed effects plus the race SD, chosen by the selection
+  rule in `models/tune.py`, which was committed before any 2024 outcome was scored.
+  Two `pairs` columns are added with role `feature`: `recent_pace_diff_sec` and
+  `track_temp_c` (definitions in `contracts/schema.csv`, built by
+  `pipeline/candidates.py`). The era term is not used.
+- Why: on the 2024 core pairs with a complete 3-lap outcome (139 pairs, 18 races),
+  tune log loss was 0.470 for the gap-only baseline, 0.422 for `primary_v1`, 0.415
+  with pace, 0.417 with temperature, 0.426 with era, and 0.411 with pace and
+  temperature together. Brier fell the same way (0.150, 0.136, 0.129 combined). The
+  primary-minus-baseline interval excludes zero; the pace/temperature gains are
+  within race-bootstrap noise but met the rule fixed in advance
+  (`models/output/tuning/`). Adding teammate pairs to the fit barely changes the
+  coefficients or the tune score.
+- Affects: `contracts/schema.csv`, `contracts/fake/`, `data/derived/pairs.csv`,
+  `models/`, the freeze and locked test (#19). The model exceeds the proposal's
+  "about 10 parameters"; that is stated as a limitation.

@@ -116,6 +116,17 @@ for _mid, (_kind, _col) in CANDIDATES.items():
         description=f"primary_v1 plus {_col or 'a post-2022 era indicator'} (A4 candidate).",
     )
 
+# A4 (#14) choice, DECISIONS D-010: primary_v1 plus recent pace difference and track
+# temperature (the same terms as primary_combined_v1 in models/output/tuning).
+SPECS["final_v1"] = Spec(
+    "final_v1",
+    numeric=PRIMARY_FEATURES + ("recent_pace_diff_sec", "track_temp_c"),
+    delay_terms=True,
+    random_intercept=True,
+    description="primary_v1 plus recent pace difference and track temperature (A4 choice, D-010). "
+                "13 fixed effects + race SD.",
+)
+
 
 # --------------------------------------------------------------------------- design
 @dataclass
