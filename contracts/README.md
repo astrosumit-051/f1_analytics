@@ -102,6 +102,9 @@ provides one command:
 ```
 
 It fits `model_id` on the `in_core = 1` rows of `--train`, predicts `success_h3` for
-the `in_core = 1` rows of `--predict`, and writes a `predictions` file. A also writes
+the `in_core = 1` rows of `--predict`, and writes a `predictions` file. An optional
+`--outcome success_common_h3` (or `success_h0`, `success_h5`) fits and predicts that
+outcome instead (`DECISIONS.md` D-009). The command is
+`python models/fit_predict.py`. A also writes
 `window_grid` for each model. B fills `p_lo` and `p_hi` from the race bootstrap. The
 language is decided in D-007; the command shape stays the same either way.
