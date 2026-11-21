@@ -151,7 +151,7 @@ def command_adapter(command, outcome, timeout=120):
         # Keep exactly the public pairs columns. Repeated races are independent
         # random-intercept groups; duplicate battle identifiers are also renamed.
         train=train.drop(columns=["bootstrap_race_id"],errors="ignore")
-        profiles=pd.concat([training.iloc[[0]].copy() for _ in range(len(grid))],ignore_index=True)
+        profiles=pd.concat([train.iloc[[0]].copy() for _ in range(len(grid))],ignore_index=True)
         schema=pd.read_csv(Path(__file__).resolve().parents[1]/"contracts/schema.csv")
         for field in schema.loc[schema.table.eq("pairs") & schema.role.eq("feature"),"column"]:
             numeric=pd.to_numeric(training[field],errors="coerce")
