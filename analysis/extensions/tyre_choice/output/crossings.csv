@@ -1,0 +1,5 @@
+delay_group,compound_role,gap_at_50,gap_at_25,status
+d1,hardest,0.95,1.73,"model-based, training seasons (in-sample)"
+d1,middle,1.11,1.92,"model-based, training seasons (in-sample)"
+d23,hardest,1.37,2.71,"model-based, training seasons (in-sample)"
+d23,middle,1.6,3.24,"model-based, training seasons (in-sample)"

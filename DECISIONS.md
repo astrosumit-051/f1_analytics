@@ -87,19 +87,22 @@ add a new one that says which entry it supersedes, and change the old one's stat
   the raw snapshot.
 - Affects: `data/derived/`, `.gitignore`.
 
-## D-006  How rejoin traffic is measured (open)
+## D-006  How rejoin traffic is measured
 - Date: 2026-11-19
-- Status: proposed
-- Decided by: to decide in the contracts issue
-- Issue or PR: contracts issue
-- Decision: v1 measures `rejoin_traffic_cars` as cars within 2 s ahead of the first
-  stopper at the end of their out-lap, as the coverage audit did. That is observed
-  after the stop, so it is a proxy. The alternative is a decision-time projection:
-  cars that would be within 2 s ahead after subtracting the circuit's pit-lane median
-  from the first stopper's time at `ref_lap`.
+- Status: accepted
+- Decided by: Sumit, Aiden
+- Issue or PR: #8, #10
+- Decision: `rejoin_traffic_cars` is projected at decision time: the cars, rival
+  excluded, whose next line crossing after the first stopper's crossing at the end of
+  `ref_lap` (their last crossing plus their last lap time) falls between P - 2 s and
+  P s later, where P is `circuit_pitlane_median_sec`. Those are the cars that would be
+  up to 2 s ahead after the stop. The audit's measure (cars within 2 s ahead at the
+  end of the out-lap) is observed after the stop and is no longer used as a feature.
 - Why: a feature that is only known after the stop can make the window look better
-  than a pit wall could use.
-- Affects: `pairs.rejoin_traffic_cars`, issue A2.
+  than a pit wall could use. On the 922 core pairs the two measures agree in 61% of
+  rows (correlation 0.15), so the choice matters.
+- Affects: `contracts/schema.csv` (`pairs.rejoin_traffic_cars` description),
+  `pipeline/features.py`, issue A2 (#10).
 
 ## D-007  Language for models and demo (open)
 - Date: 2026-11-19
@@ -113,3 +116,64 @@ add a new one that says which entry it supersedes, and change the old one's stat
 - Why: the handoff contracts are plain CSV plus one command, so either language works,
   but each partner's code should use one.
 - Affects: `models/`, `demo/`, `requirements.txt` or `renv.lock`.
+
+## D-008  Aiden implementation review and remaining contract decisions
+- Date: 2026-11-19
+- Status: proposed
+- Decided by: Aiden implementation review; Sumit's shared approval pending
+- Issue or PR: #8
+- Decision: Keep v1 unchanged during development. Aiden has verified that the four
+  tables support primary evaluation, observed common-lap comparisons and the local
+  application. This is conditional engineering signoff, not acceptance by both
+  partners of D-004 through D-007. Resolve the items in contracts/AIDEN_REVIEW.md
+  before production integration or declaring the contracts frozen.
+- Why: Independent implementation found that the public command promises only
+  success_h3 while response curves need success_common_h3, no-response rates lack
+  an agreed denominator, and observed rejoin traffic cannot be a live feature.
+- Affects: #8, #11, #13, #17, #19, #20, #21. Proposed implementation choices are
+  Python evaluation/figures with an R Shiny CSV-only app; a model-owned common-lap
+  prediction/grid interface; merged model/input hashes and both signoffs before
+  one locked evaluation. None is silently marked accepted by this entry.
+
+## D-009  Entry point takes an optional outcome; models use Python
+- Date: 2026-11-21
+- Status: proposed
+- Decided by: Sumit; Aiden to review
+- Issue or PR: #11
+- Decision: The fit-and-predict command keeps its four arguments and adds an
+  optional `--outcome` (default `success_h3`, also `success_h0`, `success_h5`,
+  `success_common_h3`), so the common-lap curves come from a model fitted on the
+  common-lap outcome rather than relabelled primary probabilities. The models are
+  Python (numpy, pandas, scipy); this settles the models half of D-007. Predictions
+  are for a new race: the race random intercept is integrated out, not set to zero.
+  The primary model has 11 fixed effects plus the race SD (the proposal's "about 10"):
+  the delay interaction is a d23 shift plus a d23 x linear-gap slope, not a full
+  spline-by-delay interaction, to stay near that limit.
+- Why: Aiden's contract review (PR #34, proposed D-008) found the v1 command could
+  only promise `success_h3`, while the window charts compare delays at the common lap.
+  108 sustained successes in training support about 10 parameters.
+- Affects: `models/fit_predict.py`, `contracts/README.md` (entry point section),
+  `evaluation/bootstrap.py` command adapter (Aiden: it can now pass `--outcome`).
+
+## D-010  Final model chosen on 2024; pace and temperature join the pairs contract
+- Date: 2026-11-21
+- Status: proposed (Sumit chose the model; Aiden to review the contract change)
+- Decided by: Sumit; Aiden to review
+- Issue or PR: #14
+- Decision: The final model is `final_v1`: `primary_v1` plus recent pace difference
+  and track temperature, 13 fixed effects plus the race SD, chosen by the selection
+  rule in `models/tune.py`, which was committed before any 2024 outcome was scored.
+  Two `pairs` columns are added with role `feature`: `recent_pace_diff_sec` and
+  `track_temp_c` (definitions in `contracts/schema.csv`, built by
+  `pipeline/candidates.py`). The era term is not used.
+- Why: on the 2024 core pairs with a complete 3-lap outcome (139 pairs, 18 races),
+  tune log loss was 0.470 for the gap-only baseline, 0.422 for `primary_v1`, 0.415
+  with pace, 0.417 with temperature, 0.426 with era, and 0.411 with pace and
+  temperature together. Brier fell the same way (0.150, 0.136, 0.129 combined). The
+  primary-minus-baseline interval excludes zero; the pace/temperature gains are
+  within race-bootstrap noise but met the rule fixed in advance
+  (`models/output/tuning/`). Adding teammate pairs to the fit barely changes the
+  coefficients or the tune score.
+- Affects: `contracts/schema.csv`, `contracts/fake/`, `data/derived/pairs.csv`,
+  `models/`, the freeze and locked test (#19). The model exceeds the proposal's
+  "about 10 parameters"; that is stated as a limitation.

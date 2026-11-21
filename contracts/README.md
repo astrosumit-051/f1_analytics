@@ -89,8 +89,8 @@ Counting rows by split is fine.
 The model may only use columns with role `feature` in `schema.csv`. Columns with role
 `extension` (pit-lane time actually taken, compound fitted) happen after the decision
 and are used only in extensions 1 to 3. Circuit-level features (pit-lane median and
-overtaking difficulty) are computed from training seasons only. See `DECISIONS.md`
-D-006 on how rejoin traffic is measured.
+overtaking difficulty) are computed from training seasons only. Rejoin traffic is projected
+at `ref_lap` from the circuit's pit-lane median (`DECISIONS.md` D-006).
 
 ## Fit and predict entry point
 
@@ -102,6 +102,9 @@ provides one command:
 ```
 
 It fits `model_id` on the `in_core = 1` rows of `--train`, predicts `success_h3` for
-the `in_core = 1` rows of `--predict`, and writes a `predictions` file. A also writes
+the `in_core = 1` rows of `--predict`, and writes a `predictions` file. An optional
+`--outcome success_common_h3` (or `success_h0`, `success_h5`) fits and predicts that
+outcome instead (`DECISIONS.md` D-009). The command is
+`python models/fit_predict.py`. A also writes
 `window_grid` for each model. B fills `p_lo` and `p_hi` from the race bootstrap. The
 language is decided in D-007; the command shape stays the same either way.

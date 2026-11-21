@@ -1,0 +1,14 @@
+{
+  "base_model": "final_v1",
+  "outcome": "success_common_h3",
+  "fitted_on": "train",
+  "pairs": 449,
+  "races": 89,
+  "excess_clip": [
+    -2.0,
+    10.0
+  ],
+  "median_excess_train": 0.0,
+  "excess_coef_per_sd": -0.7526717928904734,
+  "excess_sd": 1.8899363607358959
+}

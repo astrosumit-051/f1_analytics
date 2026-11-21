@@ -1,0 +1,7 @@
+model_id,outcome,fitted_on,pairs,races,parameters,loglik,aic,race_sd,converged
+baseline_gap_v1,success_h3,train,473,90,4,-225.508,459.017,0.0,True
+baseline_gap_v1,success_common_h3,train,449,89,4,-219.86,447.72,0.0,True
+primary_v1,success_h3,train,473,90,12,-206.606,437.212,0.5365,True
+primary_v1,success_common_h3,train,449,89,12,-206.104,436.208,0.6011,True
+final_v1,success_h3,train,473,90,14,-198.637,425.274,0.5003,True
+final_v1,success_common_h3,train,449,89,14,-197.013,422.026,0.6087,True
