@@ -1,0 +1,8 @@
+measure,value
+core pairs,922
+"core pairs, excess > 2 s (pipeline race median, 10-60 s stops)",100
+coverage audit figure (race median over all matched stops),98
+"core pairs, excess > 2 s, split test",21
+"core pairs, excess > 2 s, split train",64
+"core pairs, excess > 2 s, split transfer",4
+"core pairs, excess > 2 s, split tune",11
