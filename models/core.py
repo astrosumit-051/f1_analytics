@@ -227,7 +227,14 @@ def fit(spec: Spec, rows: pd.DataFrame, outcome: str) -> Fit:
         f = lambda t: _negll_glm(t, X, y)
         start = np.zeros(X.shape[1])
     res = minimize(f, start, jac=True, method="BFGS", options={"maxiter": 2000, "gtol": 1e-6})
-    converged = bool(res.success or np.max(np.abs(res.jac)) < 1e-3)
+    converged = bool(np.isfinite(res.fun) and (res.success or np.max(np.abs(res.jac)) < 1e-3))
+    if spec.random_intercept and not converged:
+        # BFGS can step the log race SD to overflow on an odd bootstrap resample; retry
+        # with the SD bounded to [0.00005, 20] (log scale), which leaves interior optima unchanged.
+        bounds = [(None, None)] * X.shape[1] + [(np.log(5e-5), np.log(20.0))]
+        res = minimize(f, start, jac=True, method="L-BFGS-B", bounds=bounds,
+                       options={"maxiter": 5000, "gtol": 1e-6})
+        converged = bool(np.isfinite(res.fun) and (res.success or np.max(np.abs(res.jac)) < 1e-3))
     theta = res.x
     try:
         cov = np.linalg.inv(_numeric_hessian(f, theta))
