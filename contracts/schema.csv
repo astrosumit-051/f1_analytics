@@ -27,7 +27,7 @@ pairs,leader_tyre_age,int,lap,,feature,Leader tyre age at ref_lap.
 pairs,tyre_age_diff,int,lap,,feature,chaser_tyre_age minus leader_tyre_age. Positive: the chaser's tyres are older.
 pairs,cars_between_at_ref,int,cars,0-19,feature,Cars crossing the line between the two drivers at the end of ref_lap.
 pairs,circuit_pitlane_median_sec,float,s,10-60,feature,"Median matched pit-lane time at the circuit, from training seasons only. A circuit first raced after 2023 uses the median of its first race."
-pairs,rejoin_traffic_cars,int,cars,0-19,feature,Cars crossing the line within 2.0 s ahead of the first stopper at the end of the first stopper's out-lap (any lap count). See DECISIONS D-005.
+pairs,rejoin_traffic_cars,int,cars,0-19,feature,"Cars (rival excluded) projected at the end of ref_lap to be up to 2.0 s ahead of the first stopper after the stop: their next line crossing (last crossing plus last lap time) falls between P - 2 s and P s after the first stopper's crossing, P = circuit_pitlane_median_sec. See DECISIONS D-006."
 pairs,overtaking_difficulty,float,passes per car-lap,0-1,feature,"Green-flag on-track position changes per car-lap at the circuit, excluding pit in and out laps, from training seasons only."
 pairs,overtaking_imputed,bool01,,0|1,feature,1 if the circuit has no training-season races and overtaking_difficulty is the training-season median over all circuits.
 pairs,era,enum,,pre2022|post2022,feature,Car regulation era. post2022 covers 2022 onwards.
