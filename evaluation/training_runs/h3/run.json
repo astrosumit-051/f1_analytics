@@ -1,0 +1,30 @@
+{
+  "evidence": "historical training data, draft logistic fit",
+  "split": "train",
+  "outcome": "success_h3",
+  "seed": 355,
+  "resamples_requested": 1000,
+  "missing_outcomes": 91,
+  "failed_draws": 0,
+  "successful_draws": 1000,
+  "fit_status": "all_refits_succeeded",
+  "interval_type": "pointwise percentile, race refits; OOB ranges are variability not test CIs",
+  "models": [
+    "baseline_gap_v1",
+    "final_v1"
+  ],
+  "entry_point": [
+    "python",
+    "models/fit_predict.py"
+  ],
+  "scored_pairs": 473,
+  "race_count": 90,
+  "inputs_sha256": {
+    "data/derived/pairs.csv": "195fcd6dd1914bdb920c7028726bd14203430579e1abaf40604c10444fae2440",
+    "data/derived/predictions.csv": "7c800abfacc5108cdfe599ab71218340e92bdf4103a22fe6a2d427963532c57b"
+  },
+  "python": "3.13.18",
+  "numpy": "2.5.3",
+  "pandas": "3.0.5",
+  "window_grid_md5": "a55196f8de847523c28676b1db35691e"
+}

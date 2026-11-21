@@ -1,0 +1,17 @@
+draw,reason
+861,"Model final_v1 command failed (2): imeWarning: overflow encountered in exp
+  sigma = np.exp(log_sigma)
+/home/claude/full/models/core.py:219: RuntimeWarning: invalid value encountered in multiply
+  eta = (X @ beta)[:, None] + sigma * _Z[None, :]            # n x Q
+/home/claude/full/models/core.py:220: RuntimeWarning: invalid value encountered in multiply
+  ll_i = y[:, None] * log_expit(eta) + (1 - y[:, None]) * log_expit(-eta)
+/home/claude/full/models/core.py:218: RuntimeWarning: overflow encountered in exp
+  sigma = np.exp(log_sigma)
+/home/claude/full/models/core.py:219: RuntimeWarning: invalid value encountered in multiply
+  eta = (X @ beta)[:, None] + sigma * _Z[None, :]            # n x Q
+/home/claude/full/models/core.py:220: RuntimeWarning: invalid value encountered in multiply
+  ll_i = y[:, None] * log_expit(eta) + (1 - y[:, None]) * log_expit(-eta)
+/home/claude/full/models/core.py:267: RuntimeWarning: overflow encountered in exp
+  beta, sigma = theta[:-1], float(np.exp(theta[-1]))
+error: final_v1 did not converge
+"

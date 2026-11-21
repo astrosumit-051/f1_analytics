@@ -1,0 +1,9 @@
+model_id,delay_group,threshold,crossing_gap_sec,status,conditional_gap_lo_sec,conditional_gap_hi_sec,interval_status,draws_with_crossing,draws
+baseline_gap_v1,d1,0.5,1.091246271560109,crossed,0.49085771554521535,1.4767556303157265,unstable_missing_crossings,950,999
+baseline_gap_v1,d1,0.25,2.4434081290425618,crossed,1.868839851508066,3.0157290088520634,conditional_on_crossing,999,999
+baseline_gap_v1,d23,0.5,1.091246271560109,crossed,0.38991682154662516,1.475887095139607,unstable_missing_crossings,963,999
+baseline_gap_v1,d23,0.25,2.4434081290425618,crossed,1.868839851508066,3.0157290088520634,conditional_on_crossing,999,999
+final_v1,d1,0.5,0.8455085324232082,crossed,0.41665554091935647,1.5049890580445175,unstable_missing_crossings,916,999
+final_v1,d1,0.25,1.8659411082260648,crossed,1.2905845527206725,2.7080910447278574,conditional_on_crossing,999,999
+final_v1,d23,0.5,1.2786374042788349,crossed,0.4536399045491888,2.155068124214924,unstable_missing_crossings,979,999
+final_v1,d23,0.25,2.6344797519860492,crossed,1.6835489257403293,4.70427725948943,unstable_missing_crossings,979,999
