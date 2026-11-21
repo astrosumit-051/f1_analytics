@@ -134,3 +134,23 @@ add a new one that says which entry it supersedes, and change the old one's stat
   Python evaluation/figures with an R Shiny CSV-only app; a model-owned common-lap
   prediction/grid interface; merged model/input hashes and both signoffs before
   one locked evaluation. None is silently marked accepted by this entry.
+
+## D-009  Entry point takes an optional outcome; models use Python
+- Date: 2026-11-21
+- Status: proposed
+- Decided by: Sumit; Aiden to review
+- Issue or PR: #11
+- Decision: The fit-and-predict command keeps its four arguments and adds an
+  optional `--outcome` (default `success_h3`, also `success_h0`, `success_h5`,
+  `success_common_h3`), so the common-lap curves come from a model fitted on the
+  common-lap outcome rather than relabelled primary probabilities. The models are
+  Python (numpy, pandas, scipy); this settles the models half of D-007. Predictions
+  are for a new race: the race random intercept is integrated out, not set to zero.
+  The primary model has 11 fixed effects plus the race SD (the proposal's "about 10"):
+  the delay interaction is a d23 shift plus a d23 x linear-gap slope, not a full
+  spline-by-delay interaction, to stay near that limit.
+- Why: Aiden's contract review (PR #34, proposed D-008) found the v1 command could
+  only promise `success_h3`, while the window charts compare delays at the common lap.
+  108 sustained successes in training support about 10 parameters.
+- Affects: `models/fit_predict.py`, `contracts/README.md` (entry point section),
+  `evaluation/bootstrap.py` command adapter (Aiden: it can now pass `--outcome`).
