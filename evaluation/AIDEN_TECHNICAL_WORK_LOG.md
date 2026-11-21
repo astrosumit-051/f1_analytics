@@ -67,3 +67,16 @@ The old CLI could repeatedly score test after a permissively parsed freeze note.
 Selected solution: block direct test/transfer invocation before file access and
 prepare separate reviewed runners in #19/#20. Tuning is explicit in #14 only.
 This is stricter execution control, not a change to the accepted season split.
+
+## #13 verified milestone
+
+Extended bootstrap.py with a subprocess adapter for the published four-argument
+entry point, independent race-copy IDs, fitting-failure records and paired fixed-
+prediction metric intervals. Stand-ins now refuse unlabelled historical data.
+The default common-lap outcome remains separate from pair-specific success_h3.
+BOOTSTRAP.md explains conditional crossings, pointwise bands and OOB variability.
+
+Executed test_bootstrap.py: 5 passed. Executed 100 synthetic race refits with seed
+355: all 100 succeeded; interval files and failure ledger written. These counts
+are software diagnostics, not historical findings. The approved real model and
+common-lap prediction interface remain missing; real-model validation is blocked.
