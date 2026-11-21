@@ -2,7 +2,7 @@
 
 `python analysis/extensions/execution/analyze.py` (default base model `final_v1`).
 Fits `final_v1` plus the first stopper's pit-lane excess over the race median on the
-core training pairs (2018-2023, `success_h3`) and asks how many extra seconds in the
+core training pairs (2018-2023, `success_common_h3`, since d1 and d23 are compared; `--outcome success_h3` for the primary horizon) and asks how many extra seconds in the
 pit lane push the predicted chance below 50% and 25% at each gap and delay.
 
 | File | Status label |

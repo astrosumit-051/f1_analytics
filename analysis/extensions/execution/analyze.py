@@ -8,7 +8,9 @@ gap and rival delay?
 Method. Fit the base model (the A4 choice) plus one term for the first stopper's
 pit-lane excess over the race median (`first_stopper_pitlane_excess_sec`, an
 extension column, measured after the decision) on the core training rows
-(2018-2023), outcome success_h3. The excess is clipped to [-2, 10] s so a handful of
+(2018-2023), outcome success_common_h3 by default: the table compares rival delays,
+so every pair is judged at the common lap (contracts/README.md). `--outcome success_h3`
+gives the primary-horizon version. The excess is clipped to [-2, 10] s so a handful of
 very slow stops (up to 26 s) do not set the slope. Then predict on a grid of
 gap x delay group x extra seconds (0 to 6 s), other features at training medians,
 and find for each gap and delay the extra time at which the predicted probability
@@ -42,7 +44,7 @@ sys.path.insert(0, str(ROOT / "models"))
 from core import SPECS, fit  # noqa: E402
 from data import load_pairs  # noqa: E402
 
-OUTCOME = "success_h3"
+OUTCOME = "success_common_h3"  # default; d1 and d23 are compared, so judge both at the common lap
 EXCESS = "first_stopper_pitlane_excess_sec"
 CLIP = (-2.0, 10.0)
 GAPS = np.round(np.arange(1, 13) * 0.5, 1)
@@ -65,11 +67,14 @@ def first_crossing(extra, p, threshold):
 
 
 def main(argv=None):
+    global OUTCOME
     cli = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     cli.add_argument("--base-model", default="final_v1")
+    cli.add_argument("--outcome", default="success_common_h3", choices=["success_common_h3", "success_h3"])
     cli.add_argument("--pairs", type=Path, default=ROOT / "data/derived/pairs.csv")
     cli.add_argument("--out", type=Path, default=Path(__file__).resolve().parent / "output")
     a = cli.parse_args(argv)
+    OUTCOME = a.outcome
 
     allp = load_pairs(a.pairs, splits=("train", "tune", "test", "transfer"))
     core_all = allp[allp.in_core.eq(1)]
