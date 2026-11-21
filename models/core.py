@@ -97,6 +97,25 @@ SPECS: dict[str, Spec] = {
     ),
 }
 
+# A4 (#14) candidates: one extra term each on top of primary_v1. Pace and temperature
+# come from data/derived/tuning_candidates.csv (pipeline/candidates.py), merged in by
+# models/tune.py; they are not in the pairs contract unless selected.
+CANDIDATES = {
+    "primary_era_v1": ("era", None),
+    "primary_pace_v1": ("numeric", "recent_pace_diff_sec"),
+    "primary_temp_v1": ("numeric", "track_temp_c"),
+}
+for _mid, (_kind, _col) in CANDIDATES.items():
+    _base = SPECS["primary_v1"]
+    SPECS[_mid] = Spec(
+        _mid,
+        numeric=_base.numeric + ((_col,) if _col else ()),
+        delay_terms=True,
+        era=_kind == "era",
+        random_intercept=True,
+        description=f"primary_v1 plus {_col or 'a post-2022 era indicator'} (A4 candidate).",
+    )
+
 
 # --------------------------------------------------------------------------- design
 @dataclass
