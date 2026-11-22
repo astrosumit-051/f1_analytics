@@ -1,0 +1,20 @@
+{
+  "source_status": "unmerged PR32; training-only; not final integration",
+  "source_commit": "ad2b6f1ca201e3c04c31325036ad5d582ba4f3e7",
+  "core_pairs": 564,
+  "core_races": 98,
+  "outcomes": {
+    "success_h3": {
+      "complete": 473,
+      "missing": 91,
+      "successes": 108,
+      "observed_rate": 0.22832980972515857
+    },
+    "success_common_h3": {
+      "complete": 449,
+      "missing": 115,
+      "successes": 103,
+      "observed_rate": 0.22939866369710468
+    }
+  }
+}
