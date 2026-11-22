@@ -172,7 +172,10 @@ def main(argv=None):
     reps = 200
     Xo = m.design.matrix(obs)
     idx = rng.integers(0, n, reps)
-    eta = Xo @ B[idx].T + S[idx] * rng.standard_normal((len(obs), reps))
+    # one race effect per event and repetition, shared by every pair in that race (as in the fit)
+    ev_codes, ev_uniq = pd.factorize(obs["event_id"].astype(str))
+    race_z = rng.standard_normal((len(ev_uniq), reps))[ev_codes]
+    eta = Xo @ B[idx].T + S[idx] * race_z
     sim_y = rng.random(eta.shape) < expit(eta)
     obs["band"] = pd.cut(obs.gap_before_sec, [0, 1, 2, 3, 4, 5, 6], labels=["0-1", "1-2", "2-3", "3-4", "4-5", "5-6"])
     check = []

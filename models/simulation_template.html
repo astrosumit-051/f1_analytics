@@ -459,7 +459,9 @@ function makePlan(r) {
   const endLap = common + 3, start = ref - 1;
   const tEnd = (lap) => (lap - start + 1) * LAP;           // leader's line crossing at the end of `lap`
   const loss = Math.max(12, r.pitlane_median_sec - 4);     // display only
-  const lossC = loss + Math.max(0, r.excess_sec), lossL = loss;
+  // equal display losses: the recorded gaps already include any slow stop, so the cars
+  // end on the recorded gap once both have stopped
+  const lossC = loss, lossL = loss;
   const fEdge = pitHalf / Ltot * LAP;                      // race-time distance from pit entry to the line
   const sg = r.signed_gap_comparison_sec;
   const fin = r.outcome ? Math.min(sg, -0.4) : Math.max(sg, 0.4);
