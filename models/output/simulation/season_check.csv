@@ -1,0 +1,13 @@
+delay_group,gap_band,pairs,observed_rate,simulated_rate,sim_lo,sim_hi,status
+d1,0-1,9,0.5556,0.5372,0.3333,0.7778,"in-sample check, training seasons 2018-2023"
+d1,1-2,51,0.3137,0.3447,0.2147,0.4716,"in-sample check, training seasons 2018-2023"
+d1,2-3,49,0.2449,0.231,0.1429,0.3469,"in-sample check, training seasons 2018-2023"
+d1,3-4,65,0.1231,0.1315,0.0608,0.2154,"in-sample check, training seasons 2018-2023"
+d1,4-5,45,0.0889,0.12,0.0444,0.2222,"in-sample check, training seasons 2018-2023"
+d1,5-6,28,0.0714,0.0552,0.0,0.1429,"in-sample check, training seasons 2018-2023"
+d23,0-1,12,0.75,0.645,0.4167,0.9167,"in-sample check, training seasons 2018-2023"
+d23,1-2,30,0.5,0.5123,0.3667,0.6667,"in-sample check, training seasons 2018-2023"
+d23,2-3,36,0.3056,0.3344,0.2222,0.4736,"in-sample check, training seasons 2018-2023"
+d23,3-4,31,0.1613,0.2327,0.0968,0.3565,"in-sample check, training seasons 2018-2023"
+d23,4-5,48,0.2083,0.1692,0.0625,0.2708,"in-sample check, training seasons 2018-2023"
+d23,5-6,45,0.1333,0.181,0.0667,0.2889,"in-sample check, training seasons 2018-2023"

@@ -1,0 +1,13 @@
+{
+  "model": "final_v1+excess",
+  "outcome": "success_common_h3",
+  "fitted_on": "train",
+  "pairs": 449,
+  "races": 89,
+  "draws_per_scenario": 4000,
+  "scenarios": 528,
+  "seed": 20261122,
+  "median_excess_train": 0.0,
+  "race_sd": 0.5906029577675052,
+  "status": "assumption-based (training seasons 2018-2023)"
+}

@@ -42,3 +42,22 @@ rows and never prints a score; scoring tune rows belongs to A4 (#14).
 2024 core rows and applies the rule in its docstring. Outputs: `output/tuning/`. The
 choice is `final_v1` (D-010): `primary_v1` plus `recent_pace_diff_sec` and
 `track_temp_c`. `pipeline/candidates.py <data> --write-pairs` builds both columns.
+
+## Monte Carlo simulation and one-cycle replay (A7, #24)
+
+Assumption-based, training seasons (2018-2023) only. No 2024-2026 outcome is read.
+
+```
+python models/simulate.py            # writes models/output/simulation/*.csv, *.json
+python models/simulation_page.py     # builds models/output/simulation/undercut_lab.html
+```
+
+`simulate.py` fits `final_v1` plus the first stopper's pit-lane excess (the extension 1
+fit) on the core training pairs, outcome `success_common_h3`, then plays 4,000 pit
+cycles for each of 528 scenarios (gap 0.25-6 s x delay group x 0-5 s slower stop).
+Each cycle draws the coefficients from their fitted uncertainty, a real training pit
+cycle for the other features, a race effect, and the outcome. `season_check.csv`
+replays the training seasons through the simulator as an in-sample check.
+`undercut_lab.html` is a self-contained page (no external scripts): a rotating 3D
+window surface, a heatmap, a live 500-race simulation that runs the same model in the
+browser, and animated replays of eight real training pit cycles.
