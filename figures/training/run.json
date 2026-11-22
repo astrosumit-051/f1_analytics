@@ -1,0 +1,17 @@
+{
+  "inputs_sha256": {
+    "data/derived/pairs.csv": "195fcd6dd1914bdb920c7028726bd14203430579e1abaf40604c10444fae2440",
+    "data/derived/no_response.csv": "b32cef67a12797e9dea2dba785fbef0ae3ff203bfdb7795658863449add45023",
+    "evaluation/training_runs/common_h3/window_grid.csv": "42d6b24c7c2d1a061442e976c5c8a8be45c99448d2971c740463aa4a8ed9bc42"
+  },
+  "python": "3.13.18",
+  "numpy": "2.5.3",
+  "pandas": "3.0.5",
+  "split": "train",
+  "evidence": "2018\u20132023 training races",
+  "model": "final_v1",
+  "seed": 355,
+  "resamples": 1000,
+  "outcome": "success_common_h3",
+  "no_response_status": "pending_denominator"
+}

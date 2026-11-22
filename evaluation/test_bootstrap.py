@@ -73,13 +73,14 @@ def test_public_command_adapter(tmp_path):
     script.write_text('''import argparse,csv
 p=argparse.ArgumentParser()
 for k in ["train","predict","model","out"]: p.add_argument("--"+k,required=True)
+p.add_argument("--outcome",default="success_h3")
 a=p.parse_args()
 train=list(csv.DictReader(open(a.train)))
 assert len({r["battle_id"] for r in train})==len(train)
 predict=list(csv.DictReader(open(a.predict)))
 with open(a.out,"w",newline="") as h:
  w=csv.DictWriter(h,fieldnames=["battle_id","model_id","outcome","fitted_on","split","p_success"]);w.writeheader()
- for r in predict:w.writerow(dict(battle_id=r["battle_id"],model_id=a.model,outcome="success_h3",fitted_on="train",split="train",p_success=0.4))
+ for r in predict:w.writerow(dict(battle_id=r["battle_id"],model_id=a.model,outcome=a.outcome,fitted_on="train",split="train",p_success=0.4))
 ''',encoding="utf-8")
     core,_=training_cases(ROOT/"contracts/fake/pairs_fake.csv","success_h3")
     grid=make_grid(core).iloc[:3]
@@ -87,4 +88,29 @@ with open(a.out,"w",newline="") as h:
     w,o=refit(core,grid,core.iloc[:2],["FAKE_mock"])
     assert w.p_success.eq(.4).all() and len(o["FAKE_mock"])==2
     bootstrap_training(core,"success_h3",grid,refit,["FAKE_mock"],2,355)
-    with pytest.raises(ValueError,match="common-lap"): command_adapter(["mock"],"success_common_h3")
+    # D-009: the common-lap outcome is requested explicitly and must come back labelled as such.
+    common,_=training_cases(ROOT/"contracts/fake/pairs_fake.csv","success_common_h3")
+    w,_=command_adapter([sys.executable,str(script)],"success_common_h3")(common,make_grid(common).iloc[:3],common.iloc[:2],["FAKE_mock"])
+    assert w.outcome.eq("success_common_h3").all()
+    with pytest.raises(ValueError,match="supports"): command_adapter(["mock"],"success_h5")
+
+
+def test_command_adapter_prediction_file_has_no_bootstrap_columns(tmp_path):
+    """Synthetic grid profiles must not carry bootstrap_race_id into --predict."""
+    import json, sys
+    seen = tmp_path / "seen.json"
+    script = tmp_path / "ep.py"
+    script.write_text(
+        "import argparse, json, pandas as pd\n"
+        "p=argparse.ArgumentParser();[p.add_argument(a) for a in ('--train','--predict','--model','--out','--outcome')]\n"
+        "a=p.parse_args();d=pd.read_csv(a.predict)\n"
+        f"json.dump(list(d.columns),open({str(seen)!r},'w'))\n"
+        "pd.DataFrame({'battle_id':d.battle_id,'model_id':a.model,'outcome':a.outcome or 'success_h3','fitted_on':'train','split':'train','p_success':0.5}).to_csv(a.out,index=False)\n")
+    pairs = pd.read_csv(ROOT / "contracts/fake/pairs_fake.csv")
+    train = pairs[pairs.split.eq("train") & pairs.in_core.eq(1)].copy()
+    races = train.event_id.unique()[:4]
+    train = train[train.event_id.isin(races)].assign(bootstrap_race_id=lambda d: d.event_id.factorize()[0])
+    grid = pd.DataFrame({"gap_sec": [1.0, 2.0], "delay_group": ["d1", "d23"]})
+    refit = command_adapter([sys.executable, str(script)], "success_h3")
+    refit(train, grid, train.head(3), ["primary_v1"])
+    assert "bootstrap_race_id" not in json.loads(seen.read_text())

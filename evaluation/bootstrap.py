@@ -130,13 +130,16 @@ def stand_in(outcome):
 
 
 def command_adapter(command, outcome, timeout=120):
-    """Use A's unchanged four-argument public interface; never import A's internals.
+    """Use A's public command (four arguments, plus --outcome per D-009); never import A's internals.
 
     Grid rows are explicitly synthetic profiles built from training feature medians.
     They are predictions only, never observations. D-006 must be resolved upstream.
     """
-    if outcome != "success_h3":
-        raise ValueError("The v1 command only promises success_h3; common-lap predictions need an approved interface extension.")
+    if outcome not in ("success_h3", "success_common_h3"):
+        raise ValueError("The command adapter supports success_h3 and, through D-009's --outcome, success_common_h3.")
+    # v1 interface for the primary outcome; D-009 adds --outcome for the common-lap fit
+    # so its curves come from a model fitted on that outcome, never relabelled.
+    extra = [] if outcome == "success_h3" else ["--outcome", outcome]
     if not isinstance(command,list) or not command or not all(isinstance(x,str) for x in command):
         raise ValueError("Entry point must be a nonempty JSON list of command arguments.")
 
@@ -148,7 +151,7 @@ def command_adapter(command, outcome, timeout=120):
         # Keep exactly the public pairs columns. Repeated races are independent
         # random-intercept groups; duplicate battle identifiers are also renamed.
         train=train.drop(columns=["bootstrap_race_id"],errors="ignore")
-        profiles=pd.concat([training.iloc[[0]].copy() for _ in range(len(grid))],ignore_index=True)
+        profiles=pd.concat([train.iloc[[0]].copy() for _ in range(len(grid))],ignore_index=True)
         schema=pd.read_csv(Path(__file__).resolve().parents[1]/"contracts/schema.csv")
         for field in schema.loc[schema.table.eq("pairs") & schema.role.eq("feature"),"column"]:
             numeric=pd.to_numeric(training[field],errors="coerce")
@@ -176,7 +179,7 @@ def command_adapter(command, outcome, timeout=120):
                 out=folder/"predictions.csv"
                 if out.exists(): out.unlink()
                 run=subprocess.run(command+["--train",str(train_path),"--predict",str(predict_path),
-                    "--model",model,"--out",str(out)],capture_output=True,text=True,timeout=timeout)
+                    "--model",model,"--out",str(out)]+extra,capture_output=True,text=True,timeout=timeout)
                 if run.returncode or not out.is_file():
                     raise RuntimeError(f"Model {model} command failed ({run.returncode}): {run.stderr[-1000:]}")
                 result=pd.read_csv(out,dtype=str)

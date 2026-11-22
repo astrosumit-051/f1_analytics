@@ -31,9 +31,10 @@ outcomes removed. These profiles are assumptions, not observations. Other
 training-only preprocessing must stay inside A's entry point. Review integer
 median handling and population/new-race predictions with Sumit before production.
 
-The public command promises success_h3 only. It cannot honestly produce
-common-lap curves; requesting that outcome through the adapter raises an error.
-An approved common-lap model/grid interface remains a dependency (#8/#11).
+For success_h3 the adapter passes exactly the four v1 arguments. For
+success_common_h3 it appends `--outcome success_common_h3` (D-009), so A's
+command fits the common-lap outcome itself; probabilities are never relabelled.
+Use `--entry-point-json '["python","models/fit_predict.py"]'`.
 
 fitting_failures.csv records failed/one-class draws; run.json records seed,
 requested/effective draws, input hashes, command and fit status. Conditional
