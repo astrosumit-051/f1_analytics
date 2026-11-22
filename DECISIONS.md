@@ -177,3 +177,40 @@ add a new one that says which entry it supersedes, and change the old one's stat
 - Affects: `contracts/schema.csv`, `contracts/fake/`, `data/derived/pairs.csv`,
   `models/`, the freeze and locked test (#19). The model exceeds the proposal's
   "about 10 parameters"; that is stated as a limitation.
+
+## D-011  2025 results seen in the companion prototype before the freeze
+- Date: 2026-11-21
+- Status: proposed (Aiden to confirm the description)
+- Decided by: Sumit; Aiden to review
+- Issue or PR: #26, #19
+- Decision: Record that the companion R prototype in PR #26 (not merged) reports
+  2025-26 pace error and a 2025 Brier score in `CALCULATION_NOTES.md`, so some 2025
+  outcomes were looked at before the model freeze. That prototype uses a different
+  model and none of its numbers enter the report. `final_v1` was chosen on 2024 by
+  the rule in `models/tune.py` (D-010) and no Partner A script has read a 2025
+  outcome. The locked test goes ahead, and the report states this caveat.
+- Why: the holdout rules require any exposure to be written down before #19.
+- Affects: #19, `report/sections/07_limitations.md`.
+
+## D-012  Model freeze for the locked 2025 test
+- Date: 2026-11-21
+- Status: proposed
+- Decided by: Sumit; Aiden to review
+- Issue or PR: #19
+- model_ids: baseline_gap_v1 final_v1
+- Commit hash: FILLED_AFTER_REVIEW
+- Decision: Freeze `baseline_gap_v1` (comparison) and `final_v1` (D-010) for
+  `success_h3` and `success_common_h3`, each refitted once on the 2018-2024 core
+  rows (729 pairs, 117 races) by `models/freeze.py`. The frozen inputs are
+  `data/derived/frozen/predictions.csv` (fitted_on `train+tune`, all splits) and
+  `data/derived/frozen/window_grid.csv`, whose bands come from 1,000 whole-race
+  bootstrap refits of 2018-2024 (seed 355); crossings and their ranges are in
+  `data/derived/frozen/crossing_intervals.csv`. Hashes are in
+  `data/derived/frozen/freeze.json`. Test and transfer rows are read with every
+  outcome column dropped. No model, feature, threshold or grid changes after the
+  locked test is seen.
+- To accept: once both partners agree, set Status to accepted, Decided by to
+  "Sumit, Aiden", and Commit hash to the full hash of the commit that adds
+  `models/freeze.py` and `data/derived/frozen/`. Then #19 writes
+  `evaluation/locked_authorization.json` with those hashes.
+- Affects: #19, #20, `evaluation/locked_run.py` inputs.

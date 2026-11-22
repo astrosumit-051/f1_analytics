@@ -1,0 +1,28 @@
+{
+  "models": [
+    "baseline_gap_v1",
+    "final_v1"
+  ],
+  "outcomes": [
+    "success_h3",
+    "success_common_h3"
+  ],
+  "fitted_on": "train+tune",
+  "seed": 355,
+  "draws": 1000,
+  "failed_draws": 0,
+  "fit_pairs": 729,
+  "fit_races": 117,
+  "predicted_rows": {
+    "test": 130,
+    "train": 564,
+    "transfer": 63,
+    "tune": 165
+  },
+  "grid_profile": "training-season (2018-2023) medians",
+  "sha256": {
+    "data/derived/pairs.csv": "195fcd6dd1914bdb920c7028726bd14203430579e1abaf40604c10444fae2440",
+    "data/derived/frozen/predictions.csv": "c0e9bc302165d514da468fa360fdeeae1c93062b9c652a8a8018038aae53657a",
+    "data/derived/frozen/window_grid.csv": "01691489fbf9bad55d3c2727ccd3bf27c7955deddce7ec4a126efb2f207d6274"
+  }
+}
