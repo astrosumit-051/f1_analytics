@@ -10,7 +10,7 @@ Install with `python -m pip install -r evaluation/requirements.txt`.
 Run from the repository root:
 
 ```sh
-python evaluation/evaluate.py --pairs contracts/fake/pairs_fake.csv --predictions contracts/fake/predictions_fake.csv --window-grid contracts/fake/window_grid_fake.csv --baseline FAKE_baseline_gap_v0 --out evaluation_output/fixture
+python evaluation/evaluate.py --pairs contracts/fake/pairs_fake.csv --predictions contracts/fake/predictions_fake.csv --window-grid contracts/fake/window_grid_fake.csv --baseline FAKE_baseline_gap_v0 --out evaluation/results/fixture
 ```
 
 The fake files test the CSV interface. Every output identifies them as a
@@ -42,3 +42,8 @@ Run the independent regression checks with
 `python -m pytest evaluation/test_evaluate.py -q`. They include hand-calculated
 scores, paired exclusions, invalid input rejection and protected-row sentinels.
 
+For the combined reproducible check runner use `python evaluation/run_checks.py`.
+Add `--rscript /path/to/Rscript` to include Shiny; an abnormal R exit is reported
+as a failed process even when assertion markers pass. Protected evaluation is
+prepared separately in [LOCKED_TEST.md](LOCKED_TEST.md); the default preflight
+opens no outcome input and cannot grant its own authorization.

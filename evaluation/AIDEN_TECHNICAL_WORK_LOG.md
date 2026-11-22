@@ -67,3 +67,196 @@ The old CLI could repeatedly score test after a permissively parsed freeze note.
 Selected solution: block direct test/transfer invocation before file access and
 prepare separate reviewed runners in #19/#20. Tuning is explicit in #14 only.
 This is stricter execution control, not a change to the accepted season split.
+
+## #13 verified milestone
+
+Extended bootstrap.py with a subprocess adapter for the published four-argument
+entry point, independent race-copy IDs, fitting-failure records and paired fixed-
+prediction metric intervals. Stand-ins now refuse unlabelled historical data.
+The default common-lap outcome remains separate from pair-specific success_h3.
+BOOTSTRAP.md explains conditional crossings, pointwise bands and OOB variability.
+
+Executed test_bootstrap.py: 5 passed. Executed 100 synthetic race refits with seed
+355: all 100 succeeded; interval files and failure ledger written. These counts
+are software diagnostics, not historical findings. The approved real model and
+common-lap prediction interface remain missing; real-model validation is blocked.
+
+## #17 integration milestone
+
+Extended existing plot_windows.py; added reusable figures/stats.py whole-race
+rate intervals and numerical tests. Outputs include source tables and run hashes.
+Changed the old figure name to undercut_window to keep technical assets distinct
+from excluded report work. No-response rates stay NA pending shared approval.
+
+Training-only handoffs were selected as strings from PR #32 commit
+ad2b6f1ca201e3c04c31325036ad5d582ba4f3e7 into ignored evaluation/local_inputs.
+Provenance records source SHA-256 and selection. All 4,796 training pairs and 4,129
+training no-response records are available locally. Fake and unmerged real
+training figures generated; the real chart has no supplied common-lap model
+curve and explicitly labels it pending. Production integration remains unapproved.
+
+## #18 verified milestone
+
+Implemented analysis/extensions/defender/analyze.py and README with exact delays,
+common-lap outcomes, whole-race intervals and exact overlap on gap band, tyre-age
+difference and season. Every result is descriptive with counts and missingness.
+The defender point-in-time event complements common_h0 only. Sustained defence
+cannot be inferred by complementing common_h3; unsupported cases stay unavailable.
+
+Executed defender tests: 2 passed. Ran the same workflow on unmerged PR #32's
+training handoff successfully. Held-out extension evaluation and final producer
+review are pending. This does not demonstrate causal strategy superiority.
+
+## #20 development milestone
+
+Added neutralisation/analyze.py with SC-only, VSC-only, both, clean-control and
+other-unclean categories, exact-delay timing gains, missingness and whole-race
+intervals. The first-failure exclusion flag cannot certify dry neutralised rows;
+outputs explicitly state dry status unverified rather than silently discarding
+possibly inconvenient observations. Comparison-lap gain is not a common-lap or
+causal strategy effect. Common follow-up is reported separately.
+
+Executed neutralisation tests: 2 passed. Training-only PR #32 workflow generated
+its CSVs and figure. The 2026 procedure is specified but remains locked pending
+#19, the frozen model, explicit transfer authorization and both partners' review.
+
+## #21 application milestone
+
+Separated pure CSV/statistical logic into demo/data.R; app.R calls these tested
+functions. Added gap/model/outcome/delay controls, common-lap response overlay,
+interpolated supported probabilities and available intervals, explicit missing
+model messages, crossing status, source fingerprints, deterministic observed
+success/failure examples and CSV export. Synthetic and real evidence cannot mix.
+The app loads selected training strings before parsing outcomes, and never fits.
+
+Executed demo/test_app.R: all assertion groups and Shiny server controls passed.
+Independent Python checks matched R observed counts/rates for all four groups.
+Chrome visually rendered model, delay and examples; selecting another model and
+response changed the probability and table. Detected and fixed locale-corrupted
+Unicode labels. Live app served normally in Chrome.
+
+Process caveat: tests write ALL SHINY CHECKS PASSED but R exits abnormally after
+loading shiny. A minimal base-R q(status=0) exits 0; minimal library(shiny) plus q
+reproduced exit -1073741569. This indicates a local R/package teardown problem,
+not proof of a clean test process. A clean exit on the submission environment is
+still required. Pure calculations and the live server worked; no final production
+integration or browser acceptance on real frozen outputs is claimed.
+
+## Local workspace organization and launch clarification
+
+The user requested clear runtime/development/archive bins after trying an app.R
+entry point. Found both the old companion app.R at the workspace root and the new
+window app under demo/. Created a self-contained 01_APP bundle, with calculation
+helpers unchanged, training data copied byte-for-byte and a SHA-256 manifest. It
+opens on observed comparisons and supports double-click startup or Run App from
+its Rproj. Standalone startup validated all 564 core training pairs with exit 0.
+Packaged Shiny server assertions passed for both response groups, observed tables,
+examples and no-response messages. Model predictions remain unavailable; no
+synthetic replacement or protected evaluation was run. The original raw dataset
+stays at its original workspace path. Workspace move records will live in
+03_ARCHIVE/organization_manifest.json; the Git checkout and tests remain together
+under 02_DEVELOPMENT/aiden_work and older snapshots under 03_ARCHIVE/previous_workspace.
+
+## #27 review milestone
+
+Reviewed PR #26 at 76929e3c1720d337dcf54fa148a5d0ebbcf75a93 in a separate ignored
+code-only checkout. Reproduced scripts/run_analysis.R --synthetic: 12 supplied
+check groups passed, process exit 0. evaluation/review_companion.R added five
+independent invariant groups: all 17 total groups passed, process exit 0.
+The optional --shiny review built a NEW labelled synthetic bundle in that ignored
+checkout and verified exact offline/Shiny table equality and Compare gating.
+Assertions and saved marker pass; Shiny-loaded process again exits abnormally.
+
+Did not run the unrestricted historical build or tests/check_integration.R because
+they read 2025+ outcomes/bundles. Documented in COMPANION_REVIEW.md: realized-set
+conditional factual evaluation, narrow cohort, provisional calibration, missing
+cross-driver shock dependence, schematic queue/traffic and selected-pace/cycle
+compatibility. None of the simulator is integrated into the primary application.
+Sumit's independent scientific review and both partners' integration decision
+remain pending. Existing published historical numbers were not revalidated.
+
+## #8 and #19 final development milestones
+
+#8 has its own branch with contracts/AIDEN_REVIEW.md and proposed D-008. It
+records Aiden's conditional engineering signoff without accepting decisions on
+Sumit's behalf. No schema/fake data or accepted definitions changed; all four
+contract checks still pass. Traffic projection, common-lap command/grid, median
+profiles, no-response denominator, technology and protected-run governance need
+shared review. Branch protection was not changed or verified.
+
+#19 now has locked_run.py, a disabled authorization example and LOCKED_TEST.md.
+It requires merged origin/main decisions and authorization, both partner names,
+exact model/source/input hashes, an explicit issue number and fixed seed. Execute
+must fetch main. A persistent atomic receipt is written before outcome parsing;
+failed or completed runs cannot be silently repeated. Transfer additionally
+requires the completed committed 2025 receipt and separate #20 authorization.
+There is no model training in this runner and no actual protected run occurred.
+Twelve synthetic governance/single-use tests passed. Actual main preflight refused
+because no accepted freeze exists, before opening any outcome input.
+
+## Integrated verification and remaining acceptance work
+
+Executed python -m pytest evaluation figures analysis/extensions -q: 46 passed.
+R app assertion groups and server tests passed again; process shutdown remains
+abnormal only after loading shiny. A pure-R real-training-handoff check exited 0:
+564 core pairs, 98 races, loading 0.86 s and mean scenario calculation 0.093 s over
+100 refreshes on this machine. No missing model was replaced by a fabricated
+number. Python and R independently matched the four synthetic observed groups.
+
+TRAINING_INTEGRATION.json records unmerged PR #32's primary sample: 473 complete,
+91 missing, 108 successes; common-lap: 449 complete, 115 missing, 103 successes.
+These reproduce the proposal's primary training-success count and demonstrate
+contract compatibility only. They are descriptive observations, not a predictive
+accuracy or causal superiority result. No final model calibration is available.
+
+Reproduce synthetic checks using python evaluation/run_checks.py, optionally
+--rscript /path/to/Rscript. The JSON report distinguishes assertions from process
+exit and returns failure on a crashing R process. Source requirements and app
+launch instructions are in evaluation/README.md and demo/README.md.
+
+Remaining: Sumit must review/merge pair/features, implement #11 and select #14;
+both resolve #8 and the common-lap/bootstrap interface. Then integrate/retest the
+approved model, finalize frozen training-refit bands and crossing intervals,
+authorize #19 and score 2025 once, sign off results, authorize descriptive #20
+transfer and test clean startup/exit on the submission computer. #17's rate is
+blocked by the agreed denominator; #18/#20 final held-out evaluation is pending.
+The code is reviewable development, not a submission-ready or approved model.
+Issues #22/#23, report text, presentation and rehearsal materials were excluded.
+
+Final rerun after provenance guards: all 47 Python tests and all four contract
+checks passed. demo/test_app.R passed its assertions including grid fingerprint
+and protected-split rejection checks, then the Shiny-loaded process returned
+3221225727 (Windows 0xC00000FF). run_checks.py correctly returned failure and saved
+the distinction between assertions and process status. No failure is suppressed.
+The primary curves now require matching training-refit provenance; unknown
+provenance withholds predictions. Mixed no-response/model evidence is rejected.
+
+The CLI push waited on Windows credential manager and was cancelled. Publishing
+uses the already connected GitHub app instead, preserving existing PR heads as
+commit parents and keeping each issue separate. No main push or self-merge is
+performed. Local native commit milestones are retained for rollback.
+
+## Published review handoff
+
+All PRs are drafts; review was requested from astrosumit-051. No issue was closed,
+no work was self-approved or merged, and main was not pushed. Changes are stacked
+for small issue diffs; review/merge dependencies from the bottom upward. Rebase or
+retarget after collaborator merges, without overwriting their work.
+
+| Issue | Pull request | Status |
+| --- | --- | --- |
+| #8 | https://github.com/astrosumit-051/f1_analytics/pull/34 | Conditional shared review; decisions pending |
+| #12 | https://github.com/astrosumit-051/f1_analytics/pull/30 | Harness implemented and fake-tested; review pending |
+| #13 | https://github.com/astrosumit-051/f1_analytics/pull/31 | Stand-in/adapter tested; real model integration pending |
+| #17 | https://github.com/astrosumit-051/f1_analytics/pull/33 | Figures implemented; model and denominator pending |
+| #18 | https://github.com/astrosumit-051/f1_analytics/pull/35 | Training descriptive analysis; held-out approval pending |
+| #20 | https://github.com/astrosumit-051/f1_analytics/pull/36 | SC/VSC development; transfer remains locked |
+| #21 | https://github.com/astrosumit-051/f1_analytics/pull/29 | App controls verified; final model/clean R exit pending |
+| #27 | https://github.com/astrosumit-051/f1_analytics/pull/37 | Synthetic review done; scientific/historical review pending |
+| #19 | https://github.com/astrosumit-051/f1_analytics/pull/38 | Procedure prepared; no real locked run authorized |
+
+The connector-published trees matched the tested local tree hashes. Local branches
+were synchronized after fetch; pre-publication native milestones are retained
+under refs/aiden-native/. The integration checkout is b/19-locked-test-procedure.
+The separate b/8-contract-review branch contains the shared D-008 proposal; it is
+not silently applied to the integration branch or main. No raw data was committed.
