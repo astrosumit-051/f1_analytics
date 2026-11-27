@@ -1,0 +1,29 @@
+{
+  "issue": 19,
+  "authorized": true,
+  "split": "test",
+  "model_commit": "539fdca1ff0c27322b13d77fd597aa7b2e0ea885",
+  "model_ids": [
+    "baseline_gap_v1",
+    "final_v1"
+  ],
+  "baseline": "baseline_gap_v1",
+  "outcomes": [
+    "success_h3",
+    "success_common_h3"
+  ],
+  "signoffs": [
+    "astrosumit-051",
+    "aidenh144"
+  ],
+  "pairs_sha256": "195fcd6dd1914bdb920c7028726bd14203430579e1abaf40604c10444fae2440",
+  "predictions_sha256": "c0e9bc302165d514da468fa360fdeeae1c93062b9c652a8a8018038aae53657a",
+  "window_grid_sha256": "01691489fbf9bad55d3c2727ccd3bf27c7955deddce7ec4a126efb2f207d6274",
+  "harness_sha256": {
+    "evaluation/evaluate.py": "3c710a5fc312f304899a87fc6e05be75d72d51e0e8b92f14b050d8aa92a78633",
+    "evaluation/bootstrap.py": "60852e192293b656c980c65bc696171c46dfc6abc5f20a935a087b83cf06db55",
+    "evaluation/locked_run.py": "0ff80eafacc54cec745cf5e921d5dec0b137cd0a318e93e1783a210a1823e18f"
+  },
+  "seed": 355,
+  "resamples": 2000
+}

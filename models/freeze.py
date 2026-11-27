@@ -55,8 +55,13 @@ def read_pairs(path: Path):
     features = [c for c in header if c not in blocked]
     allp = pd.read_csv(path, usecols=features, dtype={"battle_id": str, "event_id": str})
     locked = allp[allp.split.isin(LOCKED_SPLITS) & allp.in_core.eq(1)].copy()
-    full = pd.read_csv(path, dtype={"battle_id": str, "event_id": str})
-    full = full[full.split.isin(FIT_SPLITS) & full.in_core.eq(1)].copy()
+    # Outcomes are parsed only for train/tune file lines; every other line is skipped
+    # by the reader itself, so no test or transfer outcome is ever read.
+    keep = set((allp.index[allp.split.isin(FIT_SPLITS)] + 1).tolist())  # +1 for the header line
+    full = pd.read_csv(path, skiprows=lambda i: i != 0 and i not in keep,
+                       dtype={"battle_id": str, "event_id": str})
+    assert full.split.isin(FIT_SPLITS).all() and len(full) == len(keep)
+    full = full[full.in_core.eq(1)].copy()
     del allp
     assert not set(locked.columns) & blocked
     return full, locked

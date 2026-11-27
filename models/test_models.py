@@ -111,3 +111,21 @@ def test_freeze_reads_no_locked_outcomes():
     assert set(fit_rows.split) <= {"train", "tune"}
     assert set(locked.split) <= {"test", "transfer"} and len(locked)
     assert not set(locked.columns) & set(freeze.outcome_columns())
+
+
+def test_freeze_never_parses_locked_outcomes(monkeypatch):
+    """Every read that returns an outcome column contains train/tune lines only."""
+    import freeze
+    real = pd.read_csv
+    seen = []
+
+    def spy(*a, **k):
+        out = real(*a, **k)
+        seen.append(out)
+        return out
+
+    monkeypatch.setattr(freeze.pd, "read_csv", spy)
+    freeze.read_pairs(FAKE)
+    blocked = set(freeze.outcome_columns())
+    with_outcomes = [f for f in seen if "split" in f and set(f.columns) & blocked]
+    assert with_outcomes and all(f.split.isin(["train", "tune"]).all() for f in with_outcomes)
