@@ -50,7 +50,38 @@ baseline by 0.059 in log loss and 0.021 in Brier score
 
 ## Locked test on 2025
 
-PENDING #19. Filled only from `evaluation/locked_results/test/` after the single
-authorised run: Brier score and log loss against the baseline with race-bootstrap
-intervals, the calibration plot, and the 50% and 25% crossings. A wide or absent
-window is a valid result.
+Both models were frozen after a refit on 2018 to 2024 (D-012) and scored once on the
+2025 races (`evaluation/locked_results/test/`, receipt
+`evaluation/locked_receipts/test.json`). The freeze and the run were signed off by
+Sumit alone (D-013). Rows without a complete outcome are dropped and counted.
+
+| Outcome | Pairs (races) | Model | Log loss | Brier | Mean predicted | Observed |
+| --- | --- | --- | --- | --- | --- | --- |
+| Sustained (`success_h3`) | 114 (19) | gap only | 0.407 | 0.124 | 22.6% | 16.7% |
+| | | final | 0.379 | 0.123 | 23.4% | 16.7% |
+| Common lap | 107 (18) | gap only | 0.436 | 0.136 | 23.4% | 19.6% |
+| | | final | 0.420 | 0.138 | 24.6% | 19.6% |
+
+**The final model is not clearly better than the gap-only curve on 2025.** Its log
+loss is lower by 0.028 for the primary outcome (race-bootstrap 95% interval -0.078
+to +0.020, 2,000 resamples) and by 0.015 at the common lap (-0.071 to +0.033). Both
+intervals include zero. Brier scores are essentially equal (difference -0.002,
+-0.021 to +0.018; and +0.002, -0.019 to +0.021)
+(`evaluation/locked_results/test/metric_intervals.csv`). With 114 pairs from 19
+races, the test cannot separate the two models; the gain seen on 2024 (D-010) points
+the same way but is not confirmed.
+
+![Calibration on 2025: mean predicted probability against the observed share in five bins, with the number of pairs in each bin.](figures/calibration_2025.png)
+
+**Both models over-predict in 2025.** Undercuts kept the place less often (16.7%)
+than either model expected (about 23%). The gap is small in the lowest bins and
+largest among the 23 pairs the final model gave about 45% or more, which kept the
+place in 39% of cases against a predicted 55%
+(`evaluation/locked_results/test/calibration.csv`).
+
+**The frozen window.** The crossings are read from the frozen curves, so they
+describe the model fitted on 2018 to 2024, not a 2025 refit: for a one-lap delay the
+chance falls below 50% at 1.07 s and below 25% at 1.89 s; for two or three laps, at
+1.26 s and 2.65 s (`evaluation/locked_results/test/crossings.csv`;
+bootstrap ranges in `data/derived/frozen/crossing_intervals.csv`). Given the
+over-prediction above, the true 2025 window was probably somewhat narrower.
