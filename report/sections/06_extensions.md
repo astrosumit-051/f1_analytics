@@ -51,4 +51,6 @@ close to calibrated in 2026: it predicts 17.4% against an observed 15.9% (common
 Because nothing was refitted, the window is the frozen one reported above; in 2026
 the two- or three-lap pairs all have gaps of 1.6 s or more, so that group's 50%
 crossing lies outside the gaps this season observed. With 11 or 12 races these
-numbers are a sanity check that the model still transfers, not a second test.
+numbers are a sanity check that the model still transfers, not a second test. The
+2026 season is shown next to 2024 and 2025 in the held-out comparison, rate and
+calibration figures in the results section.

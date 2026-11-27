@@ -71,13 +71,17 @@ intervals include zero. Brier scores are essentially equal (difference -0.002,
 races, the test cannot separate the two models; the gain seen on 2024 (D-010) points
 the same way but is not confirmed.
 
-![Calibration on 2025: mean predicted probability against the observed share in five bins, with the number of pairs in each bin.](figures/calibration_2025.png)
+![Held-out seasons at a glance: log loss of the final model minus the gap-only curve (left of zero favours the final model). 2025 and 2026 show 95% race-bootstrap intervals (2,000 resamples). 2024 is the season the final model was chosen on, with both models fitted on 2018 to 2023, so its point is optimistic and has no interval. The advantage shrinks after selection and every interval crosses zero.](figures/heldout_scoreboard.png)
+
+![Mean predicted success rate against the observed rate, three-lap outcome. In 2024 both models matched the observed 23%; in 2025 undercuts worked less often (16.7%) and both models over-predicted; in 2026 the final model is close (17.4% against 15.9%) while the gap-only curve still predicts about 23%.](figures/predicted_vs_observed.png)
 
 **Both models over-predict in 2025.** Undercuts kept the place less often (16.7%)
 than either model expected (about 23%). The gap is small in the lowest bins and
 largest among the 23 pairs the final model gave about 45% or more, which kept the
 place in 39% of cases against a predicted 55%
 (`evaluation/locked_results/test/calibration.csv`).
+
+![Calibration on 2025 and 2026, three-lap outcome: mean predicted probability against the observed share in five bins, with the number of pairs in each bin. Most pairs sit in the lowest bin, where both models are close to the diagonal; the bins above 40% hold one to sixteen pairs each and swing widely.](figures/calibration_2025_2026.png)
 
 **The frozen window.** The crossings are read from the frozen curves, so they
 describe the model fitted on 2018 to 2024, not a 2025 refit. At the common lap, as
@@ -87,3 +91,5 @@ primary outcome gives 1.07, 1.89, 1.26 and 2.65 s)
 (`evaluation/locked_results/test/crossings.csv`;
 bootstrap ranges in `data/derived/frozen/crossing_intervals.csv`). Given the
 over-prediction above, the true 2025 window was probably somewhat narrower.
+
+![The frozen undercut window at the common lap (final model, 2018 to 2024 refit, other features at training medians). Shading marks where the chance of keeping the place is above 50%, between 25% and 50%, and below 25%. Black bars show the 95% bootstrap range of each crossing (1,000 refits); open triangles show the same crossings from the 2018 to 2023 fit, so adding 2024 moved the window by at most about 0.2 s.](figures/window_zones.png)
