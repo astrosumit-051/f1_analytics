@@ -102,3 +102,12 @@ def test_entry_point_on_fake_sample(tmp_path, model):
     check = subprocess.run([sys.executable, str(ROOT / "contracts/check_contract.py"), "predictions", str(out)],
                            capture_output=True, text=True)
     assert check.returncode == 0, check.stdout
+
+
+def test_freeze_reads_no_locked_outcomes():
+    """Test and transfer rows reach the freeze without any outcome column."""
+    import freeze
+    fit_rows, locked = freeze.read_pairs(FAKE)
+    assert set(fit_rows.split) <= {"train", "tune"}
+    assert set(locked.split) <= {"test", "transfer"} and len(locked)
+    assert not set(locked.columns) & set(freeze.outcome_columns())
