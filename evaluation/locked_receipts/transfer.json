@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "split": "transfer",
+  "issue": 20,
+  "model_commit": "539fdca1ff0c27322b13d77fd597aa7b2e0ea885",
+  "main_sha": "2cf2e25dc2e76ebbdf864ac3b066c0f15c9452d3",
+  "authorization_sha256": "00d65b1dfb22314e3bd72fc28ac0cd7d2b835abba8bb0b0a746c2e4b7629beff",
+  "started_utc": "2026-11-27T21:44:14.665905+00:00",
+  "input_hashes": {
+    "pairs_sha256": "195fcd6dd1914bdb920c7028726bd14203430579e1abaf40604c10444fae2440",
+    "predictions_sha256": "c0e9bc302165d514da468fa360fdeeae1c93062b9c652a8a8018038aae53657a",
+    "window_grid_sha256": "01691489fbf9bad55d3c2727ccd3bf27c7955deddce7ec4a126efb2f207d6274"
+  },
+  "outputs_sha256": {
+    "calibration.png": "1722f76c8e988e3ea9bd984a4d5eca8e0d10fe022bce33b87512bf4b3ab87117",
+    "metric_intervals.csv": "31e40688147482a3bd612eb9a990e6778e25ca70a37f24f78d3d78d5096553ab",
+    "run.json": "c73cbe0dd7ed7ad60092f919b9c7180c611487132d3e24f6f6b35356c847b968",
+    "metrics.csv": "4d3e7356715624249d63fcb71bd809f5da4b537c3331d76be6a4d730ac307bbb",
+    "crossings.csv": "bc92f1f6cc03b0b02c800f6d66949fc01875ebf6bd79198ff7eb2bcc025e4169",
+    "calibration.csv": "c904e893b752da09389092ff281d09d6ddf4c5aa45cb55a68f0e9dda232c7252",
+    "supported_window_grid.csv": "550b9f3ebff14e5ecb1a7629ad5eaf3dab4f034b5b3b9e640a6c06f00ce51c8d"
+  }
+}

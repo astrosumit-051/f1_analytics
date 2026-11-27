@@ -1,0 +1,14 @@
+{
+  "inputs_sha256": {
+    "data/derived/pairs.csv": "195fcd6dd1914bdb920c7028726bd14203430579e1abaf40604c10444fae2440",
+    "data/derived/frozen/predictions.csv": "c0e9bc302165d514da468fa360fdeeae1c93062b9c652a8a8018038aae53657a",
+    "data/derived/frozen/window_grid.csv": "01691489fbf9bad55d3c2727ccd3bf27c7955deddce7ec4a126efb2f207d6274"
+  },
+  "python": "3.13.18",
+  "numpy": "2.5.3",
+  "pandas": "3.0.5",
+  "split": "transfer",
+  "evidence": "descriptive 2026 transfer; no retraining",
+  "seed": 355,
+  "resamples": 2000
+}

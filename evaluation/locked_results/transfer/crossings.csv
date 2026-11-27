@@ -1,0 +1,17 @@
+model_id,outcome,delay_group,threshold,crossing_gap_sec,status
+baseline_gap_v1,success_common_h3,d1,0.5,1.1495586643350821,crossed
+baseline_gap_v1,success_common_h3,d1,0.25,2.4499616916947593,crossed
+baseline_gap_v1,success_common_h3,d23,0.5,,no_downward_crossing
+baseline_gap_v1,success_common_h3,d23,0.25,2.4499616916947593,crossed
+baseline_gap_v1,success_h3,d1,0.5,1.2002196553683013,crossed
+baseline_gap_v1,success_h3,d1,0.25,2.380900334722317,crossed
+baseline_gap_v1,success_h3,d23,0.5,,no_downward_crossing
+baseline_gap_v1,success_h3,d23,0.25,2.380900334722317,crossed
+final_v1,success_common_h3,d1,0.5,1.0503587258059373,crossed
+final_v1,success_common_h3,d1,0.25,2.0111470555982014,crossed
+final_v1,success_common_h3,d23,0.5,,no_downward_crossing
+final_v1,success_common_h3,d23,0.25,2.7488896978522024,crossed
+final_v1,success_h3,d1,0.5,1.0650442355159886,crossed
+final_v1,success_h3,d1,0.25,1.8899182328010617,crossed
+final_v1,success_h3,d23,0.5,,no_downward_crossing
+final_v1,success_h3,d23,0.25,2.6481400197520024,crossed

@@ -1,0 +1,17 @@
+model_id,outcome,metric,estimate,p_lo,p_hi,resamples,seed,eligible_pairs,missing_outcome,missing_prediction_any_model,scored_pairs,scored_races,interval_status,evidence
+baseline_gap_v1,success_common_h3,brier,0.12290885788866669,0.07732532114288933,0.18900545677385197,2000,355,63,27,0,36,11,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+baseline_gap_v1,success_common_h3,log_loss,0.39376235432273965,0.28922037519705157,0.5456383014176834,2000,355,63,27,0,36,11,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+baseline_gap_v1,success_common_h3,brier_minus_baseline,0.0,0.0,0.0,2000,355,63,27,0,36,11,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+baseline_gap_v1,success_common_h3,log_loss_minus_baseline,0.0,0.0,0.0,2000,355,63,27,0,36,11,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+final_v1,success_common_h3,brier,0.11974760574655557,0.056977040996168814,0.22148531948509262,2000,355,63,27,0,36,11,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+final_v1,success_common_h3,log_loss,0.388892722194089,0.21659627233303283,0.6816806756926341,2000,355,63,27,0,36,11,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+final_v1,success_common_h3,brier_minus_baseline,-0.003161252142111118,-0.047371184910124244,0.058786214850308514,2000,355,63,27,0,36,11,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+final_v1,success_common_h3,log_loss_minus_baseline,-0.004869632128650658,-0.13268131427530006,0.21448690453942465,2000,355,63,27,0,36,11,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+baseline_gap_v1,success_h3,brier,0.12688156160109093,0.0765021102832608,0.18652225678859227,2000,355,63,19,0,44,12,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+baseline_gap_v1,success_h3,log_loss,0.40089421744911174,0.28420793352090723,0.5368216744867507,2000,355,63,19,0,44,12,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+baseline_gap_v1,success_h3,brier_minus_baseline,0.0,0.0,0.0,2000,355,63,19,0,44,12,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+baseline_gap_v1,success_h3,log_loss_minus_baseline,0.0,0.0,0.0,2000,355,63,19,0,44,12,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+final_v1,success_h3,brier,0.11419472567949997,0.05581188530714823,0.2046109643049914,2000,355,63,19,0,44,12,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+final_v1,success_h3,log_loss,0.38212928804149865,0.20607985472553422,0.6889189315946838,2000,355,63,19,0,44,12,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+final_v1,success_h3,brier_minus_baseline,-0.012686835921590964,-0.054154488789585856,0.04083895436453385,2000,355,63,19,0,44,12,conditional_on_fitted_model,descriptive 2026 transfer; no retraining
+final_v1,success_h3,log_loss_minus_baseline,-0.018764929407613096,-0.14778451133364714,0.22378371982778536,2000,355,63,19,0,44,12,conditional_on_fitted_model,descriptive 2026 transfer; no retraining

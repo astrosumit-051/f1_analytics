@@ -1,0 +1,17 @@
+outcome,model_id,bin,n,races,mean_prediction,observed_rate
+success_common_h3,baseline_gap_v1,1,22,7,0.13757295454545457,0.045454545454545456
+success_common_h3,baseline_gap_v1,2,9,6,0.29131688888888885,0.4444444444444444
+success_common_h3,baseline_gap_v1,3,3,3,0.4821796666666667,0.0
+success_common_h3,baseline_gap_v1,4,2,2,0.631294,0.5
+success_common_h3,final_v1,1,24,7,0.07820250000000001,0.041666666666666664
+success_common_h3,final_v1,2,8,5,0.29334550000000004,0.25
+success_common_h3,final_v1,3,3,3,0.4891556666666666,1.0
+success_common_h3,final_v1,5,1,1,0.946551,0.0
+success_h3,baseline_gap_v1,1,28,9,0.1316164642857143,0.07142857142857142
+success_h3,baseline_gap_v1,2,10,6,0.2852781,0.4
+success_h3,baseline_gap_v1,3,4,4,0.50716175,0.0
+success_h3,baseline_gap_v1,4,2,2,0.6587025,0.5
+success_h3,final_v1,1,31,9,0.07491309677419355,0.03225806451612903
+success_h3,final_v1,2,7,4,0.28701257142857145,0.42857142857142855
+success_h3,final_v1,3,5,5,0.47130579999999994,0.6
+success_h3,final_v1,5,1,1,0.978433,0.0
