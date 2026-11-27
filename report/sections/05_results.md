@@ -80,8 +80,10 @@ place in 39% of cases against a predicted 55%
 (`evaluation/locked_results/test/calibration.csv`).
 
 **The frozen window.** The crossings are read from the frozen curves, so they
-describe the model fitted on 2018 to 2024, not a 2025 refit: for a one-lap delay the
-chance falls below 50% at 1.07 s and below 25% at 1.89 s; for two or three laps, at
-1.26 s and 2.65 s (`evaluation/locked_results/test/crossings.csv`;
+describe the model fitted on 2018 to 2024, not a 2025 refit. At the common lap, as
+in the training window above, the chance falls below 50% at 1.05 s and below 25% at
+2.01 s for a one-lap delay, and at 1.24 s and 2.75 s for two or three laps (the
+primary outcome gives 1.07, 1.89, 1.26 and 2.65 s)
+(`evaluation/locked_results/test/crossings.csv`;
 bootstrap ranges in `data/derived/frozen/crossing_intervals.csv`). Given the
 over-prediction above, the true 2025 window was probably somewhat narrower.
