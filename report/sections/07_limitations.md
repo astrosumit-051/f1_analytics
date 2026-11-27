@@ -16,4 +16,8 @@
   pit-lane median, not the time actually lost, so it is a rough measure (D-006).
 - **Holdout exposure.** A separate companion prototype (PR #26) computed 2025
   scores before the model freeze. It used a different model and none of its numbers
-  enter this report. It will be recorded in `DECISIONS.md` before the locked test is run.
+  enter this report. It is recorded in `DECISIONS.md` (D-011).
+- **One sign-off on the freeze.** The project rules ask both partners to approve the
+  model freeze before the 2025 test. Aiden was unable to review it, so Sumit signed
+  off the freeze and the single run alone (D-013). The model, inputs and test code
+  were pinned by hash before the run and the run was not repeated.

@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "split": "test",
+  "issue": 19,
+  "model_commit": "539fdca1ff0c27322b13d77fd597aa7b2e0ea885",
+  "main_sha": "4e12d4cee449e9dd94b76745e70c404330292bc4",
+  "authorization_sha256": "3195136319660e224ec53ca692fd1f1fc16f094e9eaffe674b688434cca6fffa",
+  "started_utc": "2026-11-27T15:27:48.900153+00:00",
+  "input_hashes": {
+    "pairs_sha256": "195fcd6dd1914bdb920c7028726bd14203430579e1abaf40604c10444fae2440",
+    "predictions_sha256": "c0e9bc302165d514da468fa360fdeeae1c93062b9c652a8a8018038aae53657a",
+    "window_grid_sha256": "01691489fbf9bad55d3c2727ccd3bf27c7955deddce7ec4a126efb2f207d6274"
+  },
+  "outputs_sha256": {
+    "calibration.png": "a7592f9a13a11efeaa715c80953cdbdf8834276f847e38df705e5d597b07e0b0",
+    "metric_intervals.csv": "86c3ec96604fb2f91a7977a03f4b8b8bd11e8c2238fb6d4814a7fa50075b84c9",
+    "run.json": "961da2549d33a7d6e8356030443d6fa21346371da0ece7cc2ba67f40a9046b64",
+    "metrics.csv": "d8197604d44fd1e175abaedfbb9638d4432ba2574675a42e830e063946885156",
+    "crossings.csv": "72828475db9eb2a10db14a42f3689388504ce3888f5871c3990de57895da0dbf",
+    "calibration.csv": "adeae0c00c804d9c27a8e0725c73795c6d96bae238d19154d19cf0b4db6d5e06",
+    "supported_window_grid.csv": "b1d3b1dc3aee3b4cb581ca112fe557f882187ba1826050265f2086de0ffa1f24"
+  }
+}

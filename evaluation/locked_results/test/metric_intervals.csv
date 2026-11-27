@@ -1,0 +1,17 @@
+model_id,outcome,metric,estimate,p_lo,p_hi,resamples,seed,eligible_pairs,missing_outcome,missing_prediction_any_model,scored_pairs,scored_races,interval_status,evidence
+baseline_gap_v1,success_common_h3,brier,0.13573221182313083,0.09897771813819888,0.18136557534374526,2000,355,130,23,0,107,18,conditional_on_fitted_model,locked 2025 evaluation
+baseline_gap_v1,success_common_h3,log_loss,0.43573511590191344,0.34742333566869893,0.542103434774449,2000,355,130,23,0,107,18,conditional_on_fitted_model,locked 2025 evaluation
+baseline_gap_v1,success_common_h3,brier_minus_baseline,0.0,0.0,0.0,2000,355,130,23,0,107,18,conditional_on_fitted_model,locked 2025 evaluation
+baseline_gap_v1,success_common_h3,log_loss_minus_baseline,0.0,0.0,0.0,2000,355,130,23,0,107,18,conditional_on_fitted_model,locked 2025 evaluation
+final_v1,success_common_h3,brier,0.13816364352871027,0.10252348975709918,0.1793554123540666,2000,355,130,23,0,107,18,conditional_on_fitted_model,locked 2025 evaluation
+final_v1,success_common_h3,log_loss,0.4204843589647303,0.33466374668003435,0.518802610704461,2000,355,130,23,0,107,18,conditional_on_fitted_model,locked 2025 evaluation
+final_v1,success_common_h3,brier_minus_baseline,0.00243143170557944,-0.018749901575030956,0.021385957097223147,2000,355,130,23,0,107,18,conditional_on_fitted_model,locked 2025 evaluation
+final_v1,success_common_h3,log_loss_minus_baseline,-0.01525075693718314,-0.07117297265064634,0.03320839010203863,2000,355,130,23,0,107,18,conditional_on_fitted_model,locked 2025 evaluation
+baseline_gap_v1,success_h3,brier,0.12446254109974562,0.08488929492443575,0.1754368023093792,2000,355,130,16,0,114,19,conditional_on_fitted_model,locked 2025 evaluation
+baseline_gap_v1,success_h3,log_loss,0.40663855707531377,0.3135164880599036,0.5286358272682299,2000,355,130,16,0,114,19,conditional_on_fitted_model,locked 2025 evaluation
+baseline_gap_v1,success_h3,brier_minus_baseline,0.0,0.0,0.0,2000,355,130,16,0,114,19,conditional_on_fitted_model,locked 2025 evaluation
+baseline_gap_v1,success_h3,log_loss_minus_baseline,0.0,0.0,0.0,2000,355,130,16,0,114,19,conditional_on_fitted_model,locked 2025 evaluation
+final_v1,success_h3,brier,0.12292665623550876,0.08763710692973965,0.16663215441165447,2000,355,130,16,0,114,19,conditional_on_fitted_model,locked 2025 evaluation
+final_v1,success_h3,log_loss,0.378669181703642,0.2914071225936021,0.4843810277603643,2000,355,130,16,0,114,19,conditional_on_fitted_model,locked 2025 evaluation
+final_v1,success_h3,brier_minus_baseline,-0.0015358848642368639,-0.020680461769777735,0.01762542239955143,2000,355,130,16,0,114,19,conditional_on_fitted_model,locked 2025 evaluation
+final_v1,success_h3,log_loss_minus_baseline,-0.027969375371671767,-0.07796860422517664,0.020368446264934316,2000,355,130,16,0,114,19,conditional_on_fitted_model,locked 2025 evaluation
