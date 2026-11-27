@@ -228,3 +228,16 @@ add a new one that says which entry it supersedes, and change the old one's stat
   by Aiden. This entry is committed and pushed before the locked run.
 - Why: the record must say who actually signed off.
 - Affects: #19, the report (methods and limitations say the freeze had one sign-off).
+
+## D-014  2026 transfer check authorized by Sumit alone
+- Date: 2026-11-27
+- Status: accepted
+- Decided by: Sumit
+- Issue or PR: #20
+- Decision: Sumit authorized the single descriptive 2026 transfer check of the
+  unchanged 2018-2024 models. As with D-013, Aiden has not reviewed it; `aidenh144`
+  in `evaluation/transfer_authorization.json` is there only because
+  `evaluation/locked_run.py` requires both partners and does not record his approval.
+  The authorization pins the committed 2025 receipt by hash. No refit.
+- Why: the record must say who actually signed off.
+- Affects: #20, the report's transfer paragraph.
