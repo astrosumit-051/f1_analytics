@@ -36,5 +36,19 @@ most pairs with a safety car in the window have an interrupted follow-up, so the
 outcomes are missing (`analysis/extensions/neutralisation/`). Dry status is not
 verified for these rows. We report counts and timing gains only and draw no window.
 
-**5. 2026 transfer (descriptive).** PENDING #20: scored once after the locked test,
-with the unchanged train+tune model.
+**5. 2026 transfer (descriptive).** We scored the 2026 season once, after the
+locked test, with the unchanged 2018 to 2024 models and no refit
+(`evaluation/locked_results/transfer/`, receipt `evaluation/locked_receipts/transfer.json`).
+Of 63 core pairs in 14 races, 44 pairs in 12 races have a three-lap outcome and 36
+in 11 races have a common-lap one; the rest are missing and are dropped, not
+counted as failures. On the primary outcome the final model's log loss is 0.382
+against 0.401 for the gap-only curve, a difference of -0.019 (95% race-bootstrap
+interval -0.148 to +0.224); its Brier score is 0.114 against 0.127. On the common
+lap the log losses are 0.389 and 0.394 (difference -0.005, -0.133 to +0.214). The
+final model is again slightly ahead and again not clearly better. Unlike 2025, it is
+close to calibrated in 2026: it predicts 17.4% against an observed 15.9% (common lap
+18.4% against 16.7%), while the gap-only curve still over-predicts at about 23%.
+Because nothing was refitted, the window is the frozen one reported above; in 2026
+the two- or three-lap pairs all have gaps of 1.6 s or more, so that group's 50%
+crossing lies outside the gaps this season observed. With 11 or 12 races these
+numbers are a sanity check that the model still transfers, not a second test.
