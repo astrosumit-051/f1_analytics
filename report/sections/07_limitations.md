@@ -4,7 +4,7 @@
   expected it to work, and the rival chose its delay. Effects of gap and delay are
   associations within this cohort, not causal effects.
 - **Small held-out seasons.** 2024 has 139 scored pairs in 18 races; 2025 has 130
-  pairs in 20 races, so a rate near 25% has a 95% interval of about plus or minus
+  pairs in 20 races; the partial 2026 season has 63 pairs in 14 races, so a rate near 25% has a 95% interval of about plus or minus
   7.5 points.
 - **Model size.** The final model has 13 fixed effects for 108 training successes,
   more than the proposal's target of about ten.
