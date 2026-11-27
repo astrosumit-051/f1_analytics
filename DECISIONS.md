@@ -214,3 +214,17 @@ add a new one that says which entry it supersedes, and change the old one's stat
   sign-off. The commit hash is the freeze code of record (outcome-free reads of test
   and transfer lines); the frozen files are byte-identical to the first freeze commit.
 - Affects: #19, #20, `evaluation/locked_run.py` inputs.
+
+## D-013  Correction: the freeze and the locked test were signed off by Sumit alone
+- Date: 2026-11-27
+- Status: accepted
+- Decided by: Sumit
+- Issue or PR: #49, #19
+- Decision: Aiden did not review or approve PR #49 and has not signed off D-012 or
+  `evaluation/locked_authorization.json`. Sumit merged #49 and authorized the single
+  2025 run on his own, because Aiden was unable to. The names "Sumit, Aiden" in D-012
+  and `aidenh144` in the authorization's `signoffs` were left in place only because
+  `evaluation/locked_run.py` requires both partners; they do not record an approval
+  by Aiden. This entry is committed and pushed before the locked run.
+- Why: the record must say who actually signed off.
+- Affects: #19, the report (methods and limitations say the freeze had one sign-off).
